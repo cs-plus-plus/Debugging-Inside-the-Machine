@@ -154,7 +154,7 @@ function setup() {
   enemies.w = 16;
   enemies.h = 16;
   enemies.rotationLock = true;
-  enemies.layer = 0;
+  enemies.layer = 1;
   enemies.tile = 'e';
 
   // --- TILEMAP BUILD (STATIC, ALIGNED TO BOTTOM) ---
