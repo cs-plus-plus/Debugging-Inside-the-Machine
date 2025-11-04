@@ -5,12 +5,12 @@
  * This version includes:
  * - A "Start Screen" (Press Enter to start)
  * - A detailed "Directions" screen
- * - Touching a coin pauses the game to "inspect" it
+ * - Touching a coin DAMAGES you (no Code Lens)
  * - A "Code Lens" button that appears near coins
  * - A pause screen ('c' key)
  * - Code Lens actions:
  *   - '1' (Correct): Unpauses, +1 score, +5 stability, replaces coin with grass
- *   - '2' (Incorrect): Unpauses, -10 stability, replaces coin with brick
+ *   - '2' (Incorrect): Unpauses, -10 stability, coin stays, red flash
  * - A styled pause overlay (50% transparent) with padding and border
  * - A "Game Over" screen with stats when stability hits 0
  * - A "Win Screen" when all nodes are fixed
@@ -22,14 +22,14 @@
 let player, groundSensor, grass, platforms, coins, enemies;
 let grassImg, coinsImg, charactersImg, brickImg;
 
-let score = 9;
+let score = 0;
 let systemStability = 100;
 
 // Required globals
 let showCodeLensButton = false;
 let stabilityTimer = 0;
 const stabilityInterval = 1000; // 1000 ms = 1 second
-let nearestCoin = null; // Tracks the coin being inspected
+let nearestCoin = null; // Coin currently targeted by Code Lens
 const ROAM_SPEED = 1.5;
 
 // Game state
@@ -44,56 +44,66 @@ let mapRight = 2000;
 let mapTop = -1600;
 let mapBottom = 1600;
 
+// Player spawn (set in setup)
+let playerStartX;
+let playerStartY;
+
+// Damage flash timer (ms)
+let damageFlashTimer = 0;
+
 // STATIC TILEMAP: g = grass, p = platform, c = coin (node), e = enemy
 const tilemap = [
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
   'g                                                            g',
   'g                                                            g',
+  'g                                                           cg',
   'g                                                            g',
-  'g     c                                                      g',
-  'g    ppp                                                     g',
-  'g                                                            g',
-  'g            e                                               g',
+  'g                     e                e          e          g',
+  'g                                                    p       g',
+  'g                             pe           e        p e      g',
+  'gppppppp          p                            p             g',
+  'g                       ppp         pp                       g',
+  'g            e                                c              g',
   'g           ppp                                              g',
+  'g                                                 p          g',
   'g                                                            g',
-  'g    p p p                                 c                 g',
-  'g                                         ppp                g',
+  'g                                       ppppp                g',
+  'g         c                                                  g',
+  'g                                c                           g',
   'g                                                            g',
-  'g                                                            g',
-  'g  c                                                         g',
   'g ppp                     e                                  g',
-  'g                        ppp                                 g',
+  'g                        ppppp                               g',
   'g                                                            g',
-  'g                                                            g',
-  'g      c                                                     g',
+  'g                     c                                      g',
+  'g               c                                            g',
   'g     ppp                                                    g',
   'g                                                            g',
   'g    e                                                       g',
   'g   ppp                                                      g',
+  'g            c                                               g',
   'g                                                            g',
+  'g                      e                                     g',
+  'g                  c pppp                                    g',
   'g                                                            g',
-  'g                      c                                     g',
-  'g                     ppp                                    g',
-  'g          c                                                 g',
   'g         ppp                                                g',
+  'g        c                                                   g',
+  'g                              c                             g',
+  'g                                       e           c        g',
+  'g  e                                  pppppppp               g',
+  'g ppp             e                                       c  g',
+  'g                ppp                                      e  g',
   'g                                                            g',
   'g                                                            g',
-  'g                                                            g',
-  'g  e                               p p p p                   g',
-  'g ppp             e                                          g',
-  'g                ppp                                         g',
-  'g                                                            g',
-  'g                                                            g',
-  'g    c                                                       g',
-  'g   ppp                 c                                    g',
+  'g                                                     p      g',
+  'g   pppc                                                     g',
   'g                      ppp                                   g',
+  'g                                                    e     c g',
+  'g            ce                                              g',
   'g                                                            g',
+  'g                                                       pp   g',
   'g                                                            g',
-  'g     p p p p p p p p p p p p p p p p p p p p p p p p p      g',
-  'g                                                            g',
-  'g  c                                                         g',
-  'g gggg                                                       g',
-  'g                                                            g',
+  'g      ppp                                                   g',
+  'g                                                   ppp      g',
   'g                                                            g',
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
@@ -176,8 +186,8 @@ function setup() {
 
   // --- PLAYER + GROUND SENSOR ---
 
-  const playerStartX = mapLeft + (mapRight - mapLeft) / 2;
-  const playerStartY = mapBottom - 100; // a bit above the bottom row
+  playerStartX = mapLeft + (mapRight - mapLeft) / 2;
+  playerStartY = mapBottom - 100; // a bit above the bottom row
 
   player = new Sprite(playerStartX, playerStartY, 12, 12);
   player.layer = 1;
@@ -196,8 +206,8 @@ function setup() {
   player.rotationLock = true;
   player.friction = 0;
 
-  // Overlaps for game logic
-  player.overlaps(coins, inspectCoin);
+  // Touching a coin now DAMAGES you, does NOT enter Code Lens
+  player.overlaps(coins, touchCoinDamage);
   player.overlaps(enemies, hitEnemy);
 
   // Ground sensor glued to player, used only for "on ground?" checks
@@ -222,17 +232,31 @@ function setup() {
   });
 }
 
-// --- COIN INSPECTION (CODE LENS ENTRY) ---
+// --- COIN TOUCH = DAMAGE (NO CODE LENS) ---
 
-function inspectCoin(player, coin) {
-  if (gameState === 'play') {
-    gameState = 'paused';
-    world.active = false;
-    allSprites.forEach(s => {
-      if (s.ani) s.ani.stop();
-    });
-    nearestCoin = coin;
+function touchCoinDamage(player, coin) {
+  if (gameState !== 'play') return;
+
+  // Take damage
+  systemStability -= 10;
+  if (systemStability < 0) systemStability = 0;
+  damageFlashTimer = 300; // ms of red flash
+
+  if (systemStability <= 0) {
+    triggerGameOver();
+    return;
   }
+
+  // Reset player to starting position
+  player.x = playerStartX;
+  player.y = playerStartY;
+  player.vel.x = 0;
+  player.vel.y = 0;
+
+  groundSensor.x = playerStartX;
+  groundSensor.y = playerStartY + 6;
+  groundSensor.vel.x = 0;
+  groundSensor.vel.y = 0;
 }
 
 // --- GAME END HELPERS ---
@@ -259,6 +283,8 @@ function hitEnemy(player, enemy) {
   enemy.remove();
   systemStability -= 10;
   if (systemStability < 0) systemStability = 0;
+
+  damageFlashTimer = 300;
 
   if (systemStability <= 0) {
     triggerGameOver();
@@ -289,7 +315,8 @@ function update() {
     }
   }
   else if (gameState === 'play') {
-    if (kb.presses('c') && showCodeLensButton) {
+    // Only Code Lens via 'c' near a coin (NOT by touching the coin now)
+    if (kb.presses('c') && showCodeLensButton && nearestCoin) {
       gameState = 'paused';
       world.active = false;
       allSprites.forEach(s => {
@@ -331,33 +358,27 @@ function update() {
       }
     }
 
-    // '2' = Incorrect action
+    // '2' = Incorrect action: coin stays, but you take damage
     if (kb.presses('2')) {
+      if (nearestCoin) {
+        systemStability -= 10;
+        if (systemStability < 0) systemStability = 0;
+        damageFlashTimer = 300;
+
+        if (systemStability <= 0) {
+          triggerGameOver();
+          nearestCoin = null;
+          return;
+        }
+
+        nearestCoin = null;
+      }
+
       gameState = 'play';
       world.active = true;
       allSprites.forEach(s => {
         if (s.ani) s.ani.play();
       });
-
-      if (nearestCoin) {
-        let coinX = nearestCoin.x;
-        let coinY = nearestCoin.y;
-        nearestCoin.remove();
-
-        let en = new enemies.Sprite(coinX, coinY);
-        en.spawnX = coinX;
-        en.spawnY = coinY;
-        en.angle = random(360);
-
-        systemStability -= 10;
-        if (systemStability < 0) systemStability = 0;
-
-        if (systemStability <= 0) {
-          triggerGameOver();
-        }
-
-        nearestCoin = null;
-      }
     }
   }
   else if (gameState === 'gameOver' || gameState === 'win') {
@@ -427,7 +448,7 @@ function update() {
       player.changeAni('jump');
     }
 
-    // Code Lens proximity check
+    // Code Lens proximity check (only for 'c' now)
     showCodeLensButton = false;
     nearestCoin = null;
 
@@ -569,7 +590,7 @@ function update() {
     fill(200);
     textSize(50);
     text("Nodes Fixed: " + score, canvas.w / 2, canvas.h / 2 + 50);
-    text("System " + percentFixed + "% Stabilized", canvas.w / 2, canvas.h / 2 + 110);
+    text("System " + percentFixed.toFixed(1) + "% Stabilized", canvas.w / 2, canvas.h / 2 + 110);
 
     fill(200);
     textSize(40);
@@ -663,6 +684,15 @@ function update() {
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
     text("Code Lens", canvas.w / 2, canvas.h / 2);
+  }
+
+  // --- Red damage flash overlay ---
+  if (damageFlashTimer > 0) {
+    damageFlashTimer -= deltaTime;
+    if (damageFlashTimer < 0) damageFlashTimer = 0;
+    noStroke();
+    fill(255, 0, 0, 150);
+    rect(0, 0, canvas.w, canvas.h);
   }
 
   pop();
