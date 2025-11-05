@@ -1118,6 +1118,10 @@ function update() {
       textAlign(LEFT, TOP);
 
       textSize(44);
+
+      // REMOVE FOR DEBUGGING QUESTIONS
+      currentQuestion.prompt = currentQuestion.prompt.replace(/^.*?:\s*/, '');
+
       let nextY = drawWrappedText(currentQuestion.prompt, qX, qY, textBoxWidth, 1.4);
 
       // Code block in different style
