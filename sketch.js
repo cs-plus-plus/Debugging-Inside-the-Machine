@@ -52,9 +52,10 @@ let easyLines = [];
 let mediumLines = [];
 let hardLines = [];
 let secretLines = [];
+let secret2Lines = [];
 
-let questionBanks = { easy: [], medium: [], hard: [], secret: [] };
-let usedQuestionIndices = { easy: [], medium: [], hard: [], secret: [] };
+let questionBanks = { easy: [], medium: [], hard: [], secret: [], secret2: [] };
+let usedQuestionIndices = { easy: [], medium: [], hard: [], secret: [], secret2: [] };
 
 let currentQuestion = null;
 let currentQuestionIndex = -1;
@@ -128,36 +129,41 @@ function parseQuestionLines(lines) {
 // -------------------------
 async function loadQuestionFiles() {
   try {
-    const [easyRes, medRes, hardRes, secretRes] = await Promise.all([
+    const [easyRes, medRes, hardRes, secretRes, secret2Res] = await Promise.all([
       fetch('easy.txt'),
       fetch('medium.txt'),
       fetch('hard.txt'),
-      fetch('secret.txt')
+      fetch('secret.txt'),
+      fetch('secret2.txt')
     ]);
 
-    const [easyText, medText, hardText, secretText] = await Promise.all([
+    const [easyText, medText, hardText, secretText, secret2Text] = await Promise.all([
       easyRes.text(),
       medRes.text(),
       hardRes.text(),
-      secretRes.text()
+      secretRes.text(),
+      secret2Res.text()
     ]);
 
     easyLines = easyText.split('\n');
     mediumLines = medText.split('\n');
     hardLines = hardText.split('\n');
     secretLines = secretText.split('\n');
+    secret2Lines = secret2Text.split('\n');
 
     questionBanks.easy = parseQuestionLines(easyLines);
     questionBanks.medium = parseQuestionLines(mediumLines);
     questionBanks.hard = parseQuestionLines(hardLines);
     questionBanks.secret = parseQuestionLines(secretLines);
+    questionBanks.secret2 = parseQuestionLines(secret2Lines);
 
     questionsLoaded = true;
     console.log('Questions loaded:', {
       easy: questionBanks.easy.length,
       medium: questionBanks.medium.length,
       hard: questionBanks.hard.length,
-      secret: questionBanks.secret.length
+      secret: questionBanks.secret.length,
+      secret2: questionBanks.secret2.length
     });
   } catch (err) {
     console.error('Failed to load question files:', err);
@@ -320,7 +326,7 @@ const tilemapHard = [
 ];
 
 function getTilemapForDifficulty(diff) {
-  if(diff === 'secret') return tilemapEasy;
+  if(diff === 'k-pop demon hunters' || diff === 'minecraft') return tilemapEasy;
   if (diff === 'easy') return tilemapEasy;
   if (diff === 'medium') return tilemapMedium;
   return tilemapHard;
@@ -685,7 +691,8 @@ function update() {
     if (kb.presses('1')) setDifficulty('easy');
     if (kb.presses('2')) setDifficulty('medium');
     if (kb.presses('3')) setDifficulty('hard');
-    if (kb.presses('p') || kb.presses('q')) setDifficulty('secret');
+    if (kb.presses('q')) setDifficulty('k-pop demon hunters');
+    if (kb.presses('p')) setDifficulty('minecraft');
 
     if (kb.presses('enter')) {
       gameState = 'play';
@@ -840,7 +847,7 @@ function update() {
         triggerGameOver();
       }
     }
-    if(currentDifficulty=='easy' || currentDifficulty == 'secret') ROAM_SPEED = 1;
+    if(currentDifficulty=='easy' || currentDifficulty == 'k-pop demon hunters' || currentDifficulty == 'minecraft') ROAM_SPEED = 1;
     if(currentDifficulty=='medium') ROAM_SPEED = 1.5;
     if(currentDifficulty=='hard') ROAM_SPEED = 2;
     for (let en of enemies) {
@@ -952,7 +959,8 @@ function update() {
     if(currentDifficulty=="easy") fill(0,255,0);
     if(currentDifficulty=="medium") fill(255,255,0);
     if(currentDifficulty=="hard") fill(255,0,0);
-    if(currentDifficulty=="secret") fill(255,20,147);
+    if(currentDifficulty=="k-pop demon hunters") fill(212,175,55);
+    if(currentDifficulty=="minecraft") fill(65,111,40);
 
     text(
       "Difficulty: " + currentDifficulty.toUpperCase(),
