@@ -906,18 +906,49 @@ function update() {
 
     fill(200);
     textSize(50);
-    text("Press ENTER to Start", canvas.w / 2, canvas.h / 2 + 10);
-
+    text("Press ENTER/RETURN to Start", canvas.w / 2, canvas.h / 2 + 10);
+    textStyle('normal');
     fill(150);
     textSize(40);
     text("Press 'd' for Directions", canvas.w / 2, canvas.h / 2 + 80);
 
+    textStyle(BOLD);
     fill(50, 205, 50);
-    textSize(36);
+    textSize(50);
+    if(currentDifficulty=="easy") fill(0,255,0);
+    if(currentDifficulty=="medium") fill(255,255,0);
+    if(currentDifficulty=="hard") fill(255,0,0);
+
     text(
-      "Difficulty: " + currentDifficulty.toUpperCase() + "  (1=Easy, 2=Medium, 3=Hard)",
+      "Difficulty: " + currentDifficulty.toUpperCase(),
       canvas.w / 2,
       canvas.h / 2 + 150
+    );
+    textSize(34);
+    fill(255);
+    text(
+      "1 - Easy | Selection",
+      canvas.w / 2,
+      canvas.h / 2 + 225
+    );
+     text(
+      "2 - Medium | Iteration",
+      canvas.w / 2,
+      canvas.h / 2 + 275
+    );
+     text(
+      "3 - Hard | functions & lists",
+      canvas.w / 2,
+      canvas.h / 2 + 325
+    );
+    textStyle('normal');
+    fill(150);
+    textSize(30);
+
+    text(
+      "Press '1', '2', or '3' to select your level",
+      canvas.w / 2,
+      canvas.h / 2 + 500
     );
   } else if (gameState === 'directions') {
     fill(0, 0, 0, 225);
