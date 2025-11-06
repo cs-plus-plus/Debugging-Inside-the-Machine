@@ -17,7 +17,7 @@ let nearestCoin = null;
 let ROAM_SPEED = 1.5;
 
 let gameState = 'start'; // 'start', 'directions', 'play', 'paused', 'gameOver', 'win'
-let currentDifficulty = 'hard'; // 'easy', 'medium', 'hard'
+let currentDifficulty = 'easy'; // 'easy', 'medium', 'hard'
 
 let totalNodes = 0;
 let nodesAttempted = 0;
@@ -54,8 +54,8 @@ let hardLines = [];
 let secretLines = [];
 let secret2Lines = [];
 
-let questionBanks = { easy: [], medium: [], hard: [], secret: [], secret2: [] };
-let usedQuestionIndices = { easy: [], medium: [], hard: [], secret: [], secret2: [] };
+let questionBanks = { easy: [], medium: [], hard: [], kpop: [], minecraft: [] };
+let usedQuestionIndices = { easy: [], medium: [], hard: [], kpop: [], minecraft: [] };
 
 let currentQuestion = null;
 let currentQuestionIndex = -1;
@@ -154,16 +154,16 @@ async function loadQuestionFiles() {
     questionBanks.easy = parseQuestionLines(easyLines);
     questionBanks.medium = parseQuestionLines(mediumLines);
     questionBanks.hard = parseQuestionLines(hardLines);
-    questionBanks.secret = parseQuestionLines(secretLines);
-    questionBanks.secret2 = parseQuestionLines(secret2Lines);
+    questionBanks.kpop = parseQuestionLines(secretLines);
+    questionBanks.minecraft = parseQuestionLines(secret2Lines);
 
     questionsLoaded = true;
     console.log('Questions loaded:', {
       easy: questionBanks.easy.length,
       medium: questionBanks.medium.length,
       hard: questionBanks.hard.length,
-      secret: questionBanks.secret.length,
-      secret2: questionBanks.secret2.length
+      kpop: questionBanks.kpop.length,
+      minecraft: questionBanks.minecraft.length
     });
   } catch (err) {
     console.error('Failed to load question files:', err);
@@ -326,7 +326,7 @@ const tilemapHard = [
 ];
 
 function getTilemapForDifficulty(diff) {
-  if(diff === 'k-pop demon hunters' || diff === 'minecraft') return tilemapEasy;
+  if(diff === 'kpop' || diff === 'minecraft') return tilemapEasy;
   if (diff === 'easy') return tilemapEasy;
   if (diff === 'medium') return tilemapMedium;
   return tilemapHard;
@@ -691,7 +691,7 @@ function update() {
     if (kb.presses('1')) setDifficulty('easy');
     if (kb.presses('2')) setDifficulty('medium');
     if (kb.presses('3')) setDifficulty('hard');
-    if (kb.presses('q')) setDifficulty('k-pop demon hunters');
+    if (kb.presses('q')) setDifficulty('kpop');
     if (kb.presses('p')) setDifficulty('minecraft');
 
     if (kb.presses('enter')) {
@@ -847,7 +847,7 @@ function update() {
         triggerGameOver();
       }
     }
-    if(currentDifficulty=='easy' || currentDifficulty == 'k-pop demon hunters' || currentDifficulty == 'minecraft') ROAM_SPEED = 1;
+    if(currentDifficulty=='easy' || currentDifficulty == 'kpop' || currentDifficulty == 'minecraft') ROAM_SPEED = 1;
     if(currentDifficulty=='medium') ROAM_SPEED = 1.5;
     if(currentDifficulty=='hard') ROAM_SPEED = 2;
     for (let en of enemies) {
@@ -959,7 +959,7 @@ function update() {
     if(currentDifficulty=="easy") fill(0,255,0);
     if(currentDifficulty=="medium") fill(255,255,0);
     if(currentDifficulty=="hard") fill(255,0,0);
-    if(currentDifficulty=="k-pop demon hunters") fill(212,175,55);
+    if(currentDifficulty=="kpop") fill(212,175,55);
     if(currentDifficulty=="minecraft") fill(65,111,40);
 
     text(
