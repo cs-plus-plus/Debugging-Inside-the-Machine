@@ -1,6 +1,7 @@
 // Disable p5play's built-in Google Analytics tagging
 window._p5play_gtagged = false;
 
+const DEBUG_MODE = true;
 // -------------------------
 // Global game state
 // -------------------------
@@ -141,11 +142,14 @@ function parseQuestionLines(lines) {
 // Load easy/medium/hard question files via fetch
 // -------------------------
 async function loadQuestionFiles() {
+  let e = 'easy.txt', m = 'medium.txt', h = 'hard.txt';
+  if(DEBUG_MODE) e = m = h = 'debug.txt';
+
   try {
     const [easyRes, medRes, hardRes, secretRes, secret2Res] = await Promise.all([
-      fetch('easy.txt'),
-      fetch('medium.txt'),
-      fetch('hard.txt'),
+      fetch(e),
+      fetch(m),
+      fetch(h),
       fetch('secret.txt'),
       fetch('secret2.txt')
     ]);
@@ -241,38 +245,38 @@ const tilemapEasy = [
   'l                                                             r',
   'l                                                             r',
   'l                                                             r',
+  'l                                                           d r',
+  'l                                                          pppr',
   'l                                                             r',
   'l                                                             r',
-  'l                                                             r',
-  'l                                                             r',
-  'l                                   e                         r',
-  'l                                                             r',
-  'l                                                             r',
+  'l k                                 e                 c       r',
+  'lpp                                                           r',
+  'l      c                                         ppp          r',
   'l        e                                  e                 r',
-  'l        ppp                                                  r',
+  'l        ppp                                c                 r',
   'l                                                             r',
-  'l                                                             r',
-  'l             e                ppppp             e            r',
+  'l                                      ppp                    r',
+  'l             ec               ppppc             e            r',
   'l                                                             r',
   'l                                                             r',
   'l                ppp                                          r',
-  'l                         d      k   c                        r',
+  'l                                                             r',
   'ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
 const tilemapMedium = [
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
-  'l             c                                              r',
   'l                                                            r',
   'l                                                            r',
-  'l                   eppp       c                             r',
+  'l                     k                                      r',
+  'l                   eppp                                     r',
   'l                                               ce           r',
   'l                                       e                    r',
-  'l          eppp                        ppp                   r',
+  'l          eppp            c           ppp                   r',
   'l          c                                                 r',
   'l                                                            r',
-  'l                       e ppp e                              r',
-  'l                                    c                       r',
+  'l                       e ppp e                            d r',
+  'l                                    c                    pppr',
   'l      e                                                     r',
   'l     ppp                                             c      r',
   'l                              ppp          e                r',
@@ -282,7 +286,7 @@ const tilemapMedium = [
   'l                                          c                 r',
   'l                                                            r',
   'l              pcp                                           r',
-  'l                              d        k                    r',
+  'l                                                            r',
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
@@ -290,12 +294,12 @@ const tilemapHard = [
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
   'l                                                            r',
   'l                                                            r',
-  'l                                                           cr',
   'l                                                            r',
-  'l                     e                e          e          r',
-  'l                                                    p       r',
-  'l                             pe           e        p e      r',
-  'lppppppp          p                            p             r',
+  'l                                                           kr',
+  'l                     e                e          e        ppr',
+  'l                                                            r',
+  'l                             pe           e        ppe      r',
+  'lppcppp           p                                          r',
   'l                       ppp         pp                       r',
   'l            e                                c              r',
   'l           ppp                                              r',
@@ -303,7 +307,7 @@ const tilemapHard = [
   'l                                                            r',
   'l                                       ppppp                r',
   'l         c                                                  r',
-  'l                                c                           r',
+  'l                                cpp                         r',
   'l                                                            r',
   'l ppp                     e                                  r',
   'l                        ppppp                               r',
@@ -317,13 +321,13 @@ const tilemapHard = [
   'l            c                                               r',
   'l                                                            r',
   'l                      e                                     r',
-  'l                  c pppp                                    r',
+  'l                  cpppp                                     r',
   'l                                                            r',
   'l         ppp                                                r',
   'l        c                                                   r',
-  'l                              c                             r',
-  'l                                       e           c        r',
-  'l  e                                  pppppppp               r',
+  'l                                c                           r',
+  'l                                       e d         c        r',
+  'l  e                                  ppppppppp              r',
   'l ppp             e                                       c  r',
   'l                ppp                                      e  r',
   'l                                                            r',
@@ -332,13 +336,13 @@ const tilemapHard = [
   'l   pppc                                                     r',
   'l                      ppp                                   r',
   'l                                                    e     c r',
-  'l            ce                                              r',
+  'l           cpe                                              r',
   'l                                                            r',
   'l                                                       pp   r',
   'l                                                            r',
   'l      ppp                                                   r',
   'l                                                   ppp      r',
-  'l                                        k       d           r',
+  'l                                                            r',
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
