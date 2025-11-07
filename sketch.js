@@ -44,6 +44,17 @@ let demoEnemyFrame = 0;
 let demoEnemyFrameTimer = 0;
 const demoEnemyFrameDelay = 160;
 
+// Directions demo key animation
+let demoKeyFrame = 0;
+let demoKeyFrameTimer = 0;
+const demoKeyFrameDelay = 240; // flash speed
+
+// Directions demo door animation
+let demoDoorFrame = 0;
+let demoDoorFrameTimer = 0;
+const demoDoorFrameDelay = 160;
+
+
 // Matrix background + CRT overlay
 let matrixBG;
 let matrixScrollY = 0;
@@ -231,6 +242,9 @@ const tilemapEasy = [
   'l                                                             r',
   'l                                                             r',
   'l                                                             r',
+  'l                                                             r',
+  'l                                                             r',
+  'l                                                             r',
   'l                                   e                         r',
   'l                                                             r',
   'l                                                             r',
@@ -268,7 +282,7 @@ const tilemapMedium = [
   'l                                          c                 r',
   'l                                                            r',
   'l              pcp                                           r',
-  'l                                                            r',
+  'l                              d        k                    r',
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
@@ -324,7 +338,7 @@ const tilemapHard = [
   'l                                                            r',
   'l      ppp                                                   r',
   'l                                                   ppp      r',
-  'l                                                            r',
+  'l                                        k       d           r',
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
@@ -755,6 +769,16 @@ function update() {
           demoEnemyFrame = (demoEnemyFrame + 1) % 3;
           demoEnemyFrameTimer = 0;
         }
+        demoKeyFrameTimer += deltaTime;
+        if (demoKeyFrameTimer >= demoKeyFrameDelay) {
+          demoKeyFrame = (demoKeyFrame + 1) % 5;
+          demoKeyFrameTimer = 0;
+        }
+        demoDoorFrameTimer += deltaTime;
+        if (demoDoorFrameTimer >= demoDoorFrameDelay) {
+          demoDoorFrame = (demoDoorFrame + 1) % 8;
+          demoDoorFrameTimer = 0;
+        }
     
   } else if (gameState === 'play') {
     world.gravity.y = 10;
@@ -1127,27 +1151,43 @@ function update() {
       strokeWeight(4);
       textAlign(CENTER, CENTER);
       textSize(40);
-      text('Press \'i\' for Directions', canvas.w/2,canvas.h -50);
+      text('Press \'i\' for Instructions', canvas.w/2,canvas.h -30);
     }   
-    fill(250, 250, 250, 200);
+    fill(250, 250, 250);
     stroke(0);
     strokeWeight(4);
-    textAlign(RIGHT, TOP);
+    textAlign(LEFT, TOP);
     textSize(50);
-    text('Nodes Fixed: ' + score + ' / ' + totalNodes, canvas.w - 20, 20);
+    text('Nodes Fixed: ' + score + ' / ' + totalNodes, canvas.w - 600, 20);
+    if(foundKey){ 
+      fill(0,255,0);
+      text('USB Key: FOUND', canvas.w - 600, 80);
+    }
+    else{ 
+      fill(255,0,0)
+      textAlign(LEFT, TOP);
+      text('USB Key: MISSING', canvas.w - 600, 80);
+    }
+    if(currentDifficulty==='easy' && foundKey){
+      textAlign(CENTER, MIDDLE);
+        fill(255,255,0)
+        textSize(45);
+        text('Fix all nodes before entering the USB Port!', canvas.w/2, 200);
+
+    }
 
     const barWidth = 400;
     const barHeight = 30;
     const padding = 20;
 
-    fill(250, 250, 250, 200);
+    fill(250, 250, 250);
     textAlign(LEFT, TOP);
         
     textSize(40);
     text('System Stability: ' + systemStability + '%', padding, padding);
 
     noStroke();
-    fill(50, 50, 50, 200);
+    fill(50, 50, 50);
     rect(padding, padding + 55, barWidth, barHeight);
 
     const stabilityColor = lerpColor(
@@ -1363,20 +1403,20 @@ function update() {
     textAlign(LEFT, TOP);
     let y = padding + 120;
 
-    y = drawWrappedText("Welcome, Debugger.", padding, y, boxWidth);
-    y += 30;
+    // y = drawWrappedText("Welcome, Debugger.", padding, y, boxWidth);
+    // y += 30;
     y = drawWrappedText(
-      "You’ve been uploaded inside the machine — a living, breathing network of corrupted data.",
+      "You’ve been uploaded inside the machine!",
       padding, y, boxWidth
     );
     y += 30;
     y = drawWrappedText(
-      "Your mission: stabilize the system before it collapses. Every node you repair restores fragments of stability.",
+      "Your mission: Find the USB Key to disable the firewall, stabilize the system, and exit thorugh the port before the system collapses.",
       padding, y, boxWidth
     );
     y += 30;
     y = drawWrappedText(
-      "Watch for the Code Lens — it will appear near glitches when you are close enough to investigate.",
+      "Watch for the Code Lens: it will appear near glitches when you are close enough to investigate.",
       padding, y, boxWidth
     );
     y += 30;
@@ -1385,6 +1425,11 @@ function update() {
       padding, y, boxWidth
     );
     y += 30;
+    y = drawWrappedText(
+      "Once you've stabilized the system, exit throught the USB port, but only after you've found the golden USB key to disable the firewall. Exiting before you've fixed and the node and the system is doomed!",
+      padding, y, boxWidth
+    );
+     y += 30;
     y = drawWrappedText(
       "But beware: rogue viruses are looping endlessly, spreading chaos in the circuits. Collide with one and you’ll corrupt your own memory buffer and drain stability.",
       padding, y, boxWidth
@@ -1401,26 +1446,52 @@ function update() {
     const glitchX = centerX - iconSpacing / 2;
     const sx = demoCoinFrame * 16;
     const sx2 = demoEnemyFrame * 16;
+    const sx3 = demoKeyFrame * 16;
+    // const sx5 = demoDoorFrame * 32;
+    const sx4 = (demoDoorFrame + 1) * 32;
     const sy = 0;
     const sw = 16;
     const sh = 16;
     noStroke();
-    image(coinsImg, glitchX - 140, iconY + 40, iconSize, iconSize, sx, sy, sw, sh);
+    image(coinsImg, glitchX - 420, iconY + 40, iconSize, iconSize, sx, sy, sw, sh);
 
     fill(50, 205, 50);
     textSize(40);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-    drawWrappedText("GLITCH", glitchX - 290, iconY + iconSize / 2 + 10, 140);
+    drawWrappedText("GLITCH", glitchX - 600, iconY + iconSize / 2, 140);
 
     const virusX = centerX + iconSpacing / 2;
-    image(brickImg, virusX + 250, iconY + 40, iconSize, iconSize, sx2, sy, sw, sh);
+    image(brickImg, virusX + 650, iconY + 40, iconSize, iconSize, sx2, sy, sw, sh);
+
+    // KEY
+
+    fill(218, 165, 32);
+    textSize(40);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER);
+    drawWrappedText("USB KEY", glitchX - 120, iconY + iconSize / 2-25, 10);
+
+    const keyX = centerX + iconSpacing / 2;
+    image(keyImg, keyX - 250, iconY+40, iconSize, iconSize, 0, sx3, 16, 16);
+
+    // DOOR
+
+    fill(106,137,167);
+    textSize(40);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER);
+    drawWrappedText("USB PORT", glitchX + 250, iconY + iconSize / 2-25, 140);
+
+    const doorX = centerX + iconSpacing / 2;
+    image(doorImg, doorX + 120, iconY + 40, iconSize, iconSize, sx4, sy, 32, 32);
+    image(doorImg, doorX + 220, iconY + 40, iconSize, iconSize, 0, sy, 32, 32);
 
     fill(255, 80, 80);
     textSize(40);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-    drawWrappedText("VIRUS", virusX + 110, iconY + iconSize / 2 + 10, 140);
+    drawWrappedText("VIRUS", virusX + 500, iconY + iconSize / 2, 140);
 
     y = iconY + iconSize / 2 + 125;
 
