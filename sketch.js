@@ -631,7 +631,7 @@ function setup() {
   player.layer = 1;
   player.anis.w = 32;
   player.anis.h = 32;
-  player.anis.offset.y = -5;
+  player.anis.offset.y = 0;
   player.anis.frameDelay = 8;
   player.spriteSheet = pinkMonsterImg;
   player.scale =.5;
@@ -751,7 +751,7 @@ function update() {
         if (s.ani) s.ani.play();
       });
     }
-    if (kb.presses('d')) {
+    if (kb.presses('i')) {
       gameState = 'directions';
     }
   } else if (gameState === 'directions') {
@@ -1049,7 +1049,7 @@ function update() {
     textStyle('normal');
     fill(0,255,255);
     textSize(45);
-    text("Press 'd' for Directions", canvas.w / 2, canvas.h / 2 + 80);
+    text("Press 'i' for Instructions", canvas.w / 2, canvas.h / 2 + 80);
 
     textStyle(BOLD);
     fill(50, 205, 50);
