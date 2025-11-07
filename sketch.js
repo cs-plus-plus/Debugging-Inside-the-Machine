@@ -1168,12 +1168,29 @@ function update() {
       textAlign(LEFT, TOP);
       text('USB Key: MISSING', canvas.w - 600, 80);
     }
-    if(currentDifficulty==='easy' && foundKey){
+    if(currentDifficulty==='easy' && foundKey && score<totalNodes){
       textAlign(CENTER, MIDDLE);
         fill(255,255,0)
         textSize(45);
-        text('Fix all nodes before entering the USB Port!', canvas.w/2, 200);
-
+        text('USB Key found! Fix all nodes before entering the USB Port!', canvas.w/2, 200);
+    }
+    if(currentDifficulty==='easy' && foundKey && score>=totalNodes){
+      textAlign(CENTER, MIDDLE);
+        fill(0,255,0)
+        textSize(45);
+        text('USB Key found and all Node fixed, find and enter the USB Port!', canvas.w/2, 200);
+    }
+    if(currentDifficulty==='easy' && !foundKey && score>=totalNodes){
+      textAlign(CENTER, MIDDLE);
+        fill(255,255,0)
+        textSize(45);
+        text('All Node fixed, the USB Key to disable the firewall!', canvas.w/2, 200);
+    }
+    if(currentDifficulty==='easy' && !foundKey && score<totalNodes){
+      textAlign(CENTER, MIDDLE);
+        fill(255,0,0)
+        textSize(45);
+        text('Fix all Nodes and find the USB Key to disable the firewall!', canvas.w/2, 200);
     }
 
     const barWidth = 400;
