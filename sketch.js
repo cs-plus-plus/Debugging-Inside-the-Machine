@@ -6,6 +6,8 @@ window._p5play_gtagged = false;
 // -------------------------
 let player, groundSensor, grass, platforms, coins, enemies, lwall, rwall;
 let grassImg, coinsImg, charactersImg, brickImg, codeFont;
+let key, door, keyImg, doorImg;
+let loc = "HOME", foundKey = false; // for diections
 
 let score = 0;
 let systemStability = 100;
@@ -212,11 +214,12 @@ function prepareQuestionForCurrentDifficulty() {
 }
 
 function markCurrentQuestionUsed() {
-  if (currentQuestionIndex < 0) return;
-  const used = usedQuestionIndices[currentDifficulty];
-  if (!used.includes(currentQuestionIndex)) {
-    used.push(currentQuestionIndex);
-  }
+  questionBanks[currentDifficulty].splice(currentQuestionIndex,1);
+  // if (currentQuestionIndex < 0) return;
+  // const used = usedQuestionIndices[currentDifficulty];
+  // if (!used.includes(currentQuestionIndex)) {
+  //   used.push(currentQuestionIndex);
+  // }
 }
 
 // -------------------------
@@ -228,18 +231,18 @@ const tilemapEasy = [
   'l                                                             r',
   'l                                                             r',
   'l                                                             r',
-  'l     c                              e                        r',
+  'l                                   e                         r',
   'l                                                             r',
-  'l                                       c               c     r',
+  'l                                                             r',
   'l        e                                  e                 r',
   'l        ppp                                                  r',
   'l                                                             r',
   'l                                                             r',
-  'l             ce                ppppp             e           r',
-  'l                                                    c        r',
+  'l             e                ppppp             e            r',
+  'l                                                             r',
   'l                                                             r',
   'l                ppp                                          r',
-  'l                                                             r',
+  'l                         d      k   c                        r',
   'ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
 ];
 
@@ -348,6 +351,8 @@ coinsImg = loadImage('assets/coin.png');
 // charactersImg = loadImage('assets/characters.png');
 pinkMonsterImg = loadImage('assets/pink-monster.png')
 brickImg = loadImage('assets/brick.png');
+keyImg = loadImage('assets/key.png');
+doorImg = loadImage('assets/door.png');
 codeFont = loadFont('assets/SourceCodePro-Regular.ttf');
 
 // -------------------------
@@ -362,6 +367,8 @@ function buildWorldFromTilemap(tilemap) {
   if (rwall) rwall.removeAll();
   if (coins) coins.removeAll();
   if (enemies) enemies.removeAll();
+  if (key) key.removeAll();
+  if (door) door.removeAll();
 
   const tilemapHeight = tilemap.length * tileSize;
 
@@ -479,13 +486,13 @@ function initCRTOverlay() {
   crtOverlayG.noStroke();
 
   // Soft scanlines
-  for (let y = 0; y < crtOverlayG.height; y += 2) {
-    crtOverlayG.fill(0, 0, 0, 10);
+  for (let y = 0; y < crtOverlayG.height; y += 36) {
+    crtOverlayG.fill(0, 0, 0, 30);
     crtOverlayG.rect(0, y, crtOverlayG.width, 1);
   }
 
   // Very subtle green tint over everything
-  crtOverlayG.fill(0, 255, 0, 10);
+  crtOverlayG.fill(0, 255, 0, 10); 
   crtOverlayG.rect(0, 0, crtOverlayG.width, crtOverlayG.height);
 }
 
@@ -502,11 +509,11 @@ function drawCRTOverlay() {
   resetMatrix();
   noStroke();
 
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 40; i++) {
     let x = random(canvas.w);
     let y = random(canvas.h);
-    let w = random(1, 3);
-    let h = random(1, 3);
+    let w = random(1, 90);
+    let h = random(1, 2);
     fill(255, random(200, 255), 255, random(20, 60));
     rect(x, y, w, h);
   }
@@ -561,6 +568,34 @@ function setup() {
   coins.tile = 'c';
   coins.layer = 0;
 
+  key = new Group();
+  key.spriteSheet = keyImg;
+  key.addAni({w:16, h:16,row:0,frames:6})
+  key.anis.frameDelay = 10;
+  key.tile = 'k';
+  key.layer = 0;
+  key.color = 'yellow';
+  key.width = 8;
+  key.height = 8;
+
+  door = new Sprite();
+  door.physics = 'static';
+  door.anis.offset.y = -5;
+  door.spriteSheet = doorImg;
+  door.anis.w = 32;
+  door.anis.h = 32;
+  door.addAnis({
+    locked:{row:0,col:1,frames:8},
+    unlocked:{row:0,col:0,frames:1}
+  });
+  door.changeAni('locked');
+
+  door.tile = 'd';
+  door.layer = 0;
+  door.color = 'brown';
+  door.width = 16;
+  door.height = 24;
+
   enemies = new Group();
   // enemies.physics = 'static';
   enemies.spriteSheet = brickImg;
@@ -610,7 +645,8 @@ function setup() {
   camera.zoom = 5;
 
   initMatrixBackground();
-  initCRTOverlay();
+  // initCRTOverlay();
+
 
   world.active = false;
   allSprites.forEach(s => {
@@ -705,21 +741,38 @@ function update() {
       gameState = 'directions';
     }
   } else if (gameState === 'directions') {
-    if (kb.presses('escape')) {
-      gameState = 'start';
-    }
-    demoCoinFrameTimer += deltaTime;
-    if (demoCoinFrameTimer >= demoCoinFrameDelay) {
-      demoCoinFrame = (demoCoinFrame + 1) % 14;
-      demoCoinFrameTimer = 0;
-    }
-    demoEnemyFrameTimer += deltaTime;
-    if (demoEnemyFrameTimer >= demoEnemyFrameDelay) {
-      demoEnemyFrame = (demoEnemyFrame + 1) % 3;
-      demoEnemyFrameTimer = 0;
-    }
+        if (kb.presses('escape')) {
+          if(loc === "HOME") gameState = 'start';
+          else gameState = 'play';
+        }
+        demoCoinFrameTimer += deltaTime;
+        if (demoCoinFrameTimer >= demoCoinFrameDelay) {
+          demoCoinFrame = (demoCoinFrame + 1) % 14;
+          demoCoinFrameTimer = 0;
+        }
+        demoEnemyFrameTimer += deltaTime;
+        if (demoEnemyFrameTimer >= demoEnemyFrameDelay) {
+          demoEnemyFrame = (demoEnemyFrame + 1) % 3;
+          demoEnemyFrameTimer = 0;
+        }
     
   } else if (gameState === 'play') {
+    world.gravity.y = 10;
+    
+    // QUIT option
+    if(kb.presses('q')){
+        triggerGameOver();
+    }
+    if(kb.presses('i')){      
+        // gameState = 'pause';
+        loc = "to the GAME";
+        world.active = false;
+        allSprites.forEach(s => {
+          if (s.ani) s.ani.stop();
+        });
+        gameState = 'directions';
+    }
+
     if (
       kb.presses('c') &&
       showCodeLensButton &&
@@ -734,6 +787,11 @@ function update() {
         codeLensWasCorrect = false;
         codeLensPlayerChoice = null;
         pendingStateAfterCodeLens = null;
+
+        //stop player if in mid air
+        player.vel.x = 0;
+        player.vel.y = 0;
+        world.gravity.y = 0;
 
         gameState = 'paused';
         world.active = false;
@@ -783,23 +841,18 @@ function update() {
             if (systemStability < 0) systemStability = 0;
             damageFlashTimer = 300;
 
+            markCurrentQuestionUsed(); // don't repeat questions
+
             nearestCoin = null;
 
             if (systemStability <= 0) {
               pendingStateAfterCodeLens = 'gameOver';
             }
           }
-        } else {
-          // No coin / no question, just resume
-          gameState = 'play';
-          world.active = true;
-          allSprites.forEach(s => {
-            if (s.ani) s.ani.play();
-          });
-        }
+        } 
       }
     } else {
-      // Phase 2: already answered, wait for SPACE to continue
+      // Phase 2: already answered, wait for 'c' to continue
       if (kb.presses('c')) {
         // Clear question state
         currentQuestion = null;
@@ -811,10 +864,12 @@ function update() {
         codeLensWasCorrect = false;
         codeLensPlayerChoice = null;
 
-        if (pendingStateAfterCodeLens === 'win') {
-          pendingStateAfterCodeLens = null;
-          triggerWin();
-        } else if (pendingStateAfterCodeLens === 'gameOver') {
+        // if (pendingStateAfterCodeLens === 'win') {
+        //   pendingStateAfterCodeLens = null;
+        //   triggerWin();
+        // } 
+        // else 
+          if (pendingStateAfterCodeLens === 'gameOver') {
           pendingStateAfterCodeLens = null;
           triggerGameOver();
         } else {
@@ -828,9 +883,16 @@ function update() {
       }
     }
   } else if (gameState === 'gameOver' || gameState === 'win') {
-    if (kb.presses('p')) {
+    if (kb.presses('escape')) {
       location.reload();
     }
+  } else if(gameState === 'directions'){
+    if (kb.presses('escape')) {
+      world.active = true;
+      allSprites.forEach(s => {
+        if (s.ani) s.ani.play();
+      });
+}
   }
 
   // --- Background ---
@@ -921,6 +983,18 @@ function update() {
 
     camera.x = constrain(player.x, minX, maxX);
     camera.y = constrain(player.y, minY, maxY);
+
+    if(player.overlapping(key)){
+      key.remove();
+      foundKey = true;
+      door.changeAni('unlocked');
+    }
+    if(player.overlapping(door) && foundKey){
+      player.vel.x = 0;
+      player.vel.y = 0;
+      if(score >= totalNodes)triggerWin();
+      else triggerGameOver();
+    }
   }
 
   // --- Draw world + CRT ---
@@ -949,8 +1023,8 @@ function update() {
     textSize(50);
     text("Press ENTER/RETURN to Start", canvas.w / 2, canvas.h / 2 + 10);
     textStyle('normal');
-    fill(150);
-    textSize(40);
+    fill(0,255,255);
+    textSize(45);
     text("Press 'd' for Directions", canvas.w / 2, canvas.h / 2 + 80);
 
     textStyle(BOLD);
@@ -988,7 +1062,7 @@ function update() {
     );
     textStyle('normal');
     fill(150);
-    textSize(30);
+    textSize(40);
 
     text(
       "Press '1', '2', or '3' to select your level",
@@ -996,115 +1070,7 @@ function update() {
       canvas.h / 2 + 500
     );
   } else if (gameState === 'directions') {
-    fill(0, 0, 0, 225);
-    noStroke();
-    rect(0, 0, canvas.w, canvas.h);
-
-    const padding = 80;
-    const boxWidth = canvas.w - padding * 2;
-
-    fill(255);
-    textSize(80);
-    textStyle(BOLD);
-    textAlign(CENTER, TOP);
-    text("SYSTEM BRIEFING // MISSION: DEBUGGING", canvas.w / 2, padding);
-
-    fill(200);
-    textSize(36);
-    textStyle(NORMAL);
-    textAlign(LEFT, TOP);
-    let y = padding + 120;
-
-    y = drawWrappedText("Welcome, Debugger.", padding, y, boxWidth);
-    y += 30;
-    y = drawWrappedText(
-      "You’ve been uploaded inside the machine — a living, breathing network of corrupted data.",
-      padding, y, boxWidth
-    );
-    y += 30;
-    y = drawWrappedText(
-      "Your mission: stabilize the system before it collapses. Every node you repair restores fragments of stability.",
-      padding, y, boxWidth
-    );
-    y += 30;
-    y = drawWrappedText(
-      "Watch for the Code Lens — it will appear near glitches when you are close enough to investigate.",
-      padding, y, boxWidth
-    );
-    y += 30;
-    y = drawWrappedText(
-      "Repair the glitch in Code Lens before touching it in the world, or you’ll be snapped back to the beginning and lose stability.",
-      padding, y, boxWidth
-    );
-    y += 30;
-    y = drawWrappedText(
-      "But beware: rogue viruses are looping endlessly, spreading chaos in the circuits. Collide with one and you’ll corrupt your own memory buffer and drain stability.",
-      padding, y, boxWidth
-    );
-    y += 40;
-
-    const centerX = canvas.w / 2;
-    const iconY = y + 60;
-    const iconSpacing = 260;
-    const iconSize = 80;
-
-    imageMode(CENTER);
-
-    const glitchX = centerX - iconSpacing / 2;
-    const sx = demoCoinFrame * 16;
-    const sx2 = demoEnemyFrame * 16;
-    const sy = 0;
-    const sw = 16;
-    const sh = 16;
-    noStroke();
-    image(coinsImg, glitchX - 140, iconY + 40, iconSize, iconSize, sx, sy, sw, sh);
-
-    fill(50, 205, 50);
-    textSize(40);
-    textStyle(BOLD);
-    textAlign(CENTER, CENTER);
-    drawWrappedText("GLITCH", glitchX - 290, iconY + iconSize / 2 + 10, 140);
-
-    const virusX = centerX + iconSpacing / 2;
-    image(brickImg, virusX + 250, iconY + 40, iconSize, iconSize, sx2, sy, sw, sh);
-
-    fill(255, 80, 80);
-    textSize(40);
-    textStyle(BOLD);
-    textAlign(CENTER, CENTER);
-    drawWrappedText("VIRUS", virusX + 110, iconY + iconSize / 2 + 10, 140);
-
-    y = iconY + iconSize / 2 + 150;
-
-    fill(50, 205, 50);
-    textSize(36);
-    textStyle(BOLD);
-    textAlign(LEFT, TOP);
-
-    y = drawWrappedText("MOVEMENT:           ← → or A / D", padding, y, boxWidth);
-    y = drawWrappedText("JUMP:               SPACE or ↑", padding, y, boxWidth);
-    y = drawWrappedText(
-      "ENTER CODE LENS:    C (when \"Code Lens\" appears in the bottom-right)",
-      padding, y, boxWidth
-    );
-    y = drawWrappedText(
-      "MAKE SELECTION:     1, 2, 3, or 4",
-      padding, y, boxWidth
-    );
-    y += 30;
-    textSize(34);
-    y = drawWrappedText(
-      "GOAL: Fix all " + totalNodes + " Nodes, avoid rogue code and glitches, and stabilize the system.",
-      padding,
-      y,
-      boxWidth
-    );
-
-    fill(150);
-    textSize(40);
-    textStyle(BOLD);
-    textAlign(CENTER, TOP);
-    text("Press 'esc' to return Home", canvas.w / 2, canvas.h - 100);
+      getDirections();
   } else if (gameState === 'gameOver' || gameState === 'win') {
     const isWin = (gameState === 'win');
 
@@ -1153,8 +1119,16 @@ function update() {
 
     fill(200);
     textSize(40);
-    text("Press 'p' to play again", canvas.w / 2, canvas.h / 2 + 300);
+    text("Press ESCAPE to return to the MAIN MENU", canvas.w / 2, canvas.h / 2 + 300);
   } else if (gameState === 'play') {
+    if(currentDifficulty==='easy'){
+      fill(250, 250, 250, 250);
+      stroke(0);
+      strokeWeight(4);
+      textAlign(CENTER, CENTER);
+      textSize(40);
+      text('Press \'i\' for Directions', canvas.w/2,canvas.h -50);
+    }   
     fill(250, 250, 250, 200);
     stroke(0);
     strokeWeight(4);
@@ -1168,6 +1142,7 @@ function update() {
 
     fill(250, 250, 250, 200);
     textAlign(LEFT, TOP);
+        
     textSize(40);
     text('System Stability: ' + systemStability + '%', padding, padding);
 
@@ -1368,7 +1343,129 @@ function update() {
     fill(255, 0, 0, 150);
     rect(0, 0, canvas.w, canvas.h);
   }
+  function getDirections(){
+    fill(0, 0, 0, 225);
+    noStroke();
+    rect(0, 0, canvas.w, canvas.h);
 
+    const padding = 80;
+    const boxWidth = canvas.w - padding * 2;
+
+    fill(255);
+    textSize(80);
+    textStyle(BOLD);
+    textAlign(CENTER, TOP);
+    text("SYSTEM BRIEFING // MISSION: DEBUGGING", canvas.w / 2, padding);
+
+    fill(200);
+    textSize(36);
+    textStyle(NORMAL);
+    textAlign(LEFT, TOP);
+    let y = padding + 120;
+
+    y = drawWrappedText("Welcome, Debugger.", padding, y, boxWidth);
+    y += 30;
+    y = drawWrappedText(
+      "You’ve been uploaded inside the machine — a living, breathing network of corrupted data.",
+      padding, y, boxWidth
+    );
+    y += 30;
+    y = drawWrappedText(
+      "Your mission: stabilize the system before it collapses. Every node you repair restores fragments of stability.",
+      padding, y, boxWidth
+    );
+    y += 30;
+    y = drawWrappedText(
+      "Watch for the Code Lens — it will appear near glitches when you are close enough to investigate.",
+      padding, y, boxWidth
+    );
+    y += 30;
+    y = drawWrappedText(
+      "Repair the glitch in Code Lens before touching it in the world, or you’ll be snapped back to the beginning and lose stability.",
+      padding, y, boxWidth
+    );
+    y += 30;
+    y = drawWrappedText(
+      "But beware: rogue viruses are looping endlessly, spreading chaos in the circuits. Collide with one and you’ll corrupt your own memory buffer and drain stability.",
+      padding, y, boxWidth
+    );
+    y += 40;
+
+    const centerX = canvas.w / 2;
+    const iconY = y + 60;
+    const iconSpacing = 260;
+    const iconSize = 80;
+
+    imageMode(CENTER);
+
+    const glitchX = centerX - iconSpacing / 2;
+    const sx = demoCoinFrame * 16;
+    const sx2 = demoEnemyFrame * 16;
+    const sy = 0;
+    const sw = 16;
+    const sh = 16;
+    noStroke();
+    image(coinsImg, glitchX - 140, iconY + 40, iconSize, iconSize, sx, sy, sw, sh);
+
+    fill(50, 205, 50);
+    textSize(40);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER);
+    drawWrappedText("GLITCH", glitchX - 290, iconY + iconSize / 2 + 10, 140);
+
+    const virusX = centerX + iconSpacing / 2;
+    image(brickImg, virusX + 250, iconY + 40, iconSize, iconSize, sx2, sy, sw, sh);
+
+    fill(255, 80, 80);
+    textSize(40);
+    textStyle(BOLD);
+    textAlign(CENTER, CENTER);
+    drawWrappedText("VIRUS", virusX + 110, iconY + iconSize / 2 + 10, 140);
+
+    y = iconY + iconSize / 2 + 125;
+
+    fill(50, 205, 50);
+    textSize(36);
+    textStyle(BOLD);
+    textAlign(LEFT, TOP);
+
+    y = drawWrappedText("MOVEMENT:           ← → or A / D", padding, y, boxWidth);
+    y = drawWrappedText("JUMP:               SPACE or ↑", padding, y, boxWidth);
+    y = drawWrappedText(
+      "ENTER CODE LENS:    C (when \"Code Lens\" appears in the bottom-right)",
+      padding, y, boxWidth
+    );
+    y = drawWrappedText(
+      "MAKE SELECTION:     1, 2, 3, or 4",
+      padding, y, boxWidth
+    );
+    fill(255,0,0);
+    y = drawWrappedText(
+      "GIVE UP:            Q",
+      padding, y, boxWidth
+    );
+    fill(0,255,0);
+    y += 30;
+    textSize(34);
+    y = drawWrappedText(
+      "GOAL: Fix all " + totalNodes + " Nodes, avoid rogue code and glitches, and stabilize the system.",
+      padding,
+      y,
+      boxWidth
+    );
+
+    fill(150);
+    textSize(40);
+    textStyle(BOLD);
+    textAlign(CENTER, TOP);
+    text("Press 'esc' to return " + loc, canvas.w / 2, canvas.h - 100);
+    if(loc !== "HOME"){
+      world.active = true;
+      allSprites.forEach(s => {
+        if (s.ani) s.ani.play();
+      });
+    }
+  }
   pop();
   drawCRTOverlay();
 }
