@@ -1,6 +1,7 @@
 // Disable p5play's built-in Google Analytics tagging
 window._p5play_gtagged = false;
 
+let bestRank = "Play to earn a rank";
 const DEBUG_MODE = true;
 // -------------------------
 // Global game state
@@ -429,6 +430,11 @@ function buildWorldFromTilemap(tilemap) {
 function setDifficulty(diff) {
   currentDifficulty = diff;
 
+
+  allSprites.forEach(s => {
+    if (s.ani) s.ani.stop();
+  });
+  world.active = false;
   score = 0;
   systemStability = 100;
   nodesAttempted = 0;
@@ -436,7 +442,7 @@ function setDifficulty(diff) {
   damageFlashTimer = 0;
   showCodeLensButton = false;
   nearestCoin = null;
-
+  
   usedQuestionIndices[diff] = [];
   currentQuestion = null;
   currentQuestionIndex = -1;
@@ -446,11 +452,10 @@ function setDifficulty(diff) {
   world.active = false;
   gameState = 'start';
 
-  allSprites.forEach(s => {
-    if (s.ani) s.ani.stop();
-  });
-
+  
   buildWorldFromTilemap(getTilemapForDifficulty(diff));
+  
+
 }
 
 // -------------------------
@@ -758,6 +763,9 @@ function update() {
 
     if (kb.presses('enter')) {
       gameState = 'play';
+      systemStability = 100;
+      foundKey = false;
+      door.changeAni('locked');
       world.active = true;
       allSprites.forEach(s => {
         if (s.ani) s.ani.play();
@@ -926,7 +934,16 @@ function update() {
     }
   } else if (gameState === 'gameOver' || gameState === 'win') {
     if (kb.presses('escape')) {
-      location.reload();
+      // location.reload();
+      // resetBoard();
+      gameState = 'start';
+      player.x = playerStartX;
+      player.y = playerStartY;
+      camera.x = player.x;
+      camera.y = player.y;
+      door.changeAni('locked');
+      foundKey = false;
+      setDifficulty(currentDifficulty);
     }
   } else if(gameState === 'directions'){
     if (kb.presses('escape')) {
@@ -1009,28 +1026,10 @@ function update() {
       }
     }
 
-    const cameraViewHalfWidth = (canvas.w / camera.zoom) / 2;
-    const cameraViewHalfHeight = (canvas.h / camera.zoom) / 2;
-
-    let minX = mapLeft + cameraViewHalfWidth;
-    let maxX = mapRight - cameraViewHalfWidth;
-    let minY = mapTop + cameraViewHalfHeight;
-    let maxY = mapBottom - cameraViewHalfHeight;
-
-    if (maxX < minX) {
-      const midX = (mapLeft + mapRight) / 2;
-      minX = maxX = midX;
-    }
-    if (maxY < minY) {
-      const midY = (mapTop + mapBottom) / 2;
-      minY = maxY = midY;
-    }
-
-    camera.x = constrain(player.x, minX, maxX);
-    camera.y = constrain(player.y, minY, maxY);
+    setCamera();
 
     if(player.overlapping(key)){
-      key.remove();
+      key[0].remove();
       foundKey = true;
       door.changeAni('unlocked');
     }
@@ -1117,6 +1116,14 @@ function update() {
       canvas.w / 2,
       canvas.h / 2 + 500
     );
+    // best rank
+    fill(255)
+    text(
+      "Current Rank: " + bestRank,
+      canvas.w / 2,
+      canvas.h / 2 + 400
+    );
+
   } else if (gameState === 'directions') {
       getDirections();
   } else if (gameState === 'gameOver' || gameState === 'win') {
@@ -1135,10 +1142,18 @@ function update() {
     const accuracy = nodesAttempted > 0 ? (score / nodesAttempted) * 100 : 0;
 
     let rank;
-    if (accuracy >= 90 && isWin) rank = "Kernel Guardian ⭐⭐⭐⭐";
-    else if (accuracy >= 70 && isWin) rank = "Core Debugger ⭐⭐⭐";
-    else if (accuracy >= 40 && isWin) rank = "Stack Tracer ⭐⭐";
-    else rank = "Glitch Magnet ⭐";
+    let rank4 = "Kernel Guardian ⭐⭐⭐⭐";
+    let rank3 = "Core Debugger ⭐⭐⭐";
+    let rank2 = "Stack Tracer ⭐⭐";
+    let rank1 = "Glitch Magnet ⭐";
+    if (accuracy >= 90 && isWin) rank = rank4;
+    else if (accuracy >= 70 && isWin) rank = rank3;
+    else if (accuracy >= 40 && isWin) rank = rank2;
+    else rank = rank1;
+
+    if(bestRank === rank1 || bestRank === "Play to earn a rank") bestRank = rank;
+    else if(bestRank === rank2 && rank !== rank1) bestRank = rank;
+    else if(bestRank === rank3 && rank === rank4) bestRank = rank;
 
     fill(headingColor);
     textSize(75);
@@ -1583,6 +1598,27 @@ function update() {
         if (s.ani) s.ani.play();
       });
     }
+  } 
+  function setCamera(){
+    const cameraViewHalfWidth = (canvas.w / camera.zoom) / 2;
+    const cameraViewHalfHeight = (canvas.h / camera.zoom) / 2;
+
+    let minX = mapLeft + cameraViewHalfWidth;
+    let maxX = mapRight - cameraViewHalfWidth;
+    let minY = mapTop + cameraViewHalfHeight;
+    let maxY = mapBottom - cameraViewHalfHeight;
+
+    if (maxX < minX) {
+      const midX = (mapLeft + mapRight) / 2;
+      minX = maxX = midX;
+    }
+    if (maxY < minY) {
+      const midY = (mapTop + mapBottom) / 2;
+      minY = maxY = midY;
+    }
+
+    camera.x = constrain(player.x, minX, maxX);
+    camera.y = constrain(player.y, minY, maxY);
   }
   pop();
   drawCRTOverlay();
