@@ -1,7 +1,7 @@
 // Disable p5play's built-in Google Analytics tagging
 window._p5play_gtagged = false;
 
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 // -------------------------
 // Global game state
 // -------------------------
