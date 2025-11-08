@@ -430,6 +430,12 @@ function buildWorldFromTilemap(tilemap) {
 function setDifficulty(diff) {
   currentDifficulty = diff;
 
+  // reset used questions
+  questionBanks.easy = parseQuestionLines(easyLines);
+  questionBanks.medium = parseQuestionLines(mediumLines);
+  questionBanks.hard = parseQuestionLines(hardLines);
+  questionBanks.kpop = parseQuestionLines(secretLines);
+  questionBanks.minecraft = parseQuestionLines(secret2Lines);
 
   allSprites.forEach(s => {
     if (s.ani) s.ani.stop();
@@ -943,6 +949,7 @@ function update() {
       camera.y = player.y;
       door.changeAni('locked');
       foundKey = false;
+      failMsg = "Stability has reached 0%";
       setDifficulty(currentDifficulty);
     }
   } else if(gameState === 'directions'){
