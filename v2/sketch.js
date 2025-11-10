@@ -11,6 +11,7 @@ let grassImg, coinsImg, charactersImg, brickImg, codeFont;
 let key, door, keyImg, doorImg;
 let loc = "HOME", foundKey = false; // for diections
 let failMsg = "Stability has reached 0%";
+const levelComplete  = [false,false,false];
 
 let score = 0;
 let systemStability = 100;
@@ -1100,17 +1101,17 @@ function update() {
     textSize(34);
     fill(255);
     text(
-      "1 - Easy | Selection",
+      "1 - Easy | Selection " + (levelComplete[0]?"✅":"❌"),
       canvas.w / 2,
       canvas.h / 2 + 225
     );
      text(
-      "2 - Medium | Iteration",
+      "2 - Medium | Iteration " + (levelComplete[1]?"✅":"❌"),
       canvas.w / 2,
       canvas.h / 2 + 275
     );
      text(
-      "3 - Hard | Functions & Lists",
+      "3 - Hard | Functions & Lists " + (levelComplete[2]?"✅":"❌"),
       canvas.w / 2,
       canvas.h / 2 + 325
     );
@@ -1138,6 +1139,11 @@ function update() {
     //player.vel.y=0;
     const isWin = (gameState === 'win');
 
+    if(isWin){
+      if(currentDifficulty==='easy') levelComplete[0] = true;
+      if(currentDifficulty==='medium') levelComplete[1] = true;
+      if(currentDifficulty==='hard') levelComplete[2] = true;
+    }
     fill(0, 0, 0, 200);
     noStroke();
     rect(0, 0, canvas.w, canvas.h);
