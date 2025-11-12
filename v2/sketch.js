@@ -7,7 +7,7 @@ const DEBUG_MODE = true;
 // Global game state
 // -------------------------
 let player, groundSensor, grass, platforms, coins, enemies, lwall, rwall;
-let grassImg, coinsImg, charactersImg, brickImg, codeFont;
+let grassImg, coinsImg, charactersImg, brickImg, codeFont, bgImg;
 let key, door, keyImg, doorImg;
 let loc = "HOME", foundKey = false; // for diections
 let failMsg = "Stability has reached 0%";
@@ -363,7 +363,7 @@ new Q5();
 world.autoStep = true;
 world.debug = false;
 
-new Canvas(2000, 1600);
+new Canvas(2000, 1125);
 displayMode('maxed', 'pixelated');
 
 // Load images/fonts (q5-style, no preload)
@@ -375,6 +375,7 @@ brickImg = loadImage('assets/brick.png');
 keyImg = loadImage('assets/key.png');
 doorImg = loadImage('assets/door.png');
 codeFont = loadFont('assets/SourceCodePro-Regular.ttf');
+bgImg = loadImage('assets/background.png');
 
 // -------------------------
 // Build level from tilemap
@@ -470,32 +471,33 @@ function setDifficulty(diff) {
 // -------------------------
 function initMatrixBackground() {
   matrixBG = createGraphics(canvas.w * 2, canvas.h * 2);
-  matrixBG.background(0);
+  // matrixBG.background(0);
+  // matrixBG.image(bgImg, 0, 0, matrixBG.width, matrixBG.height);
+
   matrixBG.noStroke();
   matrixBG.textFont('monospace');
   matrixBG.textSize(12);
 
-  for (let x = 0; x < matrixBG.width; x += 24) {
-    for (let y = 0; y < matrixBG.height; y += 24) {
-      if (random() < 0.3) {
-        matrixBG.fill(0, random(160, 255), 0, random(80, 180));
-        const ch = String.fromCharCode(int(random(33, 127)));
-        matrixBG.text(ch, x, y);
-      }
-    }
-  }
+  // for (let x = 0; x < matrixBG.width; x += 24) {
+  //   for (let y = 0; y < matrixBG.height; y += 24) {
+  //     if (random() < 0.3) {
+  //       matrixBG.fill(0, random(160, 255), 0, random(80, 180));
+  //       const ch = String.fromCharCode(int(random(33, 127)));
+  //       matrixBG.text(ch, x, y);
+  //     }
+  //   }
+  // }
 }
 
 function drawMatrixBackground() {
   if (!matrixBG) return;
-
-  matrixScrollY = (matrixScrollY + 0.5) % matrixBG.height;
+  // matrixScrollY = (matrixScrollY + 0.5) % matrixBG.height;
 
   push();
   resetMatrix();
   imageMode(CORNER);
 
-  const parallaxFactor = 0.2;
+  const parallaxFactor = 2;
   const pxBase = -camera.x * parallaxFactor + canvas.w / 2;
   const pyBase = -camera.y * parallaxFactor + canvas.h / 2 + matrixScrollY;
 
@@ -504,7 +506,6 @@ function drawMatrixBackground() {
       image(matrixBG, pxBase + ox, pyBase + oy);
     }
   }
-
   pop();
 }
 
@@ -760,6 +761,8 @@ function triggerWin() {
 // Main loop
 // -------------------------
 function update() {
+  // BACKGROUND IMAGE
+  matrixBG.image(bgImg, 0, 0, bgImg.width*1, bgImg.height*1);
   // --- State-based input ---
   if (gameState === 'start') {
     if (kb.presses('1')) setDifficulty('easy');
@@ -1072,15 +1075,15 @@ function update() {
     textSize(100);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-    text("Debugging: Inside the Machine", canvas.w / 2, canvas.h / 2 - 140);
+    text("Debugging: Inside the Machine", canvas.w / 2, canvas.h / 2 - 300);
 
     fill(200);
     textSize(50);
-    text("Press ENTER/RETURN to Start", canvas.w / 2, canvas.h / 2 + 10);
+    text("Press ENTER/RETURN to Start", canvas.w / 2, canvas.h / 2 - 100);
     textStyle('normal');
     fill(0,255,255);
-    textSize(45);
-    text("Press 'i' for Instructions", canvas.w / 2, canvas.h / 2 + 80);
+    textSize(36);
+    text("Press 'i' for Instructions", canvas.w / 2, canvas.h / 2 - 25);
 
     textStyle(BOLD);
     fill(50, 205, 50);
@@ -1096,19 +1099,19 @@ function update() {
     text(
       "Difficulty: " + myLevel.toUpperCase(),
       canvas.w / 2,
-      canvas.h / 2 + 150
+      canvas.h / 2 + 100
     );
-    textSize(34);
+    textSize(30);
     fill(255);
     text(
       "1 - Easy | Selection " + (levelComplete[0]?"✅":"❌"),
       canvas.w / 2,
-      canvas.h / 2 + 225
+      canvas.h / 2 + 175
     );
      text(
       "2 - Medium | Iteration " + (levelComplete[1]?"✅":"❌"),
       canvas.w / 2,
-      canvas.h / 2 + 275
+      canvas.h / 2 + 250
     );
      text(
       "3 - Hard | Functions & Lists " + (levelComplete[2]?"✅":"❌"),
@@ -1172,23 +1175,23 @@ function update() {
     textSize(75);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-    text(headingText, canvas.w / 2, canvas.h / 2 - 150);
+    text(headingText, canvas.w / 2, canvas.h / 2 - 300);
 
     fill(230);
     textSize(42);
     textStyle(NORMAL);
 
-    let lineY = canvas.h / 2 - 40;
+    let lineY = canvas.h / 2 - 175;
     text("Difficulty: " + currentDifficulty.toUpperCase(), canvas.w / 2, lineY);
-    lineY += 50;
+    lineY += 60;
     text("Glitches Fixed: " + score + " / " + totalNodes, canvas.w / 2, lineY);
-    lineY += 50;
+    lineY += 60;
     text("Glitches Attempted: " + nodesAttempted, canvas.w / 2, lineY);
-    lineY += 50;
+    lineY += 60;
     text("Accuracy: " + accuracy.toFixed(1) + "%", canvas.w / 2, lineY);
-    lineY += 50;
+    lineY += 60;
     text("System Stabilized: " + percentFixed.toFixed(1) + "%", canvas.w / 2, lineY);
-    lineY += 70;
+    lineY += 80;
 
     fill(50, 205, 50);
     textSize(46);
@@ -1197,7 +1200,7 @@ function update() {
 
     fill(200);
     textSize(40);
-    text("Press ESCAPE to return to the MAIN MENU", canvas.w / 2, canvas.h / 2 + 300);
+    text("Press ESCAPE to return to the MAIN MENU", canvas.w / 2, canvas.h / 2 + 500);
   } else if (gameState === 'play') {
     if(currentDifficulty==='easy'){
       fill(250, 250, 250, 250);
@@ -1467,49 +1470,47 @@ function update() {
     const boxWidth = canvas.w - padding * 2;
 
     fill(255);
-    textSize(80);
+    textSize(40);
     textStyle(BOLD);
     textAlign(CENTER, TOP);
-    text("SYSTEM BRIEFING // MISSION: DEBUGGING", canvas.w / 2, padding);
+    text("SYSTEM BRIEFING // MISSION: DEBUGGING", canvas.w / 2, 40);
 
     fill(200);
-    textSize(36);
+    textSize(30);
     textStyle(NORMAL);
     textAlign(LEFT, TOP);
-    let y = padding + 120;
+    let y = padding + 50;
 
-    // y = drawWrappedText("Welcome, Debugger.", padding, y, boxWidth);
-    // y += 30;
     y = drawWrappedText(
       "You’ve been uploaded inside the machine!",
       padding, y, boxWidth
     );
-    y += 30;
+    y += 20;
     y = drawWrappedText(
       "Your mission: Find the USB Key to disable the firewall, stabilize the system, and exit thorugh the port before the system collapses.",
       padding, y, boxWidth
     );
-    y += 30;
+    y += 20;
     y = drawWrappedText(
       "Watch for the Code Lens: it will appear near glitches when you are close enough to investigate.",
       padding, y, boxWidth
     );
-    y += 30;
+    y += 20;
     y = drawWrappedText(
       "Repair the glitch in Code Lens before touching it in the world, or you’ll be snapped back to the beginning and lose stability.",
       padding, y, boxWidth
     );
-    y += 30;
+    y += 20;
     y = drawWrappedText(
       "Once you've stabilized the system, exit throught the USB port, but only after you've found the golden USB key to disable the firewall. Exiting before you've fixed and the node and the system is doomed!",
       padding, y, boxWidth
     );
-     y += 30;
+     y += 20;
     y = drawWrappedText(
       "But beware: rogue viruses are looping endlessly, spreading chaos in the circuits. Collide with one and you’ll corrupt your own memory buffer and drain stability.",
       padding, y, boxWidth
     );
-    y += 40;
+    y += 0;
 
     const centerX = canvas.w / 2;
     const iconY = y + 60;
@@ -1568,17 +1569,17 @@ function update() {
     textAlign(CENTER, CENTER);
     drawWrappedText("VIRUS", virusX + 500, iconY + iconSize / 2, 140);
 
-    y = iconY + iconSize / 2 + 125;
+    y = iconY + iconSize / 2 + 100;
 
     fill(50, 205, 50);
-    textSize(36);
+    textSize(30);
     textStyle(BOLD);
     textAlign(LEFT, TOP);
 
     y = drawWrappedText("MOVEMENT:           ← → or A / D", padding, y, boxWidth);
     y = drawWrappedText("JUMP:               SPACE or ↑", padding, y, boxWidth);
     y = drawWrappedText(
-      "ENTER CODE LENS:    C (when \"Code Lens\" appears in the bottom-right)",
+      "ENTER CODE LENS:    C (when \"Code Lens\" appears)",
       padding, y, boxWidth
     );
     y = drawWrappedText(
@@ -1592,19 +1593,13 @@ function update() {
     );
     fill(0,255,0);
     y += 30;
-    textSize(34);
-    y = drawWrappedText(
-      "GOAL: Fix all " + totalNodes + " Nodes, avoid rogue code and glitches, and stabilize the system.",
-      padding,
-      y,
-      boxWidth
-    );
+    // textSize(34);
 
     fill(150);
     textSize(40);
     textStyle(BOLD);
     textAlign(CENTER, TOP);
-    text("Press 'esc' to return " + loc, canvas.w / 2, canvas.h - 100);
+    text("Press 'esc' to return " + loc, canvas.w/2, canvas.h - 80);
     if(loc !== "HOME"){
       world.active = true;
       allSprites.forEach(s => {
