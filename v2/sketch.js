@@ -1072,10 +1072,10 @@ function update() {
     rect(0, 0, canvas.w, canvas.h);
 
     fill(255);
-    textSize(100);
+    textSize(80);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
-    text("Debugging: Inside the Machine", canvas.w / 2, canvas.h / 2 - 300);
+    text("Debugging: Inside the Machine", canvas.w / 2, canvas.h / 2 - 275);
 
     fill(200);
     textSize(50);
@@ -1162,9 +1162,9 @@ function update() {
     let rank3 = "Core Debugger ⭐⭐⭐";
     let rank2 = "Stack Tracer ⭐⭐";
     let rank1 = "Glitch Magnet ⭐";
-    if (accuracy >= 90 && isWin) rank = rank4;
-    else if (accuracy >= 70 && isWin) rank = rank3;
-    else if (accuracy >= 40 && isWin) rank = rank2;
+    if (accuracy == 100 && isWin) rank = rank4;
+    else if (accuracy >= 75 && isWin) rank = rank3;
+    else if (accuracy >= 50 && isWin) rank = rank2;
     else rank = rank1;
 
     if(bestRank === rank1 || bestRank === "Play to earn a rank") bestRank = rank;
