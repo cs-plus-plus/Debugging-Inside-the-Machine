@@ -1313,18 +1313,18 @@ function update() {
     fill(50, 205, 50);
     textStyle(BOLD);
     textAlign(CENTER, TOP);
-    textSize(80);
+    textSize(60);
     text("Code Lens", canvas.w / 2, overlayY + 30);
 
     if (currentQuestion) {
       const qX = overlayX + 60;
-      const qY = overlayY + 240;
+      const qY = overlayY + 140;
       const textBoxWidth = overlayW - 120;
 
       textAlign(LEFT, TOP);
 
       // QUESTION AT THE TOP
-      textSize(60);
+      textSize(40);
       fill(0, 255, 0);
 
       const promptText = currentQuestion.prompt.replace(/^.*?:\s*/, '');
@@ -1346,7 +1346,8 @@ function update() {
       const choicesX = qX + columnWidth + gutter;
 
       // CODE BLOCK (LEFT COLUMN)
-      textSize(32);
+      textStyle('normal')
+      textSize(24);
       fill(200, 255, 200);
 
       const codeLines = currentQuestion.code.split('\n');
@@ -1376,7 +1377,7 @@ function update() {
       const codeBottomY = codeY;
 
       // ANSWER CHOICES (RIGHT COLUMN)
-      textSize(40);
+      textSize(28);
 
       const labels = ['1', '2', '3', '4'];
       let choicesY = columnTopY;
