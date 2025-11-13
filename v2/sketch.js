@@ -762,7 +762,7 @@ function triggerWin() {
 // -------------------------
 function update() {
   // BACKGROUND IMAGE
-  matrixBG.image(bgImg, 0, 0, bgImg.width*1, bgImg.height*1);
+  matrixBG.image(bgImg, 0, 0, bgImg.width*2, bgImg.height*2);
   // --- State-based input ---
   if (gameState === 'start') {
     if (kb.presses('1')) setDifficulty('easy');
