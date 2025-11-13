@@ -995,11 +995,17 @@ function update() {
 
     if (kb.pressing('left') || kb.pressing('a')) {
       player.changeAni('run');
-      player.vel.x = -1.5;
+      if(player.overlapping(lwall)) 
+        player.vel.x = 0;
+      else 
+        player.vel.x=-1.5;
       player.scale.x = -.5;
     } else if (kb.pressing('right') || kb.pressing('d')) {
       player.changeAni('run');
-      player.vel.x = 1.5;
+      if(player.overlapping(rwall)) 
+        player.vel.x = 0;
+      else 
+        player.vel.x=1.5;
       player.scale.x = .5;
     } else {
       if (
