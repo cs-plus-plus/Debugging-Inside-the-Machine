@@ -4,6 +4,7 @@ window._p5play_gtagged = false;
 let bestRank = "Play to earn a rank";
 let DEBUG_MODE = false;
 const QUESTION_NUMBERS = false;
+let showPseudoSummary = false;
 // -------------------------
 // Global game state
 // -------------------------
@@ -778,6 +779,9 @@ function update() {
       gameState = 'directions';
     }
   } else if (gameState === 'directions') {
+        if (kb.presses('i')) {
+          showPseudoSummary = !showPseudoSummary;
+        }
         if (kb.presses('escape')) {
           if(loc === "HOME") gameState = 'start';
           else gameState = 'play';
@@ -849,6 +853,7 @@ function update() {
       }
     }
   } else if (gameState === 'paused') {
+    if(kb.presses('i')) showPseudoSummary = !showPseudoSummary;
     // Phase 1: pick an answer 1–4
     if (!codeLensAnswered) {
       let choice = null;
@@ -1064,6 +1069,11 @@ function update() {
   // --- UI and screens ---
   push();
   resetMatrix();
+  if (showPseudoSummary && (gameState === 'paused' || gameState === 'directions')) {
+    drawPseudocode();
+    pop(); // important to balance push()
+    return; // skip drawing other screens underneath
+  }
 
   if (gameState === 'start') {
     fill(0, 0, 0, 200);
@@ -1075,6 +1085,9 @@ function update() {
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
     text("Debugging: Inside the Machine", canvas.w / 2, canvas.h / 2 - 275);
+    textSize(40)
+    fill(155,155,155)
+    text("An AP Computer Science Principles Pseudocode Review Game", canvas.w / 2, canvas.h / 2 - 200);
 
     fill(200);
     textSize(50);
@@ -1317,8 +1330,8 @@ function update() {
     textStyle(BOLD);
     textAlign(CENTER, TOP);
     textSize(60);
-    text("Code Lens", canvas.w / 2, overlayY + 30);
-
+    let headerTxt = showPseudoSummary?"AP CSP Pseudocode":"Code Lens";
+    text(headerTxt, canvas.w / 2, overlayY + 30);
     if (currentQuestion) {
       const qX = overlayX + 60;
       const qY = overlayY + 140;
@@ -1443,7 +1456,7 @@ function update() {
 
       const hintText = codeLensAnswered
         ? "Press \'c\' to continue."
-        : "Press 1, 2, 3, or 4 to choose your fix.";
+        : "Press 1, 2, 3, or 4 to choose your fix or 'i' to see AP CSP Pseudocode.";
 
       drawWrappedText(
         hintText,
@@ -1606,7 +1619,7 @@ function update() {
     textSize(40);
     textStyle(BOLD);
     textAlign(CENTER, TOP);
-    text("Press 'esc' to return " + loc, canvas.w/2, canvas.h - 80);
+    text("Press 'esc' to return " + loc + " or 'i' for AP CSP Pseudocode.", canvas.w/2, canvas.h - 80);
     if(loc !== "HOME"){
       world.active = true;
       allSprites.forEach(s => {
@@ -1662,7 +1675,166 @@ function update() {
     camera.x = Math.round(targetX / snap) * snap;
     camera.y = Math.round(targetY / snap) * snap;
   }
+  function drawPseudocode(){
+    const overlayPadding = 50;
+    const overlayX = overlayPadding;
+    const overlayY = overlayPadding;
+    const overlayW = canvas.w - overlayPadding * 2;
+    const overlayH = canvas.h - overlayPadding * 2;
 
+    fill(0, 0, 0, 200);
+    stroke(50, 205, 50, 255);
+    strokeWeight(4);
+    rect(overlayX, overlayY, overlayW, overlayH, 10);
+
+    noStroke();
+    fill(50, 205, 50);
+    textStyle(BOLD);
+    textAlign(CENTER, TOP);
+    textSize(60);
+    let headerTxt = showPseudoSummary?"AP CSP Pseudocode":"Code Lens";
+    text(headerTxt, canvas.w / 2, overlayY + 30);
+
+    // ADD PSEUDOCODE
+    // -----------------------------
+      // PSEUDOCODE SUMMARY VIEW
+      // -----------------------------
+      if (showPseudoSummary) {
+      const qX = overlayX + 60;
+      const qY = overlayY + 140;
+      const textBoxWidth = overlayW - 120;
+
+      const gutter = 40;
+      const columnWidth = (textBoxWidth - gutter) / 2;
+
+      const leftX = qX;
+      const rightX = qX + columnWidth + gutter;
+
+      let leftY = qY;
+      let rightY = qY;
+
+      textAlign(LEFT, TOP);
+
+      // -------------------------
+      // TWO-COLUMN CONTENT
+      // -------------------------
+
+      const summaryLeft = [
+        { header: "VARIABLES:" },
+        "Use ← to assign values.",
+        "x ← 5",
+        "count ← count + 1",
+
+        "",
+        { header: "OPERATORS:" },
+        "+  -  *  /  MOD",
+        "=  ≠  >  <  ≥  ≤",
+        "AND   OR   NOT",
+
+        "",
+        { header: "CONDITIONALS:" },
+        "IF (condition) { ... }",
+        "ELSE IF (condition) { ... }",
+        "ELSE { ... }",
+
+        "",
+        { header: "LOOPS:" },
+        "REPEAT n TIMES { ... }",
+        "REPEAT UNTIL (condition)",
+        "FOR EACH item IN list"
+      ];
+
+      const summaryRight = [
+        { header: "LISTS (1-based):" },
+        "nums ← [2,4,6]",
+        "nums[1]",
+        "LENGTH(nums)",
+        "APPEND(nums, v)",
+        "INSERT(nums, i, v)",
+        "REMOVE(nums, i)",
+
+        "",
+        { header: "STRINGS:" },
+        "\"Hi \" + name",
+        "LENGTH(word)",
+        "SUBSTRING(word, s, e)",
+
+        "",
+        { header: "PROCEDURES:" },
+        "PROCEDURE f(x) {",
+        "  RETURN x",
+        "}",
+        "result ← f(5)"
+      ];
+
+      // Styles
+      const headerSize = 30;
+      const codeSize = 24;
+
+      // indent pseudocode by 30 pixels
+      const codeIndent = 30;
+
+      fill(200, 255, 200);
+
+      // LEFT COLUMN
+      for (let line of summaryLeft) {
+
+        if (typeof line === "object" && line.header) {
+          // --- HEADER ---
+          textStyle(BOLD);
+          textSize(headerSize);
+          leftY = drawWrappedText(line.header, leftX, leftY, columnWidth, 1.25);
+        } else if (line === "") {
+          // blank line
+          leftY += 20;
+        } else {
+          // --- PSEUDOCODE (indented) ---
+          textStyle('normal');
+          textSize(codeSize);
+          leftY = drawWrappedText("   " + line, leftX + codeIndent, leftY, columnWidth - codeIndent, 1.25);
+        }
+
+        leftY += 8;
+      }
+
+      // RIGHT COLUMN
+      for (let line of summaryRight) {
+
+        if (typeof line === "object" && line.header) {
+          // --- HEADER ---
+          textStyle(BOLD);
+          textSize(headerSize);
+          rightY = drawWrappedText(line.header, rightX, rightY, columnWidth, 1.25);
+        } else if (line === "") {
+          // blank line
+          rightY += 20;
+        } else {
+          // --- PSEUDOCODE (indented) ---
+          textStyle('normal');
+          textSize(codeSize);
+          rightY = drawWrappedText("   " + line, rightX + codeIndent, rightY, columnWidth - codeIndent, 1.25);
+        }
+
+        rightY += 8;
+      }
+
+      // Bottom hint
+      fill(200);
+      textStyle(BOLD);
+      textSize(30);
+      const hintY = overlayY + overlayH - 80;
+
+      drawWrappedText(
+        "Press 'i' to return.",
+        qX,
+        hintY,
+        textBoxWidth,
+        1.2
+      );
+      // pop();
+      return; // prevent question UI from drawing
+    }
+  }
   pop();
   drawCRTOverlay();
 }
