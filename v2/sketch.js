@@ -782,7 +782,7 @@ function update() {
         if (kb.presses('i')) {
           showPseudoSummary = !showPseudoSummary;
         }
-        if (kb.presses('escape')) {
+        if (kb.presses('escape') && !showPseudoSummary) {
           if(loc === "HOME") gameState = 'start';
           else gameState = 'play';
         }
@@ -855,7 +855,7 @@ function update() {
   } else if (gameState === 'paused') {
     if(kb.presses('i')) showPseudoSummary = !showPseudoSummary;
     // Phase 1: pick an answer 1–4
-    if (!codeLensAnswered) {
+    if (!codeLensAnswered && !showPseudoSummary) {
       let choice = null;
       if (kb.presses('1')) choice = 1;
       else if (kb.presses('2')) choice = 2;
@@ -906,7 +906,7 @@ function update() {
           }
         } 
       }
-    } else {
+    } else if(!showPseudoSummary) {
       // Phase 2: already answered, wait for 'c' to continue
       if (kb.presses('c')) {
         // Clear question state
@@ -1313,7 +1313,7 @@ function update() {
       text("press 'c'", buttonX + buttonW / 2, buttonY + buttonH / 2 + 50);
       textStyle(NORMAL);
     }
-  } else if (gameState === 'paused') {
+  } else if (gameState === 'paused' && !showPseudoSummary) {
     const overlayPadding = 50;
     const overlayX = overlayPadding;
     const overlayY = overlayPadding;
@@ -1343,9 +1343,9 @@ function update() {
       textSize(40);
       fill(0, 255, 0);
 
-      const promptText = currentQuestion.prompt;
+      let promptText = currentQuestion.prompt;
       if(!QUESTION_NUMBERS){
-        currentQuestion.prompt.replace(/^.*?:\s*/, '');
+        promptText = currentQuestion.prompt.replace(/^.*?:\s*/, '');
       }
 
       let promptBottomY = drawWrappedText(
@@ -1455,7 +1455,7 @@ function update() {
       const hintY = overlayY + overlayH - 80;
 
       const hintText = codeLensAnswered
-        ? "Press \'c\' to continue."
+        ? "Press \'c\' to continue or 'i' to see AP CSP Pseudocode."
         : "Press 1, 2, 3, or 4 to choose your fix or 'i' to see AP CSP Pseudocode.";
 
       drawWrappedText(
@@ -1699,140 +1699,140 @@ function update() {
     // -----------------------------
       // PSEUDOCODE SUMMARY VIEW
       // -----------------------------
-      if (showPseudoSummary) {
-      const qX = overlayX + 60;
-      const qY = overlayY + 140;
-      const textBoxWidth = overlayW - 120;
+        if (showPseudoSummary) {
+        const qX = overlayX + 60;
+        const qY = overlayY + 140;
+        const textBoxWidth = overlayW - 120;
 
-      const gutter = 40;
-      const columnWidth = (textBoxWidth - gutter) / 2;
+        const gutter = 40;
+        const columnWidth = (textBoxWidth - gutter) / 2;
 
-      const leftX = qX;
-      const rightX = qX + columnWidth + gutter;
+        const leftX = qX;
+        const rightX = qX + columnWidth + gutter;
 
-      let leftY = qY;
-      let rightY = qY;
+        let leftY = qY;
+        let rightY = qY;
 
-      textAlign(LEFT, TOP);
+        textAlign(LEFT, TOP);
 
-      // -------------------------
-      // TWO-COLUMN CONTENT
-      // -------------------------
+        // -------------------------
+        // TWO-COLUMN CONTENT
+        // -------------------------
 
-      const summaryLeft = [
-        { header: "VARIABLES:" },
-        "Use ← to assign values.",
-        "x ← 5",
-        "count ← count + 1",
+        const summaryLeft = [
+          { header: "VARIABLES:" },
+          "Use ← to assign values.",
+          "x ← 5",
+          "count ← count + 1",
 
-        "",
-        { header: "OPERATORS:" },
-        "+  -  *  /  MOD",
-        "=  ≠  >  <  ≥  ≤",
-        "AND   OR   NOT",
+          "",
+          { header: "OPERATORS:" },
+          "+  -  *  /  MOD",
+          "=  ≠  >  <  ≥  ≤",
+          "AND   OR   NOT",
 
-        "",
-        { header: "CONDITIONALS:" },
-        "IF (condition) { ... }",
-        "ELSE IF (condition) { ... }",
-        "ELSE { ... }",
+          "",
+          { header: "CONDITIONALS:" },
+          "IF (condition) { ... }",
+          "ELSE IF (condition) { ... }",
+          "ELSE { ... }",
 
-        "",
-        { header: "LOOPS:" },
-        "REPEAT n TIMES { ... }",
-        "REPEAT UNTIL (condition)",
-        "FOR EACH item IN list"
-      ];
+          "",
+          { header: "LOOPS:" },
+          "REPEAT n TIMES { ... }",
+          "REPEAT UNTIL (condition)",
+          "FOR EACH item IN list"
+        ];
 
-      const summaryRight = [
-        { header: "LISTS (1-based):" },
-        "nums ← [2,4,6]",
-        "nums[1]",
-        "LENGTH(nums)",
-        "APPEND(nums, v)",
-        "INSERT(nums, i, v)",
-        "REMOVE(nums, i)",
+        const summaryRight = [
+          { header: "LISTS (1-indexed):" },
+          "nums ← [2,4,6]",
+          "nums[1] // returns 2 (1st element)",
+          "LENGTH(nums) // returns 3",
+          "APPEND(nums, v) // adds v to end of list",
+          "INSERT(nums, i, v) // inserts v at index i",
+          "REMOVE(nums, i) // removes element at index i",
 
-        "",
-        { header: "STRINGS:" },
-        "\"Hi \" + name",
-        "LENGTH(word)",
-        "SUBSTRING(word, s, e)",
+          "",
+          { header: "STRINGS:" },
+          "\"Hi \" + name",
+          "LENGTH(word)",
+          "SUBSTRING(word, s, e)",
 
-        "",
-        { header: "PROCEDURES:" },
-        "PROCEDURE f(x) {",
-        "  RETURN x",
-        "}",
-        "result ← f(5)"
-      ];
+          "",
+          { header: "PROCEDURES:" },
+          "PROCEDURE f(x) {",
+          "  RETURN x",
+          "}",
+          "result ← f(5)"
+        ];
 
-      // Styles
-      const headerSize = 30;
-      const codeSize = 24;
+        // Styles
+        const headerSize = 30;
+        const codeSize = 24;
 
-      // indent pseudocode by 30 pixels
-      const codeIndent = 30;
+        // indent pseudocode by 30 pixels
+        const codeIndent = 30;
 
-      fill(200, 255, 200);
+        fill(200, 255, 200);
 
-      // LEFT COLUMN
-      for (let line of summaryLeft) {
+        // LEFT COLUMN
+        for (let line of summaryLeft) {
 
-        if (typeof line === "object" && line.header) {
-          // --- HEADER ---
-          textStyle(BOLD);
-          textSize(headerSize);
-          leftY = drawWrappedText(line.header, leftX, leftY, columnWidth, 1.25);
-        } else if (line === "") {
-          // blank line
-          leftY += 20;
-        } else {
-          // --- PSEUDOCODE (indented) ---
-          textStyle('normal');
-          textSize(codeSize);
-          leftY = drawWrappedText("   " + line, leftX + codeIndent, leftY, columnWidth - codeIndent, 1.25);
+          if (typeof line === "object" && line.header) {
+            // --- HEADER ---
+            textStyle(BOLD);
+            textSize(headerSize);
+            leftY = drawWrappedText(line.header, leftX, leftY, columnWidth, 1.25);
+          } else if (line === "") {
+            // blank line
+            leftY += 20;
+          } else {
+            // --- PSEUDOCODE (indented) ---
+            textStyle('normal');
+            textSize(codeSize);
+            leftY = drawWrappedText("   " + line, leftX + codeIndent, leftY, columnWidth - codeIndent, 1.25);
+          }
+
+          leftY += 8;
         }
 
-        leftY += 8;
-      }
+        // RIGHT COLUMN
+        for (let line of summaryRight) {
 
-      // RIGHT COLUMN
-      for (let line of summaryRight) {
+          if (typeof line === "object" && line.header) {
+            // --- HEADER ---
+            textStyle(BOLD);
+            textSize(headerSize);
+            rightY = drawWrappedText(line.header, rightX, rightY, columnWidth, 1.25);
+          } else if (line === "") {
+            // blank line
+            rightY += 20;
+          } else {
+            // --- PSEUDOCODE (indented) ---
+            textStyle('normal');
+            textSize(codeSize);
+            rightY = drawWrappedText("   " + line, rightX + codeIndent, rightY, columnWidth - codeIndent, 1.25);
+          }
 
-        if (typeof line === "object" && line.header) {
-          // --- HEADER ---
-          textStyle(BOLD);
-          textSize(headerSize);
-          rightY = drawWrappedText(line.header, rightX, rightY, columnWidth, 1.25);
-        } else if (line === "") {
-          // blank line
-          rightY += 20;
-        } else {
-          // --- PSEUDOCODE (indented) ---
-          textStyle('normal');
-          textSize(codeSize);
-          rightY = drawWrappedText("   " + line, rightX + codeIndent, rightY, columnWidth - codeIndent, 1.25);
+          rightY += 8;
         }
 
-        rightY += 8;
-      }
+        // Bottom hint
+        fill(200);
+        textStyle(BOLD);
+        textSize(30);
+        const hintY = overlayY + overlayH - 80;
 
-      // Bottom hint
-      fill(200);
-      textStyle(BOLD);
-      textSize(30);
-      const hintY = overlayY + overlayH - 80;
-
-      drawWrappedText(
-        "Press 'i' to return.",
-        qX,
-        hintY,
-        textBoxWidth,
-        1.2
-      );
-      // pop();
-      return; // prevent question UI from drawing
+        drawWrappedText(
+          "Press 'i' to return.",
+          qX,
+          hintY,
+          textBoxWidth,
+          1.2
+        );
+        // pop();
+        return; // prevent question UI from drawing
     }
   }
   pop();
