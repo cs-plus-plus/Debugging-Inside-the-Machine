@@ -472,35 +472,19 @@ function setDifficulty(diff) {
 // -------------------------
 function initMatrixBackground() {
   matrixBG = createGraphics(canvas.w * 2, canvas.h * 2);
-  // matrixBG.background(0);
-  // matrixBG.image(bgImg, 0, 0, matrixBG.width, matrixBG.height);
-
-  matrixBG.noStroke();
-  // matrixBG.textFont('monospace');
-  // matrixBG.textSize(12);
-
-  // for (let x = 0; x < matrixBG.width; x += 24) {
-  //   for (let y = 0; y < matrixBG.height; y += 24) {
-  //     if (random() < 0.3) {
-  //       matrixBG.fill(0, random(160, 255), 0, random(80, 180));
-  //       const ch = String.fromCharCode(int(random(33, 127)));
-  //       matrixBG.text(ch, x, y);
-  //     }
-  //   }
-  // }
+  // matrixBG.noStroke();
 }
 
 function drawMatrixBackground() {
   if (!matrixBG) return;
-  // matrixScrollY = (matrixScrollY + 0.5) % matrixBG.height;
 
   push();
   resetMatrix();
   imageMode(CORNER);
 
-  const parallaxFactor = 2;
-  const pxBase = -camera.x * parallaxFactor + canvas.w / 2;
-  const pyBase = -camera.y * parallaxFactor + canvas.h / 2 + matrixScrollY;
+  const parallaxFactor = .1;
+  const pxBase = canvas.w / 2 - matrixBG.width / 2  - camera.x * parallaxFactor;
+  const pyBase = canvas.h / 2 - matrixBG.height / 2 - camera.y * parallaxFactor + matrixScrollY;
 
   for (let ox = -matrixBG.width; ox <= matrixBG.width; ox += matrixBG.width) {
     for (let oy = -matrixBG.height; oy <= matrixBG.height; oy += matrixBG.height) {
@@ -519,7 +503,7 @@ function initCRTOverlay() {
   crtOverlayG.noStroke();
 
   // Soft scanlines
-  for (let y = 0; y < crtOverlayG.height; y += 36) {
+  for (let y = 0; y < crtOverlayG.height; y += 3) {
     crtOverlayG.fill(0, 0, 0, 30);
     crtOverlayG.rect(0, y, crtOverlayG.width, 1);
   }
@@ -542,7 +526,7 @@ function drawCRTOverlay() {
   resetMatrix();
   noStroke();
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 10; i++) {
     let x = random(canvas.w);
     let y = random(canvas.h);
     let w = random(1, 90);
@@ -1185,7 +1169,7 @@ function update() {
     else if(bestRank === rank3 && rank === rank4) bestRank = rank;
 
     fill(headingColor);
-    textSize(75);
+    textSize(65);
     textStyle(BOLD);
     textAlign(CENTER, CENTER);
     text(headingText, canvas.w / 2, canvas.h / 2 - 300);
@@ -1624,15 +1608,16 @@ function update() {
       });
     }
   } 
-  function setCamera(){
-    const cameraViewHalfWidth = (canvas.w / camera.zoom) / 2;
-    const cameraViewHalfHeight = (canvas.h / camera.zoom) / 2;
+  function setCamera() {
+    const viewW = canvas.w / camera.zoom;
+    const viewH = canvas.h / camera.zoom;
 
-    let minX = mapLeft + cameraViewHalfWidth;
-    let maxX = mapRight - cameraViewHalfWidth;
-    let minY = mapTop + cameraViewHalfHeight;
-    let maxY = mapBottom - cameraViewHalfHeight;
+    let minX = mapLeft + viewW / 2;
+    let maxX = mapRight - viewW / 2;
+    let minY = mapTop + viewH / 2;
+    let maxY = mapBottom - viewH / 2;
 
+    // Handle tiny maps smaller than the camera view
     if (maxX < minX) {
       const midX = (mapLeft + mapRight) / 2;
       minX = maxX = midX;
@@ -1642,9 +1627,36 @@ function update() {
       minY = maxY = midY;
     }
 
-    camera.x = constrain(player.x, minX, maxX);
-    camera.y = constrain(player.y, minY, maxY);
+    // ---------- HORIZONTAL: follow player normally ----------
+    let targetX = constrain(player.x, minX, maxX);
+
+    // ---------- VERTICAL: dead zone around camera center ----------
+    // How tall the dead zone should be in world units (e.g. 30% of the visible height)
+    const deadZoneHeight = viewH * 0.3;
+    const deadZoneTop    = camera.y - deadZoneHeight / 2;
+    const deadZoneBottom = camera.y + deadZoneHeight / 2;
+
+    let targetY = camera.y;
+
+    // Only move camera up if player leaves top of dead zone
+    if (player.y < deadZoneTop) {
+      targetY = player.y + deadZoneHeight / 2;
+    }
+    // Only move camera down if player leaves bottom of dead zone
+    else if (player.y > deadZoneBottom) {
+      targetY = player.y - deadZoneHeight / 2;
+    }
+
+    // Stay inside map bounds
+    targetY = constrain(targetY, minY, maxY);
+
+    // ---------- SNAP to pixel grid (important with zoom + pixelPerfect) ----------
+    const snap = 1 / camera.zoom; // one screen pixel in world units
+
+    camera.x = Math.round(targetX / snap) * snap;
+    camera.y = Math.round(targetY / snap) * snap;
   }
+
   pop();
   drawCRTOverlay();
 }
