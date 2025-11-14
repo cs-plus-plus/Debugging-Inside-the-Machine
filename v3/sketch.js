@@ -10,6 +10,10 @@ let bgMusic, keySound, loseSound, hitSound;
 let correctSound, winSound, wrongSound, splatSound, selectSound; 
 let correctSoundPlaying = false;
 let wrongSoundPlaying = false;
+
+let soundsLoaded = 0;
+const TOTAL_SOUNDS = 9;
+let soundsReady = false;
 // -------------------------
 // Global game state
 // -------------------------
@@ -384,18 +388,7 @@ doorImg = loadImage('assets/door.png');
 codeFont = loadFont('assets/SourceCodePro-Regular.ttf');
 bgImg = loadImage('assets/background.png');
 
-//sound
-soundFormats('mp3', 'ogg'); // optional, ensures cross-browser support
-bgMusic = loadSound('assets/retro.mp3');
-keySound= loadSound('assets/key.mp3');
-hitSound= loadSound('assets/hit.mp3');
-loseSound= loadSound('assets/lose.mp3');
-correctSound= loadSound('assets/correct.mp3');
-winSound= loadSound('assets/win.mp3');
-wrongSound= loadSound('assets/wrong.mp3');
-splatSound=loadSound('assets/splat.mp3');
-selectSound=loadSound('assets/select.mp3');
-// -------------------------
+
 // Build level from tilemap
 // -------------------------
 function buildWorldFromTilemap(tilemap) {
@@ -559,10 +552,31 @@ function drawCRTOverlay() {
 // Setup
 // -------------------------
 function setup() {
-  // Start looping background music
-  bgMusic.setVolume(0.25);  // 0.0 to 1.0
-  // bgMusic.loop();          // plays indefinitely
-  
+  // -------------------------
+  // Sound
+  // -------------------------
+  soundFormats('mp3', 'ogg'); // optional, ensures cross-browser support
+
+  // Background music: load async, configure in callback
+  bgMusic = loadSound('assets/retro.mp3', () => {
+    bgMusic.setVolume(0.25);  // 0.0 to 1.0
+    // Don't auto-loop here if you want to obey click-to-start
+    // bgMusic.loop();
+  });
+
+  // Other sounds: load async; just guard before using them
+  keySound     = loadSound('assets/key.mp3');
+  hitSound     = loadSound('assets/hit.mp3');
+  loseSound    = loadSound('assets/lose.mp3');
+  correctSound = loadSound('assets/correct.mp3');
+  winSound     = loadSound('assets/win.mp3');
+  wrongSound   = loadSound('assets/wrong.mp3');
+  splatSound   = loadSound('assets/splat.mp3');
+  selectSound  = loadSound('assets/select.mp3');
+
+  // -------------------------
+  // Rest of your setup
+  // -------------------------
   world.gravity.y = 10;
 
   allSprites.pixelPerfect = true;
@@ -608,7 +622,7 @@ function setup() {
 
   key = new Group();
   key.spriteSheet = keyImg;
-  key.addAni({w:16, h:16,row:0,frames:6})
+  key.addAni({ w: 16, h: 16, row: 0, frames: 6 });
   key.anis.frameDelay = 10;
   key.tile = 'k';
   key.layer = 0;
@@ -623,8 +637,8 @@ function setup() {
   door.anis.w = 32;
   door.anis.h = 32;
   door.addAnis({
-    locked:{row:0,col:1,frames:8},
-    unlocked:{row:0,col:0,frames:1}
+    locked:   { row: 0, col: 1, frames: 8 },
+    unlocked: { row: 0, col: 0, frames: 1 }
   });
   door.changeAni('locked');
 
@@ -642,10 +656,8 @@ function setup() {
   enemies.rotationLock = true;
   enemies.layer = 1;
   enemies.tile = 'e';
-  enemies.collider = 'cirlce';
+  enemies.collider = 'circle';        // (tiny fix: was "cirlce")
   enemies.collider.radius = 8;
-  // enemies.collider.w = 60;
-  // enemies.collider.h = 60;
   enemies.anis.frameDelay = 16;
   enemies.addAni({ w: 16, h: 16, row: 0, frames: 4 });
 
@@ -658,12 +670,12 @@ function setup() {
   player.anis.offset.y = 0;
   player.anis.frameDelay = 8;
   player.spriteSheet = pinkMonsterImg;
-  player.scale =.5;
+  player.scale = 0.5;
   player.addAnis({
-    idle: { row: 0, frames: 4 },
+    idle:      { row: 0, frames: 4 },
     knockback: { row: 0, frames: 1 },
-    run: { row: 2, frames: 6 },
-    jump: { row: 1, frames: 8 }
+    run:       { row: 2, frames: 6 },
+    jump:      { row: 1, frames: 8 }
   });
   player.changeAni('idle');
   player.rotationLock = true;
@@ -685,7 +697,6 @@ function setup() {
   initMatrixBackground();
   // initCRTOverlay();
 
-
   world.active = false;
   allSprites.forEach(s => {
     if (s.ani) s.ani.stop();
@@ -697,6 +708,7 @@ function setup() {
   // Kick off async question loading
   loadQuestionFiles();
 }
+
 
 // -------------------------
 // Collisions
