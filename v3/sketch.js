@@ -1590,7 +1590,7 @@ function update() {
     );
     y += 20;
     y = drawWrappedText(
-      "Once you've stabilized the system, exit throught the USB port, but only after you've found the golden USB key to disable the firewall. Exiting before you've fixed and the node and the system is doomed!",
+      "Once you've stabilized the system, exit throught the USB port, but only after you've found the golden USB key to disable the firewall. Exiting before you've fixed all the glitches and the system is doomed!",
       padding, y, boxWidth
     );
      y += 20;
