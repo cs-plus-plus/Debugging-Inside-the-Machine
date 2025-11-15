@@ -558,6 +558,8 @@ function setup() {
   // -------------------------
   soundFormats('mp3', 'ogg', 'wav'); // optional, ensures cross-browser support
 
+  pixelDensity(1); 
+
   // Background music: load async, configure in callback
   bgMusic = loadSound('assets/retro.mp3', () => {
     bgMusic.setVolume(1);  // 0.0 to 1.0
@@ -693,7 +695,7 @@ function setup() {
 
   camera.x = player.x;
   camera.y = player.y;
-  camera.zoom = 5;
+  camera.zoom = 4;
 
   initMatrixBackground();
   // initCRTOverlay();
