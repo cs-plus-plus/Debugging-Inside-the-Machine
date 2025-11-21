@@ -18,7 +18,7 @@ let soundsReady = false;
 // Global game state
 // -------------------------
 let player, groundSensor, grass, platforms, coins, enemies, lwall, rwall;
-let grassImg, coinsImg, charactersImg, brickImg, codeFont, bgImg;
+let grassImg, coinsImg, charactersImg, brickImg, codeFont, bgImg, pinkMonsterImg, goldMonsterImg;
 let key, door, keyImg, doorImg;
 let loc = "HOME", foundKey = false; // for diections
 let failMsg = "Stability has reached 0%";
@@ -386,7 +386,8 @@ displayMode('maxed', 'pixelated');
 grassImg = loadImage('assets/grass.png');
 coinsImg = loadImage('assets/coin.png');
 // charactersImg = loadImage('assets/characters.png');
-pinkMonsterImg = loadImage('assets/pink-monster.png')
+pinkMonsterImg = loadImage('assets/pink-monster.png');
+goldMonsterImg = loadImage('assets/gold-monster.png');
 brickImg = loadImage('assets/brick.png');
 keyImg = loadImage('assets/key.png');
 doorImg = loadImage('assets/door.png');
@@ -677,6 +678,7 @@ function setup() {
   player.anis.offset.y = 0;
   player.anis.frameDelay = 8;
   player.spriteSheet = pinkMonsterImg;
+  
   player.scale = 0.5;
   player.addAnis({
     idle:      { row: 0, frames: 4 },
@@ -1141,9 +1143,11 @@ function update() {
 
   if (gameState === 'start') {
 
-    // levelComplete[0] = true;
-    // levelComplete[1] = true;
-    // levelComplete[2] = true;
+    if(DEBUG_MODE){
+      levelComplete[0] = true;
+      levelComplete[1] = true;
+      levelComplete[2] = true;
+    }
 
     // fill(0, 0, 0, 200);
     // noStroke();
@@ -1158,6 +1162,12 @@ rect(0, 0, canvas.w, canvas.h);
 const allComplete = levelComplete.every(v => v);
 
 if (allComplete) {
+  // GOLD skin if all complete
+  player.spriteSheet = goldMonsterImg;
+  for (const name in player.anis) {
+    player.anis[name].spriteSheet = goldMonsterImg;
+  }
+  player.changeAni('idle');
   // Spawn new glow particles occasionally
   if (frameCount % 6 === 0) {
     for (let i = 0; i < 3; i++) {
@@ -1878,8 +1888,8 @@ text(
     // ---------- SNAP to pixel grid (important with zoom + pixelPerfect) ----------
     const snap = 1 / camera.zoom; // one screen pixel in world units
 
-    camera.x = Math.round(targetX / snap) * snap;
-    camera.y = Math.round(targetY / snap) * snap;
+    camera.x = (targetX / snap) * snap;
+    camera.y = (targetY / snap) * snap;
   }
   function drawPseudocode(){
     fill(0, 0, 0, 225);
