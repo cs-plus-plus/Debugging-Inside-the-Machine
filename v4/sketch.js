@@ -1136,40 +1136,51 @@ for (let en of enemies) {
     en.y += (dy / dist) * step;
   }
 }
+
 // --- DOUBLE JUMP + VARIABLE JUMP WITH COMPLETION CHECK ---
 
-// Track landing:
+// 1) How many jumps are allowed right now?
+const allComplete = levelComplete.slice(0, 3).every(v => v === true);
+const maxJumps = allComplete ? 2 : 1;
+
+// 2) Ground check
 const onGround =
   groundSensor.overlapping(grass) ||
   groundSensor.overlapping(platforms);
 
-// Reset jumps ONLY on landing
+// 3) Reset jumps ONLY when we actually land
 if (onGround && !wasOnGround) {
-  jumpsLeft = 1;     // default: only 1 jump
-  const allComplete = levelComplete.slice(0, 3).every(v => v === true);
-  if (allComplete) {
-    jumpsLeft = 2;   // allow double jump ONLY if allComplete
-  }
+  jumpsLeft = maxJumps;   // 1 jump normally, 2 jumps if allComplete
 }
 
-// Start a jump
+// 4) START JUMP LOGIC
 if (kb.presses('up') || kb.presses('space')) {
-  if (jumpsLeft > 0) {
+
+  // FIRST JUMP: must be on the ground
+  if (onGround && jumpsLeft > 0) {
     isJumping = true;
     jumpPressedTime = millis();
-    jumpsLeft--;  // uses 1 jump
-
+    jumpsLeft--;            // consume first jump
     player.changeAni('jump');
-    player.vel.y = -3.0;  // tap jump
+    player.vel.y = -3.0;    // base jump
+  }
+
+  // SECOND JUMP: only allowed in the air, and only if we have a remaining jump
+  else if (!onGround && jumpsLeft > 0 && jumpsLeft < maxJumps) {
+    isJumping = true;
+    jumpPressedTime = millis();
+    jumpsLeft--;            // consume second jump
+    player.changeAni('jump');
+    player.vel.y = -3.0;
   }
 }
 
-// Hold-boost for higher jump
+// 5) VARIABLE JUMP HEIGHT (tap vs hold)
 if (isJumping) {
   const heldTime = millis() - jumpPressedTime;
 
   if ((kb.pressing('up') || kb.pressing('space')) && heldTime < 220) {
-    player.vel.y -= 0.25;   // your boosted jump
+    player.vel.y -= 0.25;   // extra boost while held
   }
 
   if (kb.released('up') || kb.released('space') || heldTime >= 220) {
@@ -1177,10 +1188,12 @@ if (isJumping) {
   }
 }
 
-// Update landing memory
+// 6) Remember ground state for next frame
 wasOnGround = onGround;
 
 // --- END BLOCK ---
+
+
 
 
     if (kb.pressing('left') || kb.pressing('a')) {
