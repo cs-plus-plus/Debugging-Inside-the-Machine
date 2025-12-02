@@ -1560,7 +1560,7 @@ text(
       if(currentDifficulty==='medium') levelComplete[1] = true;
       if(currentDifficulty==='hard') levelComplete[2] = true;
       if(currentDifficulty==='kpop') levelComplete[3] = true;
-      if(currentDifficulty==='miecraft') levelComplete[4] = true;
+      if(currentDifficulty==='minecraft') levelComplete[4] = true;
     }
     fill(0, 0, 0, 200);
     noStroke();
@@ -1580,9 +1580,10 @@ text(
     if (accuracy == 100 && isWin) rank = rank4;
     else if (accuracy >= 75 && isWin) rank = rank3;
     else if (accuracy >= 50 && isWin) rank = rank2;
-    else rank = rank1;
+    else if(isWin) rank = rank1;
+    else rank = "Complete a level to earn rank";
 
-    if(bestRank === rank1 || bestRank === "Play to earn a rank") bestRank = rank;
+    if(bestRank === rank1 || bestRank === "Play to earn a rank" || bestRank === "Complete a level to earn rank") bestRank = rank;
     else if(bestRank === rank2 && rank !== rank1) bestRank = rank;
     else if(bestRank === rank3 && rank === rank4) bestRank = rank;
 
