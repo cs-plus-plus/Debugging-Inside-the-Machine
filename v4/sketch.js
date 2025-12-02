@@ -1097,16 +1097,45 @@ function update() {
         triggerGameOver();
       }
     }
-    if(currentDifficulty=='easy' || currentDifficulty == 'kpop' || currentDifficulty == 'minecraft') ROAM_SPEED = 1;
-    if(currentDifficulty=='medium') ROAM_SPEED = 1.5;
-    if(currentDifficulty=='hard') ROAM_SPEED = 2;
-    for (let en of enemies) {
-      const radius = 50;
-      const speed = ROAM_SPEED /1.5;
-      en.angle += speed;
-      en.x = en.spawnX + cos(en.angle) * radius;
-      en.y = en.spawnY + sin(en.angle) * radius;
-    }
+    // ----- ENEMY ROAM LOGIC -----
+
+let baseSpeed = 1;
+if (currentDifficulty === 'medium')  baseSpeed = 1.25;
+if (currentDifficulty === 'hard')    baseSpeed = 1.5;
+
+// Enemies wander around their spawn point with random speeds + targets
+for (let en of enemies) {
+  // one-time setup per enemy
+  if (en.roamInitialized !== true) {
+    en.spawnX = en.spawnX ?? en.x;
+    en.spawnY = en.spawnY ?? en.y;
+
+    en.roamRadius = random(40,80); // how far from spawn they can wander
+    // give each enemy its own speed, roughly around baseSpeed
+    en.roamSpeed  = random(baseSpeed * 0.5, baseSpeed * 1);
+
+    en.targetX = en.spawnX + random(-en.roamRadius, en.roamRadius);
+    en.targetY = en.spawnY + random(-en.roamRadius, en.roamRadius);
+
+    en.roamInitialized = true;
+  }
+
+  // move toward current target
+  const dx = en.targetX - en.x;
+  const dy = en.targetY - en.y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  if (dist < 4) {
+    // reached target: pick a new random point near spawn
+    en.targetX = en.spawnX + random(-en.roamRadius, en.roamRadius);
+    en.targetY = en.spawnY + random(-en.roamRadius, en.roamRadius);
+  } else if (dist > 0) {
+    const step = en.roamSpeed;
+    en.x += (dx / dist) * step;
+    en.y += (dy / dist) * step;
+  }
+}
+
 // --- VARIABLE JUMP (tap unchanged, hold stronger) ---
 
 // Start jump (tap height stays the same)
