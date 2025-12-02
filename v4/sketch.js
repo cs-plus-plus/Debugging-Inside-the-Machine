@@ -302,8 +302,8 @@ const tilemapMedium = [
   'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg',
   'l                                                            r',
   'l                                                            r',
-  'l                     k                                      r',
-  'l                   eppp                                     r',
+  'l                   p k  p                                   r',
+  'l                   epppp                                    r',
   'l                                               ce           r',
   'l                 p                     e                    r',
   'l          eppp          c             ppp     p            cr',
@@ -387,8 +387,8 @@ const tilemapKpop = [
   'l                                                            r',
   'l                                                     e      r',
   'l                                                            r',
-  'l              e                                       k     r',
-  'l       d                                        e   ppp     r',
+  'l              e                                        k    r',
+  'l       d                                        e  pppppppppr',
   'l      ppp    c                                           e  r',
   'l     e                                e          c          r',
   'l              e                             pp      e       r',
@@ -942,11 +942,22 @@ function update() {
         // gameState = 'pause';
         loc = "to the GAME";
         world.active = false;
+        // allSprites.forEach(s => {
+        //   if (s.ani) s.ani.stop();
+        // });
+        
+        player.vel.x = 0;
+        player.vel.y = 0;
+        // world.gravity.y = 0;
+        // gameState = 'paused';
+        world.active = false;
         allSprites.forEach(s => {
           if (s.ani) s.ani.stop();
+          s.vel.x = 0;
+          s.vel.y = 0;
         });
         gameState = 'directions';
-    }
+      }
 
     if (
       kb.presses('c') &&
@@ -972,6 +983,8 @@ function update() {
         world.active = false;
         allSprites.forEach(s => {
           if (s.ani) s.ani.stop();
+          s.vel.x = 0;
+          s.vel.y = 0;
         });
       }
     }
