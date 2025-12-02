@@ -871,7 +871,7 @@ function update() {
 
     // CSA/CSP Toggle
     if (kb.presses('space')) {csa = !csa ;selectSound.play(); loadQuestionFiles();}
-
+    if (kb.presses('c')) window.open("https://csplusplus.com", "_blank");
     if (kb.presses('1')) {setDifficulty('easy');selectSound.play()}
     if (kb.presses('2')) {setDifficulty('medium');selectSound.play()}
     if (kb.presses('3')) {setDifficulty('hard');selectSound.play()}
@@ -1505,6 +1505,14 @@ text(
     canvas.w / 2,
     canvas.h / 2 - mainTitleOffset +125
   );
+  fill('green');
+  textSize(35)
+  textStyle('normal');
+  text(
+    "For more resources press 'c' to visit CS++",
+    canvas.w / 2,
+    canvas.h - 50
+  );
 
     fill(200);
     textSize(50);
@@ -1598,14 +1606,14 @@ text(
     text(
       "Press '1', '2', or '3' to select your level",
       canvas.w / 2,
-      canvas.h / 2 + 500
+      canvas.h - 105  
     );
     // best rank
     fill(255)
     text(
       "Current Rank: " + bestRank + " | Questions Answered Correctly: " + totalQuestionsAnsweredCorrect,
       canvas.w / 2,
-      canvas.h / 2 + 425
+      canvas.h / 2 + 400
     );
     if(DEBUG_MODE){
       fill(255,0,0);
@@ -1633,6 +1641,8 @@ text(
       if(currentDifficulty==='hard') levelComplete[2] = true;
       if(currentDifficulty==='kpop') levelComplete[3] = true;
       if(currentDifficulty==='minecraft') levelComplete[4] = true;
+      if(currentDifficulty==='kpop') levelCompleteA[3] = true;
+      if(currentDifficulty==='minecraft') levelCompleteA[4] = true;
     }
     if(isWin && csa){
       if(currentDifficulty==='easy') levelCompleteA[0] = true;
@@ -1640,6 +1650,8 @@ text(
       if(currentDifficulty==='hard') levelCompleteA[2] = true;
       if(currentDifficulty==='kpop') levelCompleteA[3] = true;
       if(currentDifficulty==='minecraft') levelCompleteA[4] = true;
+      if(currentDifficulty==='kpop') levelComplete[3] = true;
+      if(currentDifficulty==='minecraft') levelComplete[4] = true;
     }
     fill(0, 0, 0, 200);
     noStroke();
