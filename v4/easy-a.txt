@@ -1,50 +1,50 @@
-{"prompt":"Q01 (variables): What is the value of x after this code executes?","code":"int x = 7;\nx = x + 3;\nx = x - 2;","choices":["7","8","9","10"],"correctIndex":1}
-{"prompt":"Q02 (strings): What does str.length() return?","code":"String str = \"Hello\";","choices":["3","4","5","6"],"correctIndex":2}
-{"prompt":"Q03 (strings): What is the output?","code":"String s = \"racecar\";\nSystem.out.println(s.substring(0,4));","choices":["race","racec","racc","car"],"correctIndex":0}
-{"prompt":"Q04 (if/else): What is printed?","code":"int x = 10;\nif (x > 20)\n  System.out.println(\"A\");\nelse\n  System.out.println(\"B\");","choices":["A","B","A B","No output"],"correctIndex":1}
-{"prompt":"Q05 (strings): What is returned by s.indexOf(\"a\")?","code":"String s = \"banana\";","choices":["0","1","2","-1"],"correctIndex":1}
-{"prompt":"Q06 (variables): What is printed?","code":"int a = 5;\na++;\nSystem.out.println(a);","choices":["4","5","6","7"],"correctIndex":2}
-{"prompt":"Q07 (if/else): Which branch executes?","code":"int n = 12;\nif (n % 2 == 0)\n  System.out.println(\"even\");\nelse\n  System.out.println(\"odd\");","choices":["even","odd","no output","compiler error"],"correctIndex":0}
-{"prompt":"Q08 (strings): What is printed?","code":"String s = \"ABCD\";\nSystem.out.println(s.substring(1));","choices":["A","BCD","CD","ABC"],"correctIndex":1}
-{"prompt":"Q09 (compareTo): What is the result of \"cat\".compareTo(\"dog\")?","code":"","choices":["negative value","0","positive value","compiler error"],"correctIndex":0}
-{"prompt":"Q10 (if/else): What prints?","code":"int x = 3;\nif (x < 0)\n  System.out.println(\"neg\");\nelse if (x < 5)\n  System.out.println(\"small\");\nelse\n  System.out.println(\"big\");","choices":["neg","small","big","no output"],"correctIndex":1}
-{"prompt":"Q11 (strings): What is the value of s?","code":"String s = \"hello\" + \"world\";","choices":["helloworld","hello world","hello+world","compiler error"],"correctIndex":0}
-{"prompt":"Q12 (variables): What is printed?","code":"int x = 4;\nx *= 3;\nSystem.out.println(x);","choices":["4","7","12","3"],"correctIndex":2}
-{"prompt":"Q13 (indexOf): What does s.indexOf(\"x\") return?","code":"String s = \"apples\";","choices":["0","1","5","-1"],"correctIndex":3}
-{"prompt":"Q14 (substring): What prints?","code":"String s = \"pumpkin\";\nSystem.out.println(s.substring(2,5));","choices":["ump","mpk","mpki","mki"],"correctIndex":1}
-{"prompt":"Q15 (equals): What prints?","code":"String a = new String(\"hi\");\nString b = new String(\"hi\");\nSystem.out.println(a.equals(b));","choices":["true","false","Sometimes true","compiler error"],"correctIndex":0}
-{"prompt":"Q16 (if/else): What prints?","code":"int x = -1;\nif (x > 0)\n  System.out.println(\"pos\");\nelse\n  System.out.println(\"not pos\");","choices":["pos","not pos","no output","compiler error"],"correctIndex":1}
-{"prompt":"Q17 (length): What is s.length()?","code":"String s = \"  hi  \";","choices":["2","4","5","6"],"correctIndex":3}
-{"prompt":"Q18 (variables): What is printed?","code":"int a = 2;\nint b = a * (a + 3);\nSystem.out.println(b);","choices":["2","5","8","10"],"correctIndex":2}
-{"prompt":"Q19 (if/else): What prints?","code":"int x = 5;\nif (x < 5)\n  System.out.println(\"A\");\nelse if (x == 5)\n  System.out.println(\"B\");\nelse\n  System.out.println(\"C\");","choices":["A","B","C","no output"],"correctIndex":1}
-{"prompt":"Q20 (substring): What prints?","code":"String s = \"abcdef\";\nSystem.out.println(s.substring(3));","choices":["abc","cdef","def","f"],"correctIndex":2}
-{"prompt":"Q21 (compareTo): What is \"apple\".compareTo(\"apple\")?","code":"","choices":["negative value","0","positive value","undefined"],"correctIndex":1}
-{"prompt":"Q22 (indexOf): What prints?","code":"String s = \"abracadabra\";\nSystem.out.println(s.indexOf(\"ra\"));","choices":["1","2","4","9"],"correctIndex":1}
-{"prompt":"Q23 (if): What prints?","code":"int age = 16;\nif (age >= 18)\n  System.out.println(\"adult\");\nelse\n  System.out.println(\"minor\");","choices":["adult","minor","both","neither"],"correctIndex":1}
-{"prompt":"Q24 (variables): What is num?","code":"int num = 10;\nnum = num / 3;","choices":["3","3.33","10","0"],"correctIndex":0}
-{"prompt":"Q25 (substring): What prints?","code":"String s = \"hello\";\nSystem.out.println(s.substring(0,1));","choices":["h","he","o",""],"correctIndex":0}
-{"prompt":"Q26 (if/else): What prints?","code":"int n = 0;\nif (n != 0)\n  System.out.println(\"nonzero\");\nelse\n  System.out.println(\"zero\");","choices":["nonzero","zero","no output","compiler error"],"correctIndex":1}
-{"prompt":"Q27 (indexOf): What prints?","code":"String s = \"mississippi\";\nSystem.out.println(s.indexOf(\"ss\"));","choices":["1","2","3","5"],"correctIndex":1}
-{"prompt":"Q28 (variables): What prints?","code":"int a = 8;\na = a % 3;\nSystem.out.println(a);","choices":["2","3","5","8"],"correctIndex":0}
-{"prompt":"Q29 (compareTo): Which is true?","code":"\"Zoo\".compareTo(\"apple\");","choices":["positive value","negative value","0","compiler error"],"correctIndex":0}
-{"prompt":"Q30 (if/else): What prints?","code":"int temp = 30;\nif (temp > 90)\n  System.out.println(\"hot\");\nelse if (temp > 60)\n  System.out.println(\"warm\");\nelse\n  System.out.println(\"cold\");","choices":["hot","warm","cold","no output"],"correctIndex":2}
-{"prompt":"Q31 (substring): What prints?","code":"String s = \"ABCDE\";\nSystem.out.println(s.substring(1,4));","choices":["BCD","BCDE","ABCD","CDE"],"correctIndex":0}
-{"prompt":"Q32 (equals): What is printed?","code":"String x = \"Hi\";\nString y = \"hi\";\nSystem.out.println(x.equals(y));","choices":["true","false","Sometimes true","compiler error"],"correctIndex":1}
-{"prompt":"Q33 (variables): What prints?","code":"int x = 4;\nx = x + x;\nSystem.out.println(x);","choices":["2","4","8","16"],"correctIndex":2}
-{"prompt":"Q34 (if): What prints?","code":"int speed = 65;\nif (speed > 70)\n  System.out.println(\"fast\");","choices":["fast","no output","65","compiler error"],"correctIndex":1}
-{"prompt":"Q35 (length): What is printed?","code":"String s = \"java\";\nSystem.out.println(s.length());","choices":["2","3","4","5"],"correctIndex":2}
-{"prompt":"Q36 (indexOf): What prints?","code":"String s = \"level\";\nSystem.out.println(s.indexOf(\"e\"));","choices":["0","1","2","3"],"correctIndex":1}
-{"prompt":"Q37 (if/else): What prints?","code":"int x = 9;\nif (x % 3 == 0)\n  System.out.println(\"divisible\");\nelse\n  System.out.println(\"not\");","choices":["divisible","not","both","no output"],"correctIndex":0}
-{"prompt":"Q38 (compareTo): What is result?","code":"\"cat\".compareTo(\"car\");","choices":["< 0","0","> 0","compiler error"],"correctIndex":2}
-{"prompt":"Q39 (substring): What prints?","code":"String s = \"robot\";\nSystem.out.println(s.substring(4));","choices":["t","ot","bot","rob"],"correctIndex":0}
-{"prompt":"Q40 (if/else): What prints?","code":"int x = 5;\nif (x > 10)\n  System.out.println(\"hi\");\nSystem.out.println(\"bye\");","choices":["hi","bye","hi bye","no output"],"correctIndex":1}
-{"prompt":"Q41 (variables): What is printed?","code":"int a = 3;\nint b = 2 * a - 1;\nSystem.out.println(b);","choices":["1","3","5","6"],"correctIndex":1}
-{"prompt":"Q42 (strings): What does s.split(\" \").length return?","code":"String s = \"hi there friend\";","choices":["2","3","4","1"],"correctIndex":1}
-{"prompt":"Q43 (equals): What prints?","code":"String a = \"Java\";\nString b = \"Java\";\nSystem.out.println(a.equals(b));","choices":["true","false","null","compiler error"],"correctIndex":0}
-{"prompt":"Q44 (if/else): What prints?","code":"int n = 10;\nif (n % 4 == 2)\n  System.out.println(\"A\");\nelse\n  System.out.println(\"B\");","choices":["A","B","no output","compiler error"],"correctIndex":1}
-{"prompt":"Q45 (indexOf): What prints?","code":"String s = \"computer\";\nSystem.out.println(s.indexOf(\"put\"));","choices":["2","3","4","5"],"correctIndex":1}
-{"prompt":"Q46 (variables): What prints?","code":"int x = 2;\nint y = 3;\nx = y - x;\nSystem.out.println(x);","choices":["-1","0","1","5"],"correctIndex":2}
-{"prompt":"Q47 (substring): What prints?","code":"String s = \"banana\";\nSystem.out.println(s.substring(1,3));","choices":["an","ana","nan","ba"],"correctIndex":0}
-{"prompt":"Q48 (compareTo): What does this return?","code":"\"bee\".compareTo(\"be\");","choices":["negative value","0","positive value","compiler error"],"correctIndex":2}
-{"prompt":"Q49 (if/else): What prints?","code":"int z = 7;\nif (z == 8)\n  System.out.println(\"x\");\nelse if (z == 7)\n  System.out.println(\"y\");\nelse\n  System.out.println(\"z\");","choices":["x","y","z","no output"],"correctIndex":1}
-{"prompt":"Q50 (variables): What prints?","code":"int x = 10;\nx = x / 2 + 3;\nSystem.out.println(x);","choices":["3","5","8","10"],"correctIndex":2}
+{"prompt":"Q01 (variables): What is the value of the integer variable x after this code executes?","code":"int x = 7;\nx = x + 3;\nx = x - 2;","choices":["7","8","9","10"],"correctIndex":1}
+{"prompt":"Q02 (strings): What integer value does str.length() return?","code":"String str = \"Hello\";","choices":["3","4","5","6"],"correctIndex":2}
+{"prompt":"Q03 (strings): What substring is printed by the following code?","code":"String s = \"racecar\";\nSystem.out.println(s.substring(0, 4));","choices":["race","racec","racc","car"],"correctIndex":0}
+{"prompt":"Q04 (if/else): What string is printed to the console?","code":"int x = 10;\nif (x > 20) {\n  System.out.println(\"A\");\n} else {\n  System.out.println(\"B\");\n}","choices":["A","B","A B","No output"],"correctIndex":1}
+{"prompt":"Q05 (strings): What index does s.indexOf(\"a\") return?","code":"String s = \"banana\";","choices":["0","1","2","-1"],"correctIndex":1}
+{"prompt":"Q06 (variables): What is printed by the following code?","code":"int a = 5;\na++;\nSystem.out.println(a);","choices":["4","5","6","7"],"correctIndex":2}
+{"prompt":"Q07 (if/else): Which branch of the conditional statement executes?","code":"int n = 12;\nif (n % 2 == 0) {\n  System.out.println(\"even\");\n} else {\n  System.out.println(\"odd\");\n}","choices":["even","odd","no output","compiler error"],"correctIndex":0}
+{"prompt":"Q08 (strings): What substring is printed by s.substring(1)?","code":"String s = \"ABCD\";\nSystem.out.println(s.substring(1));","choices":["A","BCD","CD","ABC"],"correctIndex":1}
+{"prompt":"Q09 (compareTo): What is the sign of the result for \"Zoo\".compareTo(\"apple\")?","code":"int result = \"Zoo\".compareTo(\"apple\");","choices":["positive value","negative value","0","compiler error"],"correctIndex":1}
+{"prompt":"Q10 (if/else): What is the output of this if-else-if ladder?","code":"int x = 3;\nif (x < 0) {\n  System.out.println(\"neg\");\n} else if (x < 5) {\n  System.out.println(\"small\");\n} else {\n  System.out.println(\"big\");\n}","choices":["neg","small","big","no output"],"correctIndex":1}
+{"prompt":"Q11 (strings): What is the value of the string 's' after concatenation?","code":"String s = \"hello\" + \"world\";","choices":["helloworld","hello world","hello+world","compiler error"],"correctIndex":0}
+{"prompt":"Q12 (variables): What is printed after the compound assignment?","code":"int x = 4;\nx *= 3;\nSystem.out.println(x);","choices":["4","7","12","3"],"correctIndex":2}
+{"prompt":"Q13 (indexOf): What does s.indexOf(\"x\") return when the substring is not found?","code":"String s = \"apples\";","choices":["0","1","5","-1"],"correctIndex":3}
+{"prompt":"Q14 (substring): What characters are extracted by s.substring(2, 5)?","code":"String s = \"pumpkin\";\nSystem.out.println(s.substring(2, 5));","choices":["ump","mpk","mpki","mki"],"correctIndex":1}
+{"prompt":"Q15 (equals): What boolean value does a.equals(b) return?","code":"String a = new String(\"hi\");\nString b = new String(\"hi\");\nSystem.out.println(a.equals(b));","choices":["true","false","Sometimes true","compiler error"],"correctIndex":0}
+{"prompt":"Q16 (if/else): What message is printed based on the value of x?","code":"int x = -1;\nif (x > 0) {\n  System.out.println(\"pos\");\n} else {\n  System.out.println(\"not pos\");\n}","choices":["pos","not pos","no output","compiler error"],"correctIndex":1}
+{"prompt":"Q17 (length): What is the length of the string \"  hi  \" (including spaces)?","code":"String s = \"  hi  \";","choices":["2","4","5","6"],"correctIndex":3}
+{"prompt":"Q18 (variables): What is the final value of variable b?","code":"int a = 2;\nint b = a * (a + 3);\nSystem.out.println(b);","choices":["2","5","8","10"],"correctIndex":3}
+{"prompt":"Q19 (if/else): Which condition matches and what is printed?","code":"int x = 5;\nif (x < 5) {\n  System.out.println(\"A\");\n} else if (x == 5) {\n  System.out.println(\"B\");\n} else {\n  System.out.println(\"C\");\n}","choices":["A","B","C","no output"],"correctIndex":1}
+{"prompt":"Q20 (substring): What suffix is printed by s.substring(3)?","code":"String s = \"abcdef\";\nSystem.out.println(s.substring(3));","choices":["abc","cdef","def","f"],"correctIndex":2}
+{"prompt":"Q21 (compareTo): What does comparing a string to itself return?","code":"int res = \"apple\".compareTo(\"apple\");","choices":["negative value","0","positive value","undefined"],"correctIndex":1}
+{"prompt":"Q22 (indexOf): What is the index of the first occurrence of \"ra\"?","code":"String s = \"abracadabra\";\nSystem.out.println(s.indexOf(\"ra\"));","choices":["1","2","4","9"],"correctIndex":1}
+{"prompt":"Q23 (if): What is printed given that age is 16?","code":"int age = 16;\nif (age >= 18) {\n  System.out.println(\"adult\");\n} else {\n  System.out.println(\"minor\");\n}","choices":["adult","minor","both","neither"],"correctIndex":1}
+{"prompt":"Q24 (variables): What is the result of the integer division num / 3?","code":"int num = 10;\nnum = num / 3;","choices":["3","3.33","10","0"],"correctIndex":0}
+{"prompt":"Q25 (substring): What character string does s.substring(0, 1) return?","code":"String s = \"hello\";\nSystem.out.println(s.substring(0, 1));","choices":["h","he","o",""],"correctIndex":0}
+{"prompt":"Q26 (if/else): What is printed when n is equal to 0?","code":"int n = 0;\nif (n != 0) {\n  System.out.println(\"nonzero\");\n} else {\n  System.out.println(\"zero\");\n}","choices":["nonzero","zero","no output","compiler error"],"correctIndex":1}
+{"prompt":"Q27 (indexOf): What is the index of the first \"ss\" in \"mississippi\"?","code":"String s = \"mississippi\";\nSystem.out.println(s.indexOf(\"ss\"));","choices":["1","2","3","5"],"correctIndex":1}
+{"prompt":"Q28 (variables): What is the result of the modulus operation 8 % 3?","code":"int a = 8;\na = a % 3;\nSystem.out.println(a);","choices":["2","3","5","8"],"correctIndex":0}
+{"prompt":"Q29 (compareTo): Which is true for \"Zoo\".compareTo(\"apple\") (considering ASCII/Unicode)?","code":"// 'Z' is 90, 'a' is 97\n\"Zoo\".compareTo(\"apple\");","choices":["positive value","negative value","0","compiler error"],"correctIndex":1}
+{"prompt":"Q30 (if/else): What is printed for temp = 30?","code":"int temp = 30;\nif (temp > 90) {\n  System.out.println(\"hot\");\n} else if (temp > 60) {\n  System.out.println(\"warm\");\n} else {\n  System.out.println(\"cold\");\n}","choices":["hot","warm","cold","no output"],"correctIndex":2}
+{"prompt":"Q31 (substring): What substring is extracted by s.substring(1, 4)?","code":"String s = \"ABCDE\";\nSystem.out.println(s.substring(1, 4));","choices":["BCD","BCDE","ABCD","CDE"],"correctIndex":0}
+{"prompt":"Q32 (equals): Does x.equals(y) return true or false considering case sensitivity?","code":"String x = \"Hi\";\nString y = \"hi\";\nSystem.out.println(x.equals(y));","choices":["true","false","Sometimes true","compiler error"],"correctIndex":1}
+{"prompt":"Q33 (variables): What is the value of x after adding it to itself?","code":"int x = 4;\nx = x + x;\nSystem.out.println(x);","choices":["2","4","8","16"],"correctIndex":2}
+{"prompt":"Q34 (if): What happens when the if-condition (speed > 70) is false?","code":"int speed = 65;\nif (speed > 70) {\n  System.out.println(\"fast\");\n}","choices":["fast","no output","65","compiler error"],"correctIndex":1}
+{"prompt":"Q35 (length): What is the length of the string \"java\"?","code":"String s = \"java\";\nSystem.out.println(s.length());","choices":["2","3","4","5"],"correctIndex":2}
+{"prompt":"Q36 (indexOf): What index does s.indexOf(\"e\") return for the first 'e'?","code":"String s = \"level\";\nSystem.out.println(s.indexOf(\"e\"));","choices":["0","1","2","3"],"correctIndex":1}
+{"prompt":"Q37 (if/else): What is printed given that 9 is divisible by 3?","code":"int x = 9;\nif (x % 3 == 0) {\n  System.out.println(\"divisible\");\n} else {\n  System.out.println(\"not\");\n}","choices":["divisible","not","both","no output"],"correctIndex":0}
+{"prompt":"Q38 (compareTo): What is the result of \"cat\".compareTo(\"car\")?","code":"// 't' comes after 'r'","choices":["< 0","0","> 0","compiler error"],"correctIndex":2}
+{"prompt":"Q39 (substring): What suffix is returned by s.substring(4)?","code":"String s = \"robot\";\nSystem.out.println(s.substring(4));","choices":["t","ot","bot","rob"],"correctIndex":0}
+{"prompt":"Q40 (if/else): What is the sequence of output printed by this code?","code":"int x = 5;\nif (x > 10) {\n  System.out.println(\"hi\");\n}\nSystem.out.println(\"bye\");","choices":["hi","bye","hi bye","no output"],"correctIndex":1}
+{"prompt":"Q41 (variables): What is the calculated value of b?","code":"int a = 3;\nint b = 2 * a - 1;\nSystem.out.println(b);","choices":["1","3","5","6"],"correctIndex":2}
+{"prompt":"Q42 (strings): How many elements are in the array returned by split(\" \")?","code":"String s = \"hi there friend\";","choices":["2","3","4","1"],"correctIndex":1}
+{"prompt":"Q43 (equals): What is the output when comparing two identical string literals?","code":"String a = \"Java\";\nString b = \"Java\";\nSystem.out.println(a.equals(b));","choices":["true","false","null","compiler error"],"correctIndex":0}
+{"prompt":"Q44 (if/else): What is printed if n % 4 equals 2?","code":"int n = 10;\nif (n % 4 == 2) {\n  System.out.println(\"A\");\n} else {\n  System.out.println(\"B\");\n}","choices":["A","B","no output","compiler error"],"correctIndex":0}
+{"prompt":"Q45 (indexOf): At what index does the substring \"put\" begin?","code":"String s = \"computer\";\nSystem.out.println(s.indexOf(\"put\"));","choices":["2","3","4","5"],"correctIndex":1}
+{"prompt":"Q46 (variables): What is the final value of x?","code":"int x = 2;\nint y = 3;\nx = y - x;\nSystem.out.println(x);","choices":["-1","0","1","5"],"correctIndex":2}
+{"prompt":"Q47 (substring): What characters are included in s.substring(1, 3)?","code":"String s = \"banana\";\nSystem.out.println(s.substring(1, 3));","choices":["an","ana","nan","ba"],"correctIndex":0}
+{"prompt":"Q48 (compareTo): What is the result when the first string contains the second?","code":"\"bee\".compareTo(\"be\");","choices":["negative value","0","positive value","compiler error"],"correctIndex":2}
+{"prompt":"Q49 (if/else): Which branch executes for z = 7?","code":"int z = 7;\nif (z == 8) {\n  System.out.println(\"x\");\n} else if (z == 7) {\n  System.out.println(\"y\");\n} else {\n  System.out.println(\"z\");\n}","choices":["x","y","z","no output"],"correctIndex":1}
+{"prompt":"Q50 (variables): What is the result of the expression x / 2 + 3 using integer arithmetic?","code":"int x = 10;\nx = x / 2 + 3;\nSystem.out.println(x);","choices":["3","5","8","10"],"correctIndex":2}

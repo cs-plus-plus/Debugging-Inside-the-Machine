@@ -1,100 +1,100 @@
-{"prompt":"Q01 (arrays): What is printed?","code":"int[] a = {2,4,6};\nSystem.out.println(a[1]);","choices":["4","2","6","1"],"correctIndex":0}
-{"prompt":"Q02 (arrays): What is the length of arr?","code":"int[] arr = new int[5];","choices":["5","4","0","1"],"correctIndex":0}
-{"prompt":"Q03 (arrays): Why does this cause an ArrayIndexOutOfBoundsException?","code":"int[] x = {1,2,3};\nSystem.out.println(x[3]);","choices":["Valid indices are 0–2","Arrays cannot store ints","x must be initialized with new","The print statement is incorrect"],"correctIndex":0}
-{"prompt":"Q04 (2D arrays): What is printed?","code":"int[][] m = {{1,2},{3,4}};\nSystem.out.println(m[1][0]);","choices":["3","1","2","4"],"correctIndex":0}
-{"prompt":"Q05 (ArrayList): What is printed?","code":"ArrayList<String> list = new ArrayList<>();\nlist.add(\"A\"); list.add(\"B\");\nSystem.out.println(list.get(0));","choices":["A","B","0","AB"],"correctIndex":0}
-{"prompt":"Q06 (ArrayList): What is list.size()?","code":"ArrayList<Integer> list = new ArrayList<>();\nlist.add(5);\nlist.add(7);\nlist.remove(0);","choices":["1","2","0","-1"],"correctIndex":0}
-{"prompt":"Q07 (recursion): What is printed?","code":"public static void f(int n){\n if(n==0) return;\n System.out.print(n);\n f(n-1);\n}\nf(3);","choices":["321","123","3","32"],"correctIndex":0}
-{"prompt":"Q08 (recursion): What does this return?","code":"public static int fact(int n){\n if(n==1) return 1;\n return n * fact(n-1);\n}\nfact(3);","choices":["6","3","2","1"],"correctIndex":0}
-{"prompt":"Q09 (array traversal): What is sum?","code":"int[] a = {1,2,3};\nint sum=0;\nfor(int x:a) sum+=x;","choices":["6","3","1","9"],"correctIndex":0}
-{"prompt":"Q10 (2D arrays): Which accesses the last row?","code":"int[][] grid = new int[4][5];","choices":["grid[3]","grid[4]","grid[5]","grid[grid.length]"],"correctIndex":0}
-{"prompt":"Q11 (array): What is printed?","code":"int[] nums = {10,20,30};\nSystem.out.println(nums.length);","choices":["3","2","30","10"],"correctIndex":0}
-{"prompt":"Q12 (ArrayList): Which removes element 2?","code":"ArrayList<Integer> a = new ArrayList<>();","choices":["a.remove(2)","a.delete(2)","a.erase(2)","a.removeAt(2)"],"correctIndex":0}
-{"prompt":"Q13 (recursion): What is printed?","code":"public static void g(int n){\n if(n<=0) return;\n g(n-1);\n System.out.print(n);\n}\ng(3);","choices":["123","321","12","23"],"correctIndex":0}
-{"prompt":"Q14 (recursion): Why infinite recursion?","code":"public int m(int n){ return m(n+1);}","choices":["No base case","Return type wrong","Parameter wrong","Uses + instead of -"],"correctIndex":0}
-{"prompt":"Q15 (ArrayList): What is printed?","code":"ArrayList<String> l = new ArrayList<>();\nl.add(\"hi\");\nl.add(\"bye\");\nl.set(1, \"go\");\nSystem.out.println(l);","choices":["[hi, go]","[bye, hi]","[hi]","[go, bye]"],"correctIndex":0}
-{"prompt":"Q16 (arrays): Which fills arr with zeros?","code":"int[] arr = new int[5];","choices":["Arrays default to 0","You must loop","You must assign each","You must use Arrays.fill"],"correctIndex":0}
-{"prompt":"Q17 (2D arrays): grid.length equals?","code":"int[][] grid = new int[3][4];","choices":["3","4","7","12"],"correctIndex":0}
-{"prompt":"Q18 (2D arrays): grid[0].length equals?","code":"int[][] grid = new int[3][4];","choices":["4","3","12","1"],"correctIndex":0}
-{"prompt":"Q19 (recursion): What is printed?","code":"void h(int n){\n if(n==0)return;\n System.out.print(\"*\");\n h(n-1);\n}\nh(5);","choices":["*****","****","*",""],"correctIndex":0}
-{"prompt":"Q20 (ArrayList): What does add() return?","choices":["true","false","void","the index"],"correctIndex":0}
-{"prompt":"Q21 (arrays): What is printed?","code":"int[] x={2,4,6};\nx[1] = x[2];\nSystem.out.println(x[1]);","choices":["6","4","2","0"],"correctIndex":0}
-{"prompt":"Q22 (for loop): How many iterations?","code":"for(int i=0;i<10;i+=2)","choices":["5","10","2","4"],"correctIndex":0}
-{"prompt":"Q23 (enhanced for): Why can’t this compile?","code":"for(int i: names)","choices":["names must be int[]","names must be ArrayList<Integer>","i must be String","Enhanced for cannot be used"],"correctIndex":0}
-{"prompt":"Q24 (2D arrays): Which accesses center?","code":"int[][] m={{1,2,3},{4,5,6},{7,8,9}};","choices":["m[1][1]","m[0][1]","m[2][2]","m[1][2]"],"correctIndex":0}
-{"prompt":"Q25 (recursion): What is returned?","code":"int r(int n){ if(n<=1)return 1; return r(n-1)+1;} r(4);","choices":["4","3","2","1"],"correctIndex":0}
-{"prompt":"Q26 (ArrayList): What is printed?","code":"ArrayList<Integer> a=new ArrayList<>();a.add(1);a.add(2);a.add(3);\na.remove(1);\nSystem.out.println(a);","choices":["[1,3]","[2,3]","[1,2]","[3]"],"correctIndex":0}
-{"prompt":"Q27 (arrays): Why error?","code":"int[] a=new int[3];\na[3]=10;","choices":["3 is out of range","Array too small","Cannot assign 10","Need new"],"correctIndex":0}
-{"prompt":"Q28 (2D arrays): What prints?","code":"int[][] g={{1,2},{3,4}};\nSystem.out.println(g[0][1]);","choices":["2","1","3","4"],"correctIndex":0}
-{"prompt":"Q29 (recursion): Count calls:","code":"f(3)\n// f(n){ if(n==0)return; f(n-1);}","choices":["3","2","4","1"],"correctIndex":0}
-{"prompt":"Q30 (ArrayList): What is printed?","code":"ArrayList<String> s=new ArrayList<>();\ns.add(\"x\");s.add(\"y\");s.add(1,\"z\");\nSystem.out.println(s);","choices":["[x, z, y]","[z, x, y]","[x, y, z]","[x, z]"],"correctIndex":0}
-{"prompt":"Q31 (arrays): Which sums array?","choices":["int sum=0; for(int v:a) sum+=v;","int sum=a.length;","int sum=0; a[0]+=a[1];","sum += a;"],"correctIndex":0}
-{"prompt":"Q32 (2D arrays): What is printed?","code":"int[][] m={{0,1},{2,3}};\nSystem.out.println(m[1][1]);","choices":["3","2","1","0"],"correctIndex":0}
-{"prompt":"Q33 (recursion): Base case reached?","code":"int f(int n){ if(n<1)return n; return f(n-2);}","choices":["When n < 1","When n == 1","Never","When n==0 only"],"correctIndex":0}
-{"prompt":"Q34 (ArrayList): Why is this wrong?","code":"ArrayList<int> a=new ArrayList<int>();","choices":["Cannot use primitives","Must specify size","ArrayList must be String","Need import"],"correctIndex":0}
-{"prompt":"Q35 (arrays): What prints?","code":"int[] x={5,10,15};System.out.println(x[0]+x[2]);","choices":["20","15","10","5"],"correctIndex":0}
-{"prompt":"Q36 (2D arrays): Rows counted by?","code":"int[][] a=new int[4][7];","choices":["a.length","a[0].length","11","7"],"correctIndex":0}
-{"prompt":"Q37 (array traversal): Output?","code":"int[] arr={1,3,5};\nfor(int i=arr.length-1;i>=0;i--)System.out.print(arr[i]);","choices":["531","135","153","31"],"correctIndex":0}
-{"prompt":"Q38 (recursion): Return value?","code":"int f(int n){ if(n==1)return 2; return 2*f(n-1);} f(3)","choices":["8","6","4","2"],"correctIndex":0}
-{"prompt":"Q39 (ArrayList): Which checks containment?","choices":["list.contains(x)","list.has(x)","list.includes(x)","list.find(x)"],"correctIndex":0}
-{"prompt":"Q40 (arrays): What prints?","code":"int[] a={1,2};a[0]=a[1];System.out.println(a[0]);","choices":["2","1","0","Error"],"correctIndex":0}
-{"prompt":"Q41 (2D arrays): Which accesses last col of row r?","choices":["grid[r][grid[0].length-1]","grid[r][0]","grid[grid.length][r]","grid[1][r]"],"correctIndex":0}
-{"prompt":"Q42 (recursion): Output?","code":"static void p(int n){ if(n==0)return; p(n-1); System.out.print(\"*\");} p(3);","choices":["***","*","****",""],"correctIndex":0}
-{"prompt":"Q43 (ArrayList): Why does size grow?","code":"list.add(10); list.add(20);","choices":["add() appends","size increases only on remove","lists are fixed size","must call grow()"],"correctIndex":0}
-{"prompt":"Q44 (arrays): Which copies arr to b?","choices":["for(int i=0;i<arr.length;i++) b[i]=arr[i];","b=arr;","b.add(arr);","arr.copy(b);"],"correctIndex":0}
-{"prompt":"Q45 (2D arrays): Output?","code":"int[][] a={{1,2},{3,4}};\nSystem.out.println(a[0].length);","choices":["2","4","1","3"],"correctIndex":0}
-{"prompt":"Q46 (recursion): Why stack overflow?","code":"f(n){return f(n);}","choices":["Calls itself with same n","Missing return","Uses parentheses wrong","Not static"],"correctIndex":0}
-{"prompt":"Q47 (ArrayList): What prints?","code":"ArrayList<String>s=new ArrayList<>(); s.add(\"A\"); s.add(0,\"B\"); System.out.println(s);","choices":["[B, A]","[A, B]","[B]","[]"],"correctIndex":0}
-{"prompt":"Q48 (arrays): What prints?","code":"int[] x=new int[3];System.out.println(x[1]);","choices":["0","1","null","undefined"],"correctIndex":0}
-{"prompt":"Q49 (2D arrays): Which loops all?","choices":["for(int r=0;r<m.length;r++) for(int c=0;c<m[0].length;c++)","for(int i:m)","for(c=0;c<col;c++)","for(int r=1;r<=m.length;r++)"],"correctIndex":0}
-{"prompt":"Q50 (recursion): Return?","code":"int g(int n){ if(n==0)return 0; return n+g(n-1);} g(3);","choices":["6","3","4","1"],"correctIndex":0}
-{"prompt":"Q51 (ArrayList): Why compile error?","code":"ArrayList<String> a=new ArrayList<>(); a[0]=\"x\";","choices":["Use set()","Strings not allowed","[] invalid syntax in Java","Must size first"],"correctIndex":0}
-{"prompt":"Q52 (arrays): Output?","code":"int[] a={1,2,3,4};System.out.println(a[a.length-1]);","choices":["4","3","1","0"],"correctIndex":0}
-{"prompt":"Q53 (2D arrays): Value?","code":"int[][] a={{5},{7,8}}; System.out.println(a[1][0]);","choices":["7","5","8","Error"],"correctIndex":0}
-{"prompt":"Q54 (recursion): How many stars?","code":"void s(int n){ if(n<=0)return; System.out.print(\"*\"); s(n-2);} s(5);","choices":["3","5","2","4"],"correctIndex":0}
-{"prompt":"Q55 (ArrayList): What prints?","code":"ArrayList<Integer>a=new ArrayList<>(); a.add(1); a.add(2); a.set(0,5); System.out.println(a);","choices":["[5,2]","[1,5]","[2,1]","[5]"],"correctIndex":0}
-{"prompt":"Q56 (arrays): Which reverses arr?","choices":["for(int i=0;i<arr.length/2;i++){int t=arr[i];arr[i]=arr[arr.length-1-i];arr[arr.length-1-i]=t;}","arr.reverse();","arr.flip();","arr = reversed;"],"correctIndex":0}
-{"prompt":"Q57 (2D arrays): Output?","code":"int[][] g={{1,2},{3,4},{5,6}}; System.out.println(g.length);","choices":["3","2","6","1"],"correctIndex":0}
-{"prompt":"Q58 (recursion): Base case?","code":"int f(int n){ return f(n-1);}","choices":["Missing","n==0","n==1","n<0"],"correctIndex":0}
-{"prompt":"Q59 (ArrayList): Which adds at front?","choices":["list.add(0,x)","list.pushFront(x)","list.insert(x)","list.prepend(x)"],"correctIndex":0}
-{"prompt":"Q60 (arrays): What prints?","code":"int[] x={0,1,2}; for(int i:x) System.out.print(i);","choices":["012","210","001","22"],"correctIndex":0}
-{"prompt":"Q61 (2D arrays): What prints?","code":"int[][] m={{2,4},{6,8}};\nSystem.out.println(m[0][0]+m[1][1]);","choices":["10","8","6","2"],"correctIndex":0}
-{"prompt":"Q62 (recursion): Return?","code":"int r(int n){ if(n==1)return 1; return r(n-1);} r(5);","choices":["1","5","0","Error"],"correctIndex":0}
-{"prompt":"Q63 (ArrayList): Output?","code":"ArrayList<String> a=new ArrayList<>(); a.add(\"a\"); a.add(\"b\"); a.remove(\"a\"); System.out.println(a);","choices":["[b]","[a,b]","[]","[a]"],"correctIndex":0}
-{"prompt":"Q64 (arrays): Which sums even indices?","choices":["for(int i=0;i<a.length;i+=2) sum+=a[i];","for(int i=1;i<a.length;i+=2) sum+=a[i];","for(int i:a) if(i%2==0)sum+=i;","sum+=a[1];"],"correctIndex":0}
-{"prompt":"Q65 (2D arrays): Which retrieves bottom left?","code":"int[][] a={{1,2},{3,4}};","choices":["a[1][0]","a[0][0]","a[0][1]","a[1][1]"],"correctIndex":0}
-{"prompt":"Q66 (recursion): Calls count?","code":"f(2){ if(n==0)return; f(n-1);}","choices":["2","1","3","0"],"correctIndex":0}
-{"prompt":"Q67 (ArrayList): Why error?","code":"list.get(5);","choices":["Index too large","List empty","get requires 2 params","List must be int"],"correctIndex":0}
-{"prompt":"Q68 (arrays): Output?","code":"int[] a={3,6}; a[1]=a[0]; System.out.println(a[1]);","choices":["3","6","0","Error"],"correctIndex":0}
-{"prompt":"Q69 (2D arrays): grid[1] refers to?","choices":["the entire second row","second column","first column","a single cell"],"correctIndex":0}
-{"prompt":"Q70 (recursion): What prints?","code":"void p(int n){ if(n==0)return; System.out.print(n); p(n/2);} p(8);","choices":["8421","8642","8","421"],"correctIndex":0}
-{"prompt":"Q71 (ArrayList): Output?","code":"ArrayList<Integer>a=new ArrayList<>(); a.add(10); a.add(20); System.out.println(a.size());","choices":["2","1","0","20"],"correctIndex":0}
-{"prompt":"Q72 (arrays): Which is valid?","choices":["int[] x=new int[10];","int x=new int[10];","int[10] x=new int[];","new array int[5];"],"correctIndex":0}
-{"prompt":"Q73 (2D arrays): Output?","code":"int[][] x={{1,2},{3,4}}; System.out.println(x[1].length);","choices":["2","1","4","Error"],"correctIndex":0}
-{"prompt":"Q74 (recursion): Why return 1?","code":"f(1){ if(n==1)return 1;}","choices":["Base case","Recurses incorrectly","1 is default","Compiler chooses"],"correctIndex":0}
-{"prompt":"Q75 (ArrayList): Which iterates correctly?","choices":["for(int i=0;i<list.size();i++)","for(int i=1;i<=list;i++)","for(i=0;i<list;i++)","for(int v:list.size())"],"correctIndex":0}
-{"prompt":"Q76 (arrays): Output?","code":"int[] a={9,8,7}; for(int i=0;i<2;i++) System.out.print(a[i]);","choices":["98","987","87","9"],"correctIndex":0}
-{"prompt":"Q77 (2D arrays): Which sums row 0?","choices":["for(int c=0;c<m[0].length;c++) sum+=m[0][c];","sum+=m[c][0];","sum+=m[1][c];","m[0].sum();"],"correctIndex":0}
-{"prompt":"Q78 (recursion): How many calls?","code":"f(4){ if(n==0)return; f(n-1);}","choices":["4","5","3","2"],"correctIndex":0}
-{"prompt":"Q79 (ArrayList): Output?","code":"ArrayList<Integer> a=new ArrayList<>(); a.add(1); a.add(2); a.clear(); System.out.println(a.size());","choices":["0","1","2","null"],"correctIndex":0}
-{"prompt":"Q80 (arrays): Which swaps first/last?","choices":["int temp=a[0]; a[0]=a[a.length-1]; a[a.length-1]=temp;","a.swap();","a.reverse();","temp=a[1];"],"correctIndex":0}
-{"prompt":"Q81 (2D arrays): Which loops all rows?","choices":["for(int r=0;r<m.length;r++)","for(int c=0;c<m.length;c++)","for(r:m)","for(int i=1;i<m.length;i++)"],"correctIndex":0}
-{"prompt":"Q82 (recursion): Output?","code":"void f(int n){ if(n<=0)return; System.out.print(\"+\"); f(n-3);} f(7);","choices":["+++","++++","++","+"],"correctIndex":0}
-{"prompt":"Q83 (ArrayList): Why size 3?","code":"a.add(1);a.add(2);a.add(3);","choices":["Three adds","ArrayList starts at 3","Indexing starts at 1","Implicit fill"],"correctIndex":0}
-{"prompt":"Q84 (arrays): Output?","code":"int[] a={5,6,7,8}; System.out.println(a[2]);","choices":["7","6","8","5"],"correctIndex":0}
-{"prompt":"Q85 (2D arrays): Value at grid[2][1]?","code":"int[][] g={{1,2},{3,4},{5,6}};","choices":["6","5","4","2"],"correctIndex":0}
-{"prompt":"Q86 (recursion): Return?","code":"int f(int n){ if(n<=1)return n; return f(n-1)+f(n-2);} f(4);","choices":["3","4","5","2"],"correctIndex":0}
-{"prompt":"Q87 (ArrayList): Which gets last?","choices":["list.get(list.size()-1)","list.get(list.size())","list.last()","list[-1]"],"correctIndex":0}
-{"prompt":"Q88 (arrays): Why error?","code":"int[] a=null;\nSystem.out.println(a.length);","choices":["Null pointer","Bad array size","length invalid","Needs import"],"correctIndex":0}
-{"prompt":"Q89 (2D arrays): Which prints diagonal?","choices":["for(int i=0;i<g.length;i++) System.out.print(g[i][i]);","g[0][1]","g[i][0]","g[0][i]"],"correctIndex":0}
-{"prompt":"Q90 (recursion): Output?","code":"void f(int n){ if(n==0)return; System.out.print(n%2); f(n/2);} f(5);","choices":["101","110","011","10"],"correctIndex":0}
-{"prompt":"Q91 (ArrayList): Output?","code":"ArrayList<String>a=new ArrayList<>();a.add(\"X\");a.add(\"Y\");a.set(1,\"Z\");System.out.println(a.get(1));","choices":["Z","Y","X","[X,Z]"],"correctIndex":0}
-{"prompt":"Q92 (arrays): Which initializes?","choices":["int[] a={1,2,3};","int a[]=new int();","int a[]=int[3];","a={1,2,3};"],"correctIndex":0}
-{"prompt":"Q93 (2D arrays): Output?","code":"int[][] a={{9,8},{7,6}}; System.out.println(a[1][1]);","choices":["6","7","8","9"],"correctIndex":0}
-{"prompt":"Q94 (recursion): Why terminate?","code":"f(n){ if(n==0)return; f(n-1);}","choices":["Reaches base","No calls","Stack full","Compiler stops it"],"correctIndex":0}
-{"prompt":"Q95 (ArrayList): Output?","code":"ArrayList<Integer>a=new ArrayList<>(); a.add(5); a.add(7); System.out.println(a.contains(5));","choices":["true","false","5","Error"],"correctIndex":0}
-{"prompt":"Q96 (arrays): Output?","code":"int[] a={3,1,4}; System.out.println(a[1]+a[2]);","choices":["5","3","1","4"],"correctIndex":0}
-{"prompt":"Q97 (2D arrays): Total rows?","code":"int[][] x=new int[5][9];","choices":["5","9","45","14"],"correctIndex":0}
-{"prompt":"Q98 (recursion): Calls count?","code":"f(n){ if(n<=0)return; f(n-1);} f(6);","choices":["6","5","7","1"],"correctIndex":0}
-{"prompt":"Q99 (ArrayList): Which clears?","choices":["list.clear()","list.empty()","list.reset()","list.drop()"],"correctIndex":0}
-{"prompt":"Q100 (arrays): Output?","code":"int[] a={2,4,8}; for(int i=0;i<a.length;i++)System.out.print(a[i]/2);","choices":["124","248","012","24"],"correctIndex":0}
+{"prompt":"Q01 (arrays): What integer value is printed to the console?","code":"int[] a = {2, 4, 6};\nSystem.out.println(a[1]);","choices":["4","2","6","1"],"correctIndex":0}
+{"prompt":"Q02 (arrays): What is the initial length of the array 'arr'?","code":"int[] arr = new int[5];","choices":["5","4","0","1"],"correctIndex":0}
+{"prompt":"Q03 (arrays): What is the specific reason this code throws an ArrayIndexOutOfBoundsException?","code":"int[] x = {1, 2, 3};\nSystem.out.println(x[3]);","choices":["Valid indices are 0–2","Arrays cannot store ints","x must be initialized with new","The print statement is incorrect"],"correctIndex":0}
+{"prompt":"Q04 (2D arrays): What value is printed when accessing m[1][0]?","code":"int[][] m = {{1, 2}, {3, 4}};\nSystem.out.println(m[1][0]);","choices":["3","1","2","4"],"correctIndex":0}
+{"prompt":"Q05 (ArrayList): What string is printed by the get(0) method?","code":"ArrayList<String> list = new ArrayList<>();\nlist.add(\"A\");\nlist.add(\"B\");\nSystem.out.println(list.get(0));","choices":["A","B","0","AB"],"correctIndex":0}
+{"prompt":"Q06 (ArrayList): What is the return value of list.size() after these operations?","code":"ArrayList<Integer> list = new ArrayList<>();\nlist.add(5);\nlist.add(7);\nlist.remove(0);","choices":["1","2","0","-1"],"correctIndex":0}
+{"prompt":"Q07 (recursion): What sequence of numbers is printed by this recursive method?","code":"public static void f(int n) {\n  if (n == 0) return;\n  System.out.print(n);\n  f(n - 1);\n}\n\nf(3);","choices":["321","123","3","32"],"correctIndex":0}
+{"prompt":"Q08 (recursion): What value is returned by the call fact(3)?","code":"public static int fact(int n) {\n  if (n == 1) return 1;\n  return n * fact(n - 1);\n}\n\nfact(3);","choices":["6","3","2","1"],"correctIndex":0}
+{"prompt":"Q09 (array traversal): What is the final value of the variable 'sum' after the loop?","code":"int[] a = {1, 2, 3};\nint sum = 0;\nfor (int x : a) {\n  sum += x;\n}","choices":["6","3","1","9"],"correctIndex":0}
+{"prompt":"Q10 (2D arrays): Which expression correctly accesses the last row of the 2D array?","code":"int[][] grid = new int[4][5];","choices":["grid[3]","grid[4]","grid[5]","grid[grid.length]"],"correctIndex":0}
+{"prompt":"Q11 (array): What integer value is printed for nums.length?","code":"int[] nums = {10, 20, 30};\nSystem.out.println(nums.length);","choices":["3","2","30","10"],"correctIndex":0}
+{"prompt":"Q12 (ArrayList): Which method call correctly removes the element at index 2?","code":"ArrayList<Integer> a = new ArrayList<>();","choices":["a.remove(2)","a.delete(2)","a.erase(2)","a.removeAt(2)"],"correctIndex":0}
+{"prompt":"Q13 (recursion): What is the output sequence of this recursive function?","code":"public static void g(int n) {\n  if (n <= 0) return;\n  g(n - 1);\n  System.out.print(n);\n}\n\ng(3);","choices":["123","321","12","23"],"correctIndex":0}
+{"prompt":"Q14 (recursion): Why does this method result in infinite recursion (StackOverflowError)?","code":"public int m(int n) {\n  return m(n + 1);\n}","choices":["No base case","Return type wrong","Parameter wrong","Uses + instead of -"],"correctIndex":0}
+{"prompt":"Q15 (ArrayList): What is the content of the list printed to the console?","code":"ArrayList<String> l = new ArrayList<>();\nl.add(\"hi\");\nl.add(\"bye\");\nl.set(1, \"go\");\nSystem.out.println(l);","choices":["[hi, go]","[bye, hi]","[hi]","[go, bye]"],"correctIndex":0}
+{"prompt":"Q16 (arrays): How are the elements of this integer array initialized by default?","code":"int[] arr = new int[5];","choices":["Arrays default to 0","You must loop","You must assign each","You must use Arrays.fill"],"correctIndex":0}
+{"prompt":"Q17 (2D arrays): What is the integer value of grid.length?","code":"int[][] grid = new int[3][4];","choices":["3","4","7","12"],"correctIndex":0}
+{"prompt":"Q18 (2D arrays): What is the integer value of grid[0].length?","code":"int[][] grid = new int[3][4];","choices":["4","3","12","1"],"correctIndex":0}
+{"prompt":"Q19 (recursion): How many asterisks are printed by the call h(5)?","code":"void h(int n) {\n  if (n == 0) return;\n  System.out.print(\"*\");\n  h(n - 1);\n}\n\nh(5);","choices":["*****","****","*",""],"correctIndex":0}
+{"prompt":"Q20 (ArrayList): What is the return type and value of the ArrayList.add() method?","choices":["true","false","void","the index"],"correctIndex":0}
+{"prompt":"Q21 (arrays): What value is printed for x[1] after the assignment?","code":"int[] x = {2, 4, 6};\nx[1] = x[2];\nSystem.out.println(x[1]);","choices":["6","4","2","0"],"correctIndex":0}
+{"prompt":"Q22 (for loop): How many times does the loop body execute?","code":"for (int i = 0; i < 10; i += 2)","choices":["5","10","2","4"],"correctIndex":0}
+{"prompt":"Q23 (enhanced for): What is the specific syntax error preventing this code from compiling?","code":"String[] names = {\"A\", \"B\"};\nfor (int i : names)","choices":["names holds Strings, i is int","names must be ArrayList<Integer>","i must be double","Enhanced for cannot be used"],"correctIndex":0}
+{"prompt":"Q24 (2D arrays): Which array access expression retrieves the center value (5)?","code":"int[][] m = {\n  {1, 2, 3},\n  {4, 5, 6},\n  {7, 8, 9}\n};","choices":["m[1][1]","m[0][1]","m[2][2]","m[1][2]"],"correctIndex":0}
+{"prompt":"Q25 (recursion): What integer value is returned by the call r(4)?","code":"int r(int n) {\n  if (n <= 1) return 1;\n  return r(n - 1) + 1;\n}\n\nr(4);","choices":["4","3","2","1"],"correctIndex":0}
+{"prompt":"Q26 (ArrayList): What is the state of the list after removing the element at index 1?","code":"ArrayList<Integer> a = new ArrayList<>();\na.add(1);\na.add(2);\na.add(3);\na.remove(1);\nSystem.out.println(a);","choices":["[1, 3]","[2, 3]","[1, 2]","[3]"],"correctIndex":0}
+{"prompt":"Q27 (arrays): Why does the assignment a[3]=10 cause a runtime error?","code":"int[] a = new int[3];\na[3] = 10;","choices":["3 is out of range","Array too small","Cannot assign 10","Need new"],"correctIndex":0}
+{"prompt":"Q28 (2D arrays): What value is printed from the 2D array at indices [0][1]?","code":"int[][] g = {\n  {1, 2},\n  {3, 4}\n};\nSystem.out.println(g[0][1]);","choices":["2","1","3","4"],"correctIndex":0}
+{"prompt":"Q29 (recursion): Including the initial call, how many times is function f invoked?","code":"// Definition\nvoid f(int n) {\n  if (n == 0) return;\n  f(n - 1);\n}\n\n// Call\nf(3);","choices":["4","3","2","1"],"correctIndex":0}
+{"prompt":"Q30 (ArrayList): What is the order of elements in the list after the insertion?","code":"ArrayList<String> s = new ArrayList<>();\ns.add(\"x\");\ns.add(\"y\");\ns.add(1, \"z\");\nSystem.out.println(s);","choices":["[x, z, y]","[z, x, y]","[x, y, z]","[x, z]"],"correctIndex":0}
+{"prompt":"Q31 (arrays): Which code snippet correctly calculates the sum of all elements in array 'a'?","choices":["int sum=0; for(int v:a) sum+=v;","int sum=a.length;","int sum=0; a[0]+=a[1];","sum += a;"],"correctIndex":0}
+{"prompt":"Q32 (2D arrays): What value is printed from the 2D array at m[1][1]?","code":"int[][] m = {\n  {0, 1},\n  {2, 3}\n};\nSystem.out.println(m[1][1]);","choices":["3","2","1","0"],"correctIndex":0}
+{"prompt":"Q33 (recursion): Under what condition is the base case (returning n) reached?","code":"int f(int n) {\n  if (n < 1) return n;\n  return f(n - 2);\n}","choices":["When n < 1","When n == 1","Never","When n==0 only"],"correctIndex":0}
+{"prompt":"Q34 (ArrayList): Why does the declaration ArrayList<int> cause a compilation error?","code":"ArrayList<int> a = new ArrayList<int>();","choices":["Cannot use primitives","Must specify size","ArrayList must be String","Need import"],"correctIndex":0}
+{"prompt":"Q35 (arrays): What is the result of the arithmetic expression x[0]+x[2]?","code":"int[] x = {5, 10, 15};\nSystem.out.println(x[0] + x[2]);","choices":["20","15","10","5"],"correctIndex":0}
+{"prompt":"Q36 (2D arrays): Which expression represents the number of rows in this 2D array?","code":"int[][] a = new int[4][7];","choices":["a.length","a[0].length","11","7"],"correctIndex":0}
+{"prompt":"Q37 (array traversal): What is the output of this reverse traversal loop?","code":"int[] arr = {1, 3, 5};\nfor (int i = arr.length - 1; i >= 0; i--) {\n  System.out.print(arr[i]);\n}","choices":["531","135","153","31"],"correctIndex":0}
+{"prompt":"Q38 (recursion): What is the final return value of f(3)?","code":"int f(int n) {\n  if (n == 1) return 2;\n  return 2 * f(n - 1);\n}\n\nf(3);","choices":["8","6","4","2"],"correctIndex":0}
+{"prompt":"Q39 (ArrayList): Which method is used to check if a specific element exists in an ArrayList?","choices":["list.contains(x)","list.has(x)","list.includes(x)","list.find(x)"],"correctIndex":0}
+{"prompt":"Q40 (arrays): What value is printed for a[0] after the assignment?","code":"int[] a = {1, 2};\na[0] = a[1];\nSystem.out.println(a[0]);","choices":["2","1","0","Error"],"correctIndex":0}
+{"prompt":"Q41 (2D arrays): Which expression correctly accesses the last column of a specific row 'r'?","choices":["grid[r][grid[r].length-1]","grid[r][0]","grid[grid.length][r]","grid[1][r]"],"correctIndex":0}
+{"prompt":"Q42 (recursion): What pattern of asterisks is produced by p(3)?","code":"static void p(int n) {\n  if (n == 0) return;\n  p(n - 1);\n  System.out.print(\"*\");\n}\n\np(3);","choices":["***","*","****",""],"correctIndex":0}
+{"prompt":"Q43 (ArrayList): What mechanism allows an ArrayList to grow dynamically?","code":"list.add(10);\nlist.add(20);","choices":["add() appends","size increases only on remove","lists are fixed size","must call grow()"],"correctIndex":0}
+{"prompt":"Q44 (arrays): Which code snippet correctly copies all elements from array 'arr' to array 'b'?","choices":["for(int i=0;i<arr.length;i++) b[i]=arr[i];","b=arr;","b.add(arr);","arr.copy(b);"],"correctIndex":0}
+{"prompt":"Q45 (2D arrays): What value is printed by a[0].length?","code":"int[][] a = {{1, 2}, {3, 4}};\nSystem.out.println(a[0].length);","choices":["2","4","1","3"],"correctIndex":0}
+{"prompt":"Q46 (recursion): What logical error causes this recursive method to overflow the stack?","code":"void f(int n) {\n  return f(n);\n}","choices":["Calls itself with same n","Missing return","Uses parentheses wrong","Not static"],"correctIndex":0}
+{"prompt":"Q47 (ArrayList): What is the order of elements after adding 'B' at index 0?","code":"ArrayList<String> s = new ArrayList<>();\ns.add(\"A\");\ns.add(0, \"B\");\nSystem.out.println(s);","choices":["[B, A]","[A, B]","[B]","[]"],"correctIndex":0}
+{"prompt":"Q48 (arrays): What is the default value printed for x[1]?","code":"int[] x = new int[3];\nSystem.out.println(x[1]);","choices":["0","1","null","undefined"],"correctIndex":0}
+{"prompt":"Q49 (2D arrays): Which nested loop structure correctly traverses every element in 2D array 'm'?","choices":["for(int r=0;r<m.length;r++) for(int c=0;c<m[r].length;c++)","for(int i:m)","for(c=0;c<col;c++)","for(int r=1;r<=m.length;r++)"],"correctIndex":0}
+{"prompt":"Q50 (recursion): What is the calculated return value of g(3)?","code":"int g(int n) {\n  if (n == 0) return 0;\n  return n + g(n - 1);\n}\n\ng(3);","choices":["6","3","4","1"],"correctIndex":0}
+{"prompt":"Q51 (ArrayList): Why is the syntax a[0]=\"x\" invalid for an ArrayList?","code":"ArrayList<String> a = new ArrayList<>();\na[0] = \"x\";","choices":["Use set()","Strings not allowed","[] invalid syntax in Java","Must size first"],"correctIndex":0}
+{"prompt":"Q52 (arrays): What value is accessed by the index a.length-1?","code":"int[] a = {1, 2, 3, 4};\nSystem.out.println(a[a.length - 1]);","choices":["4","3","1","0"],"correctIndex":0}
+{"prompt":"Q53 (2D arrays): What value is retrieved by accessing a[1][0] in this jagged array?","code":"int[][] a = {\n  {5},\n  {7, 8}\n};\nSystem.out.println(a[1][0]);","choices":["7","5","8","Error"],"correctIndex":0}
+{"prompt":"Q54 (recursion): How many asterisks are printed in total by s(5)?","code":"void s(int n) {\n  if (n <= 0) return;\n  System.out.print(\"*\");\n  s(n - 2);\n}\n\ns(5);","choices":["3","5","2","4"],"correctIndex":0}
+{"prompt":"Q55 (ArrayList): What is the list content after setting the element at index 0?","code":"ArrayList<Integer> a = new ArrayList<>();\na.add(1);\na.add(2);\na.set(0, 5);\nSystem.out.println(a);","choices":["[5, 2]","[1, 5]","[2, 1]","[5]"],"correctIndex":0}
+{"prompt":"Q56 (arrays): Which loop logic correctly reverses the array elements in place?","choices":["for(int i=0;i<arr.length/2;i++){int t=arr[i];arr[i]=arr[arr.length-1-i];arr[arr.length-1-i]=t;}","arr.reverse();","arr.flip();","arr = reversed;"],"correctIndex":0}
+{"prompt":"Q57 (2D arrays): What is the value of g.length for this 3x2 array?","code":"int[][] g = {\n  {1, 2},\n  {3, 4},\n  {5, 6}\n};\nSystem.out.println(g.length);","choices":["3","2","6","1"],"correctIndex":0}
+{"prompt":"Q58 (recursion): What is the base case condition in this recursive method?","code":"int f(int n) {\n  return f(n - 1);\n}","choices":["Missing","n==0","n==1","n<0"],"correctIndex":0}
+{"prompt":"Q59 (ArrayList): Which method call adds an element 'x' to the beginning of the list?","choices":["list.add(0,x)","list.pushFront(x)","list.insert(x)","list.prepend(x)"],"correctIndex":0}
+{"prompt":"Q60 (arrays): What sequence is printed by the enhanced for-loop?","code":"int[] x = {0, 1, 2};\nfor (int i : x) {\n  System.out.print(i);\n}","choices":["012","210","001","22"],"correctIndex":0}
+{"prompt":"Q61 (2D arrays): What is the sum of m[0][0] and m[1][1]?","code":"int[][] m = {\n  {2, 4},\n  {6, 8}\n};\nSystem.out.println(m[0][0] + m[1][1]);","choices":["10","8","6","2"],"correctIndex":0}
+{"prompt":"Q62 (recursion): What happens when r(5) is called given the lack of a reduction step?","code":"int r(int n) {\n  if (n == 1) return 1;\n  return r(n - 1);\n}\n\nr(5);","choices":["1","5","0","Error"],"correctIndex":0}
+{"prompt":"Q63 (ArrayList): What remains in the list after removing the object \"a\"?","code":"ArrayList<String> a = new ArrayList<>();\na.add(\"a\");\na.add(\"b\");\na.remove(\"a\");\nSystem.out.println(a);","choices":["[b]","[a, b]","[]","[a]"],"correctIndex":0}
+{"prompt":"Q64 (arrays): Which loop correctly sums elements at even indices (0, 2, 4...)?","choices":["for(int i=0;i<a.length;i+=2) sum+=a[i];","for(int i=1;i<a.length;i+=2) sum+=a[i];","for(int i:a) if(i%2==0)sum+=i;","sum+=a[1];"],"correctIndex":0}
+{"prompt":"Q65 (2D arrays): Which index pair retrieves the bottom-left element (3)?","code":"int[][] a = {\n  {1, 2},\n  {3, 4}\n};","choices":["a[1][0]","a[0][0]","a[0][1]","a[1][1]"],"correctIndex":0}
+{"prompt":"Q66 (recursion): How many times is method f called, including the initial call f(2)?","code":"void f(int n) {\n  if (n == 0) return;\n  f(n - 1);\n}\n\nf(2);","choices":["3","2","1","0"],"correctIndex":0}
+{"prompt":"Q67 (ArrayList): Why does list.get(5) throw an IndexOutOfBoundsException here?","code":"ArrayList<Integer> list = new ArrayList<>();\nlist.get(5);","choices":["Index too large","List empty","get requires 2 params","List must be int"],"correctIndex":0}
+{"prompt":"Q68 (arrays): What value is stored in a[1] after the assignment?","code":"int[] a = {3, 6};\na[1] = a[0];\nSystem.out.println(a[1]);","choices":["3","6","0","Error"],"correctIndex":0}
+{"prompt":"Q69 (2D arrays): What does the expression grid[1] represent in a 2D array?","choices":["the entire second row","second column","first column","a single cell"],"correctIndex":0}
+{"prompt":"Q70 (recursion): What sequence of numbers is printed by p(8)?","code":"void p(int n) {\n  if (n == 0) return;\n  System.out.print(n);\n  p(n / 2);\n}\n\np(8);","choices":["8421","8642","8","421"],"correctIndex":0}
+{"prompt":"Q71 (ArrayList): What is the size of the ArrayList after adding two integers?","code":"ArrayList<Integer> a = new ArrayList<>();\na.add(10);\na.add(20);\nSystem.out.println(a.size());","choices":["2","1","0","20"],"correctIndex":0}
+{"prompt":"Q72 (arrays): Which syntax correctly declares and instantiates an integer array of size 10?","choices":["int[] x=new int[10];","int x=new int[10];","int[10] x=new int[];","new array int[5];"],"correctIndex":0}
+{"prompt":"Q73 (2D arrays): What is the length of the second row (x[1])?","code":"int[][] x = {{1, 2}, {3, 4}};\nSystem.out.println(x[1].length);","choices":["2","1","4","Error"],"correctIndex":0}
+{"prompt":"Q74 (recursion): Why does the function return 1 when n equals 1?","code":"int f(int n) {\n  if (n == 1) return 1;\n  // ...\n}","choices":["Base case","Recurses incorrectly","1 is default","Compiler chooses"],"correctIndex":0}
+{"prompt":"Q75 (ArrayList): Which for-loop header correctly iterates through all indices of an ArrayList?","choices":["for(int i=0;i<list.size();i++)","for(int i=1;i<=list;i++)","for(i=0;i<list;i++)","for(int v:list.size())"],"correctIndex":0}
+{"prompt":"Q76 (arrays): What output is produced by the loop iterating from 0 to 1?","code":"int[] a = {9, 8, 7};\nfor (int i = 0; i < 2; i++) {\n  System.out.print(a[i]);\n}","choices":["98","987","87","9"],"correctIndex":0}
+{"prompt":"Q77 (2D arrays): Which loop structure correctly calculates the sum of the first row?","choices":["for(int c=0;c<m[0].length;c++) sum+=m[0][c];","sum+=m[c][0];","sum+=m[1][c];","m[0].sum();"],"correctIndex":0}
+{"prompt":"Q78 (recursion): How many total method calls occur for f(4)?","code":"void f(int n) {\n  if (n == 0) return;\n  f(n - 1);\n}\n\nf(4);","choices":["5","4","3","2"],"correctIndex":0}
+{"prompt":"Q79 (ArrayList): What is the size of the list after calling clear()?","code":"ArrayList<Integer> a = new ArrayList<>();\na.add(1);\na.add(2);\na.clear();\nSystem.out.println(a.size());","choices":["0","1","2","null"],"correctIndex":0}
+{"prompt":"Q80 (arrays): Which code block correctly swaps the first and last elements of array 'a'?","choices":["int temp=a[0]; a[0]=a[a.length-1]; a[a.length-1]=temp;","a.swap();","a.reverse();","temp=a[1];"],"correctIndex":0}
+{"prompt":"Q81 (2D arrays): Which loop header correctly iterates through every row of 2D array 'm'?","choices":["for(int r=0;r<m.length;r++)","for(int c=0;c<m.length;c++)","for(r:m)","for(int i=1;i<m.length;i++)"],"correctIndex":0}
+{"prompt":"Q82 (recursion): What string of plus signs is printed by f(7)?","code":"void f(int n) {\n  if (n <= 0) return;\n  System.out.print(\"+\");\n  f(n - 3);\n}\n\nf(7);","choices":["+++","++++","++","+"],"correctIndex":0}
+{"prompt":"Q83 (ArrayList): Why is the size of the list 3 after these add operations?","code":"a.add(1);\na.add(2);\na.add(3);","choices":["Three adds","ArrayList starts at 3","Indexing starts at 1","Implicit fill"],"correctIndex":0}
+{"prompt":"Q84 (arrays): What element is at index 2 of the array?","code":"int[] a = {5, 6, 7, 8};\nSystem.out.println(a[2]);","choices":["7","6","8","5"],"correctIndex":0}
+{"prompt":"Q85 (2D arrays): What integer value is stored at grid[2][1]?","code":"int[][] g = {\n  {1, 2},\n  {3, 4},\n  {5, 6}\n};","choices":["6","5","4","2"],"correctIndex":0}
+{"prompt":"Q86 (recursion): What is the Fibonacci-like return value of f(4)?","code":"int f(int n) {\n  if (n <= 1) return n;\n  return f(n - 1) + f(n - 2);\n}\n\nf(4);","choices":["3","4","5","2"],"correctIndex":0}
+{"prompt":"Q87 (ArrayList): Which expression correctly retrieves the last element of the list?","choices":["list.get(list.size()-1)","list.get(list.size())","list.last()","list[-1]"],"correctIndex":0}
+{"prompt":"Q88 (arrays): Why does accessing a.length throw a NullPointerException?","code":"int[] a = null;\nSystem.out.println(a.length);","choices":["Null pointer","Bad array size","length invalid","Needs import"],"correctIndex":0}
+{"prompt":"Q89 (2D arrays): Which loop correctly prints the main diagonal elements (0,0), (1,1), etc.?","choices":["for(int i=0;i<g.length;i++) System.out.print(g[i][i]);","g[0][1]","g[i][0]","g[0][i]"],"correctIndex":0}
+{"prompt":"Q90 (recursion): What binary-like sequence is printed by f(5)?","code":"void f(int n) {\n  if (n == 0) return;\n  System.out.print(n % 2);\n  f(n / 2);\n}\n\nf(5);","choices":["101","110","011","10"],"correctIndex":0}
+{"prompt":"Q91 (ArrayList): What value is at index 1 after the set operation?","code":"ArrayList<String> a = new ArrayList<>();\na.add(\"X\");\na.add(\"Y\");\na.set(1, \"Z\");\nSystem.out.println(a.get(1));","choices":["Z","Y","X","[X,Z]"],"correctIndex":0}
+{"prompt":"Q92 (arrays): Which line of code correctly uses an array initializer list?","choices":["int[] a={1,2,3};","int a[]=new int();","int a[]=int[3];","a={1,2,3};"],"correctIndex":0}
+{"prompt":"Q93 (2D arrays): What value is printed from the 2D array at a[1][1]?","code":"int[][] a = {\n  {9, 8},\n  {7, 6}\n};\nSystem.out.println(a[1][1]);","choices":["6","7","8","9"],"correctIndex":0}
+{"prompt":"Q94 (recursion): What mechanism ensures this recursive function terminates?","code":"void f(int n) {\n  if (n == 0) return;\n  f(n - 1);\n}","choices":["Reaches base","No calls","Stack full","Compiler stops it"],"correctIndex":0}
+{"prompt":"Q95 (ArrayList): What boolean value does a.contains(5) return?","code":"ArrayList<Integer> a = new ArrayList<>();\na.add(5);\na.add(7);\nSystem.out.println(a.contains(5));","choices":["true","false","5","Error"],"correctIndex":0}
+{"prompt":"Q96 (arrays): What is the result of adding the elements at indices 1 and 2?","code":"int[] a = {3, 1, 4};\nSystem.out.println(a[1] + a[2]);","choices":["5","3","1","4"],"correctIndex":0}
+{"prompt":"Q97 (2D arrays): How many rows are allocated in the array 'new int[5][9]'?","code":"int[][] x = new int[5][9];","choices":["5","9","45","14"],"correctIndex":0}
+{"prompt":"Q98 (recursion): How many recursive calls are made for f(6)?","code":"void f(int n) {\n  if (n <= 0) return;\n  f(n - 1);\n}\n\nf(6);","choices":["7","6","5","1"],"correctIndex":0}
+{"prompt":"Q99 (ArrayList): Which method removes all elements from an ArrayList?","choices":["list.clear()","list.empty()","list.reset()","list.drop()"],"correctIndex":0}
+{"prompt":"Q100 (arrays): What is the result of integer division printed by this loop?","code":"int[] a = {2, 4, 8};\nfor (int i = 0; i < a.length; i++) {\n  System.out.print(a[i] / 2);\n}","choices":["124","248","012","24"],"correctIndex":0}
