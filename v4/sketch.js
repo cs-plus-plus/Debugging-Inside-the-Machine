@@ -975,6 +975,7 @@ function update() {
       questionsLoaded &&
       questionBanks[currentDifficulty].length > 0
     ) {
+      loc = "to the GAME";
       prepareQuestionForCurrentDifficulty();
       if (currentQuestion) {
         // reset Code Lens state each time we enter
