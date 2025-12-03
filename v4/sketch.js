@@ -1176,18 +1176,17 @@ for (let en of enemies) {
 // --- DOUBLE JUMP + VARIABLE JUMP WITH COMPLETION CHECK ---
 
 // 1) How many jumps are allowed right now?
-const allComplete = levelComplete.slice(0, 3).every(v => v === true);
+const allComplete  = levelComplete.slice(0, 3).every(v => v === true);
 const allCompleteA = levelCompleteA.slice(0, 3).every(v => v === true);
 
-const maxJumps = allComplete || allCompleteA ? 2 : 1;
-
+const maxJumps = (allComplete || allCompleteA) ? 2 : 1;
 
 // 2) Ground check
 const onGround =
   groundSensor.overlapping(grass) ||
   groundSensor.overlapping(platforms);
 
-// 3) Reset jumps ONLY when we actually land
+// 3) Reset jumps ONLY when we actually land (transition air → ground)
 if (onGround && !wasOnGround) {
   jumpsLeft = maxJumps;   // 1 jump normally, 2 jumps if allComplete
 }
@@ -1199,41 +1198,36 @@ if (kb.presses('up') || kb.presses('space')) {
   if (onGround && jumpsLeft > 0) {
     isJumping = true;
     jumpPressedTime = millis();
-    jumpsLeft--;            // consume first jump
+    jumpsLeft--;                // consume first jump
+
     player.changeAni('jump');
-    player.vel.y = -3.0;    // base jump
+    player.vel.y = BASE_JUMP_VEL;   // base jump
   }
 
   // SECOND JUMP: only allowed in the air, and only if we have a remaining jump
   else if (!onGround && jumpsLeft > 0 && jumpsLeft < maxJumps) {
     isJumping = true;
     jumpPressedTime = millis();
-    jumpsLeft--;            // consume second jump
+    jumpsLeft--;                // consume second jump
+
     player.changeAni('jump');
-    player.vel.y = -3.0;
+    player.vel.y = BASE_JUMP_VEL;   // same base for the double jump
   }
 }
 
-// 5) VARIABLE JUMP HEIGHT (tap vs hold)
+// 5) VARIABLE JUMP HEIGHT (tap vs hold), time-based so FPS doesn’t matter
 if (isJumping) {
-
   const heldTime = millis() - jumpPressedTime;
 
-  // how far through the boost window we are (0 → 1)
-  const t = Math.min(heldTime / BOOST_DURATION, 1);
+  // Normalize to 60fps
+  const dtNorm = deltaTime / 16.67; // 16.67 ms ≈ 1 frame at 60fps
 
-  // how much total boost we *should* have given by now
-  const desiredTotalBoost = BOOST_TOTAL * t;
-
-  // Compute per-frame increment based on deltaTime at 60fps baseline
-  // deltaTime is ms since last frame (p5 global)
-  const dtNorm = deltaTime / 16.67; // 16.67ms ≈ 1 frame at 60fps
-
-  // How much boost to add this frame so we "approximate" the total correctly:
-  const perFrameBoost = (BOOST_TOTAL / (BOOST_DURATION / 16.67)) * dtNorm;
+  // Per-frame boost chosen so that over BOOST_DURATION we add roughly BOOST_TOTAL
+  const framesForFullBoost = BOOST_DURATION / 16.67;
+  const perFrameBoost = (BOOST_TOTAL / framesForFullBoost) * dtNorm;
 
   if ((kb.pressing('up') || kb.pressing('space')) && heldTime < BOOST_DURATION) {
-    player.vel.y += perFrameBoost;  // BOOST_TOTAL is negative, so this is "up"
+    player.vel.y += perFrameBoost;  // BOOST_TOTAL is negative, so this pushes upward
   }
 
   // Stop boosting when key is released or we hit the time limit
@@ -1246,6 +1240,7 @@ if (isJumping) {
 wasOnGround = onGround;
 
 // --- END BLOCK ---
+
 
 
 
