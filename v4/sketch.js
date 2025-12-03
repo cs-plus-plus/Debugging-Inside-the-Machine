@@ -1057,7 +1057,7 @@ function update() {
       }
     } else if(!showPseudoSummary) {
       // Phase 2: already answered, wait for 'c' to continue
-      if (kb.presses('c')) {
+      if (kb.presses('enter')) {
         correctSoundPlaying = false;
         wrongSoundPlaying = false;
         // Clear question state
@@ -1814,15 +1814,34 @@ text(
         textSize(45);
         text('All glitches fixed, the USB Key to disable the firewall!', canvas.w/2, 200);
     }
-    if(currentDifficulty==='easy' && !foundKey && score<totalNodes){
+    if(currentDifficulty==='easy' && !foundKey && score==0){
       textAlign(CENTER, MIDDLE);
         fill(255,0,0)
         textSize(45);
-        text('Fix all glitches (but don\'t touch them) and avoid the viruses.', canvas.w/2, 200);
-    textAlign(CENTER, MIDDLE);
+        text('OBJECTIVES: Avoid the Viruses.', canvas.w/2, 200);
+         textAlign(CENTER, MIDDLE);
         fill(255,0,0)
         textSize(45);
-        text('Find the USB Key to disable the firewall and regain stability!', canvas.w/2, 250);
+        text('Fix all glitches (don\'t touch them) using code lens.', canvas.w/2, 250);
+       textAlign(CENTER, MIDDLE);
+        fill(255,0,0)
+        textSize(45);
+        text('Find the USB Key to disable the firewall and regain stability!', canvas.w/2, 300);
+  
+      }
+      else if(currentDifficulty==='easy' && !foundKey && score<totalNodes){
+      textAlign(CENTER, MIDDLE);
+        fill(255,0,0)
+        textSize(45);
+        text('OBJECTIVES: Avoid the Viruses.', canvas.w/2, 200);
+         textAlign(CENTER, MIDDLE);
+        fill(255,0,0)
+        textSize(45);
+        text('Find the USB Key to disable the firewall and fix all glitches!', canvas.w/2, 250);
+       textAlign(CENTER, MIDDLE);
+        fill(255,255,0)
+        textSize(45);
+        text('Hold the jump button longer to jump higher.', canvas.w/2, 300);
   
       }
 
@@ -2071,7 +2090,7 @@ const contentBottomY = Math.max(codeBottomY, choicesBottomY);
   const hintY = overlayY + overlayH - 80;
 
   const hintText = codeLensAnswered
-    ? "Press 'c' to continue or 'i' to see " + currentMode
+    ? "Press 'enter' to continue or 'i' to see " + currentMode
     : "Press 1, 2, 3, or 4 to choose your fix or 'i' to see " + currentMode;
 
   drawWrappedText(
