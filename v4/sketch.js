@@ -854,7 +854,8 @@ function triggerWin() {
 // -------------------------
 function update() {
     // BACKGROUND IMAGE
-  matrixBG.image(bgImg, 0, 0, bgImg.width*2, bgImg.height*2);
+  matrixBG.image(bgImg, 0, 0, bgImg.width*2 , bgImg.height*2
+  );
   // --- State-based input ---
   if (gameState === 'start') {
     if (kb.presses('0')) {
@@ -1281,6 +1282,35 @@ if (player.overlapping(key)) {
 
 // DOOR LOGIC
 const allGlitchesFixed = (score >= totalNodes);
+
+if(player.overlapping(door) && !foundKey){
+  // ❌ not allowed in yet – bounce back and warn
+
+    const halfPlayer = player.w / 2;
+    const halfDoor   = door.w / 2;
+    const buffer     = 5;   // push them just outside the overlap
+
+    if (player.x < door.x) {
+      // player is on the LEFT side of the door → move them LEFT
+      player.x = door.x - halfDoor - halfPlayer - buffer;
+    } else {
+      // player is on the RIGHT side of the door → move them RIGHT
+      player.x = door.x + halfDoor + halfPlayer + buffer;
+    }
+
+    // Optional tiny knockback in velocity to make it feel like a bump (not a slide)
+    // Comment out if it fights your anim logic:
+    player.vel.x = (player.x < door.x ? -1 : 1) * 1;
+
+    systemStability -= 5;
+    hitSound.play();
+    damageFlashTimer = 300;
+
+    doorMessageEndTime = millis() + 2000;
+    if (currentDifficulty !== 'easy') {
+      showDoorMessage = true;
+    }
+}
 
 if (player.overlapping(door) && foundKey) {
 
@@ -1726,12 +1756,12 @@ text(
     text('Glitches Repaired: ' + score + '/' + totalNodes, canvas.w - 600, 20);
 
     // door update
-    if (showDoorMessage && millis() < doorMessageEndTime) {
+    if (currentDifficulty !== 'easy' && showDoorMessage && millis() < doorMessageEndTime) {
       textAlign(CENTER, CENTER);
       fill(255, 255, 0);
       textSize(45);
       text(
-        'Fix all glitches before entering the USB Port!',
+        'Fix all glitches and find the USB key before entering the USB Port!',
         canvas.w / 2,
         200
       );
