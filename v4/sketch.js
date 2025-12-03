@@ -38,6 +38,10 @@ const maxJumpHold = 220;   // milliseconds player can hold for higher jump
 let jumpsLeft = 2;
 let wasOnGround = false;  // NEW: track landing
 
+const BASE_JUMP_VEL   = -3.0;   // your initial tap jump
+const BOOST_DURATION  = 220;    // ms max boost time
+const BOOST_TOTAL     = -3.0;   // *extra* upward velocity over full hold (in addition to BASE)
+
 let score = 0;
 let systemStability = 100;
 
@@ -441,6 +445,7 @@ world.debug = false;
 
 new Canvas(2000, 1125);
 displayMode('maxed', 'pixelated');
+pixelDensity(1);
 
 // Load images/fonts (q5-style, no preload)
 grassImg = loadImage('assets/grass.png');
@@ -758,6 +763,9 @@ function setup() {
 
   player.overlaps(coins, touchCoinDamage);
   player.overlaps(enemies, hitEnemy);
+
+  // const scale = min(windowWidth / 2000, windowHeight / 1125);
+  // camera.zoom = 4 * scale;  // or tune the 4
 
   camera.x = player.x;
   camera.y = player.y;
@@ -1208,13 +1216,28 @@ if (kb.presses('up') || kb.presses('space')) {
 
 // 5) VARIABLE JUMP HEIGHT (tap vs hold)
 if (isJumping) {
+
   const heldTime = millis() - jumpPressedTime;
 
-  if ((kb.pressing('up') || kb.pressing('space')) && heldTime < 220) {
-    player.vel.y -= 0.25;   // extra boost while held
+  // how far through the boost window we are (0 → 1)
+  const t = Math.min(heldTime / BOOST_DURATION, 1);
+
+  // how much total boost we *should* have given by now
+  const desiredTotalBoost = BOOST_TOTAL * t;
+
+  // Compute per-frame increment based on deltaTime at 60fps baseline
+  // deltaTime is ms since last frame (p5 global)
+  const dtNorm = deltaTime / 16.67; // 16.67ms ≈ 1 frame at 60fps
+
+  // How much boost to add this frame so we "approximate" the total correctly:
+  const perFrameBoost = (BOOST_TOTAL / (BOOST_DURATION / 16.67)) * dtNorm;
+
+  if ((kb.pressing('up') || kb.pressing('space')) && heldTime < BOOST_DURATION) {
+    player.vel.y += perFrameBoost;  // BOOST_TOTAL is negative, so this is "up"
   }
 
-  if (kb.released('up') || kb.released('space') || heldTime >= 220) {
+  // Stop boosting when key is released or we hit the time limit
+  if (kb.released('up') || kb.released('space') || heldTime >= BOOST_DURATION) {
     isJumping = false;
   }
 }
