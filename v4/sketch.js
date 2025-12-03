@@ -3,7 +3,7 @@ window._p5play_gtagged = false;
 
 let bestRank = "Play to earn a rank";
 let DEBUG_MODE = false;
-const QUESTION_NUMBERS = false;
+const QUESTION_NUMBERS = true;
 let showPseudoSummary = false;
 let totalQuestionsAnsweredCorrect = 0;
 let bgMusic, keySound, loseSound, hitSound;
