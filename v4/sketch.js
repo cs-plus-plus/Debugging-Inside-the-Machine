@@ -762,7 +762,8 @@ function setup() {
   joint.visible = false;
 
   player.overlaps(coins, touchCoinDamage);
-  player.overlaps(enemies, hitEnemy);
+  if(damageFlashTimer==0)
+    player.overlaps(enemies, hitEnemy);
 
   // const scale = min(windowWidth / 2000, windowHeight / 1125);
   // camera.zoom = 4 * scale;  // or tune the 4
@@ -2234,7 +2235,7 @@ const contentBottomY = Math.max(codeBottomY, choicesBottomY);
     textAlign(LEFT, TOP);
 
     y = drawWrappedText("MOVEMENT:           ← → or A / D", padding, y, boxWidth);
-    y = drawWrappedText("JUMP:               SPACE or ↑", padding, y, boxWidth);
+    y = drawWrappedText("JUMP:               SPACE or ↑ (hold to jump higher)", padding, y, boxWidth);
     y = drawWrappedText(
       "ENTER CODE LENS:    C (when \"Code Lens\" appears)",
       padding, y, boxWidth
