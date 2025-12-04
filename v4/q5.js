@@ -3266,9 +3266,9 @@ Q5.modules.fes = ($) => {
 				let data = await response.json();
 				let l = data.tags.latest;
 				l = l.slice(0, l.lastIndexOf('.'));
-				if (l != Q5.version) {
-					console.warn(`q5.js v${l} is now available! Consider updating from v${Q5.version}.`);
-				}
+				// if (l != Q5.version) {
+				// 	console.warn(`q5.js v${l} is now available! Consider updating from v${Q5.version}.`);
+				// }
 			} catch (e) {}
 		}
 
