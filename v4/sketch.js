@@ -1,9 +1,12 @@
 // Disable p5play's built-in Google Analytics tagging
 window._p5play_gtagged = false;
 
-let bestRank = "Play to earn a rank";
 let DEBUG_MODE = false;
 const QUESTION_NUMBERS = true;
+
+
+let bestRank = "Play to earn a rank";
+
 let showPseudoSummary = false;
 let totalQuestionsAnsweredCorrect = 0;
 let bgMusic, keySound, loseSound, hitSound;
@@ -868,10 +871,12 @@ function update() {
   // --- State-based input ---
   if (gameState === 'start') {
     world.gravity.y = 10;
-    if (kb.presses('0')) {
-      DEBUG_MODE = !DEBUG_MODE;
-      loadQuestionFiles();
-    }
+
+    //toggle debugging mode
+      // if (kb.presses('0')) {
+      //   DEBUG_MODE = !DEBUG_MODE;
+      //   loadQuestionFiles();
+      // }
     // if(DEBUG_MODE){
     //   fill(255,0,0);
     //   text("DEBUGGING", canvas.w-30, 30)
