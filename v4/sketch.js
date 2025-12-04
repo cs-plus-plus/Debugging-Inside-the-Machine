@@ -867,6 +867,7 @@ function update() {
   );
   // --- State-based input ---
   if (gameState === 'start') {
+    world.gravity.y = 10;
     if (kb.presses('0')) {
       DEBUG_MODE = !DEBUG_MODE;
       loadQuestionFiles();
@@ -889,6 +890,8 @@ function update() {
     if ((allComplete || allCompleteA) && kb.presses('p')) {setDifficulty('minecraft');selectSound.play()}
 
     if (kb.presses('enter')) {
+      // onGround =true;
+      jumpsLeft = 2;
       bgMusic.loop();
       gameState = 'play';
       systemStability = 100;
@@ -904,6 +907,9 @@ function update() {
       gameState = 'directions';
     }
   } else if (gameState === 'directions') {
+        player.vel.x=0;
+        player.vel.y=0;
+        world.gravity.y=0;
         if (kb.presses('i')) {
           selectSound.play()
           showPseudoSummary = !showPseudoSummary;
