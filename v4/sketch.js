@@ -919,6 +919,7 @@ function update() {
           selectSound.play()
           if(loc === "HOME") gameState = 'start';
           else gameState = 'play';
+          if(groundSensor.overlapping(grass) || groundSensor.overlapping(platforms))jumpsLeft = 2;
         }
         demoCoinFrameTimer += deltaTime;
         if (demoCoinFrameTimer >= demoCoinFrameDelay) {
