@@ -908,7 +908,8 @@ function update() {
           selectSound.play()
           showPseudoSummary = !showPseudoSummary;
         }
-        if (kb.presses('escape') && !showPseudoSummary) {
+        if (kb.presses('escape') /*&& !showPseudoSummary*/) {
+          showPseudoSummary = false;
           selectSound.play()
           if(loc === "HOME") gameState = 'start';
           else gameState = 'play';
@@ -1002,7 +1003,11 @@ function update() {
   } else if (gameState === 'paused') {
     if(kb.presses('i')){
       selectSound.play();
-      showPseudoSummary = !showPseudoSummary;
+      showPseudoSummary = true;
+    }
+    if(kb.presses('escape')){
+      selectSound.play();
+      showPseudoSummary = false;
     }
     // Phase 1: pick an answer 1–4
     if (!codeLensAnswered && !showPseudoSummary) {
@@ -1565,8 +1570,8 @@ text(
     canvas.h - 50
   );
 
-    fill(200);
-    textSize(50);
+    fill(255);
+    textSize(60);
     text("Press ENTER/RETURN to Start", canvas.w / 2, canvas.h / 2 - 100);
     textStyle('normal');
     fill(0,255,255);
@@ -1655,7 +1660,7 @@ text(
     textSize(40);
 
     text(
-      "Press '1', '2', or '3' to select your level",
+      "Press '1', '2', or '3' to select your level, then press ENTER/RETURN",
       canvas.w / 2,
       canvas.h - 105  
     );
@@ -2258,7 +2263,7 @@ const contentBottomY = Math.max(codeBottomY, choicesBottomY);
     textStyle(BOLD);
     textAlign(CENTER, TOP);
     let currentMode = csa?"APCS-A Quick Reference Guide": "APCS-Principles Pseudocode"
-    text("Press 'esc' to return " + loc + " or 'i' for " + currentMode, canvas.w/2, canvas.h - 45);
+    text("Press 'i' for " + currentMode + " or Press 'esc' to return " + loc, canvas.w/2, canvas.h - 45);
     if(loc !== "HOME"){
       world.active = true;
       allSprites.forEach(s => {
@@ -2526,14 +2531,25 @@ summaryRight = [
         textSize(36);        
         textAlign(CENTER)
         const hintY = overlayY + overlayH - 0;
-
-        drawWrappedText(
-          "Press 'i' to return " + loc,
+        
+        if (gameState === 'paused') {
+          drawWrappedText(
+          "Press 'esc' to return to the question",
           canvas.w/2,
           hintY,
           textBoxWidth,
           1.2
         );
+        }
+        else{
+        drawWrappedText(
+          "Press 'i' to see Instructions or Press 'esc' to return " + loc,
+          canvas.w/2,
+          hintY,
+          textBoxWidth,
+          1.2
+        );
+      }
         // pop();
         return; // prevent question UI from drawing
     }
